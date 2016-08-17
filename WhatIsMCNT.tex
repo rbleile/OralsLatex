@@ -1,0 +1,146 @@
+\section{What is Monte Carlo Neutron Transport?}
+
+%1.	Background in Monte Carlo Transport - Physics / "what is" papers
+%	
+%	a. Types of transport ( Neutron, Photon, Charged Particle )
+%	
+%	b. fundamental methods ( varience reduction, nuclear data lookups )
+
+\begin{displayquote}
+"The first thoughts and attempts I made to practice [the Monte Carlo method] were suggested by a question which occurred to me in 1946 as I was convalescing from an illness and playing solitaires. The question was what are the chances that a Canfield solitaire laid out with 52 cards will come out successfully? After spending a lot of time trying to estimate them by pure combinatorial calculations, I wondered whether a more practical method than “abstract thinking” might not be to lay it out say one hundred times and simply observe and count the number of successful plays. This was already possible to envisage with the beginning of the new era of fast computers, and I immediately thought of problems of neutron diffusion and other questions of mathematical physics, and more generally how to change processes described by certain differential equations into an equivalent form interpretable as a succession of random operations. Later... [in 1946, I ] described the idea to John von Neumann and we began to plan actual calculations."
+\end{displayquote}
+\begin{displayquote}
+- Stan Ulam 1983 ~\cite{theMCM}
+\end{displayquote}
+
+John von Neumann became interested in Stan Ulams idea and was outlined in detail how to solve the neutron diffusion and multiplication problems in fission devices.
+%
+Since this time Monte Carlo methods have continued to be a primary way for solving many questions in Neutron transport. ~\cite{theMCM}
+%
+
+\subsection{Definition}
+
+E. E. Lewis and W. F. Miller Jr. in Computational Methods of Neuron Transport describes Monte Carlo transport as a simulation of some number of particle histories by using a random number generator.
+%
+For each particle history that is calculated, random numbers are generated and used to sample from probability distributions describing the different physical events a particle can undergo, such as scattering angles or the length between collisions.
+%
+Ivan Lux and Laslo Koblinger further this definition in their book Monte Carlo Particle Transport Methods: Neutron and Photon Calculations:
+%
+\begin{displayquote}
+"In all applications of the Monte Carlo method a stochastic model is constructed in which the expected value of a certain random variable (or of a combination of several variables) is equivalent to the value of a physical quantity to be determined. This expectation value is then estimated by the averaging of several independent samples representing the random variable introduced above. For the construction of the series of independent samples, random numbers following the distributions of the variable to be estimated are used." ~\cite{LuxMCPTM}
+\end{displayquote}
+
+% 
+Estimating this type of quantity takes on this mathmatical form:
+$$ \hat{x} = \frac{1}{N} \sum_{n=1}^{N} x_{n}, $$
+where $x_{n}$ represents the contribution of the $n$th history for that quantity.
+%
+And so for the Monte Carlo method we tally the $x_{n}$ from each particle history in order to compute the expected value $\hat{x}$. ~\cite{LewisCMNT}
+%
+
+%
+One very important question to answer with any statistical answer is just how good is our estimated value $\hat{x}$ when we compare to the true value $\bar{x}$.
+%
+It turns out that the uncertainty in $\hat{x}$ decreases with increasing numbers of particle histories, and generally falls of asymptotically proportionate to $N^{-1/2}$. ~\cite{LewisCMNT}
+%
+
+\subsection{The Equation}
+
+%
+The equation being solved by the neutron transport problem, shown below, displays each of the pieces that makes up a full Monte Carlo transport algorithm.
+%
+This equation is known as the Linearized Boltzmann transport equation for neutrons:
+%
+$$
+\frac{1}{\nu} \frac{ \partial \Psi ( \vec{r}, E, \Omega, t ) }{\partial t}\ +\ 
+(\nabla \cdot \Omega ) \Psi ( \vec{r}, E, \Omega, t )\ +\ 
+\Sigma_a (\vec{r}, E ) \Psi ( \vec{r}, E, \Omega, t )
+$$
+$$=$$
+$$
+\int _{E '} \int _{\Omega '} \Sigma_{s} ( \vec{r}, E', \Omega ' \rightarrow E, \Omega ) \Psi (\vec{r}, E, \Omega, t) d \Omega ' dE'\ +\ 
+$$
+$$
+\chi (E) \int _{E'} \nu (E') \Sigma_{f} (\vec{r},E') \int _{\Omega '} \Psi ( \vec{r}, E, \Omega, t ) d \Omega ' dE'\ +\ $$
+$$
+S_ext(\vec{r}, E, \Omega, t )
+$$ ~\cite{gentileMCPTAPO}
+%
+where $ \Psi ( \vec{r}, E, \Omega, t ) $ is angular flux, 
+$\Sigma_a (\vec{r}, E )$ is the macroscopic cross section for particle absorption, 
+$\Sigma_{s} ( \vec{r}, E', \Omega ' \rightarrow E, \Omega )$ is the macroscopic cross section for particle scattering,
+$\Sigma_{f} (\vec{r},E') $ is the macroscopic cross section for particle production from a fission collision source,
+$\chi (E)$ is a secondary particle spectrum from he fission process,
+$\nu (E)$ is the average number of particles emitted per fission,
+$S_ext(\vec{r}, E, \Omega, t )$ represents an external source,
+$\vec{r}$ is the spacial coordinates,
+$E$ is the energy,
+$\Omega$ is angular direction,
+and $t$ is the term for time. ~\cite{gentileMCPTAPO}
+%
+
+\subsection{Algorithm Approach}
+
+While there are many ways people can solve this problem generally people consider tracking particle histories and the algorithm that follows is often called the history based approach because of this.
+% 
+Algorithm~\ref{alg:historybased} shows the history based approach for a simple research code~\cite{alpsmc1} but has the same properties we can use to describe the method.
+%
+Algorithm~\ref{alg:mcmethod} shows the outer most scope of a Monte Carlo Problem for referencing where different optimizations or stages occur.
+%
+For example in Algorithm~\ref{alg:historybased} this takes place inside the Cycle Loop and shows only the steps for Cycle Tracking.
+
+\begin{algorithm}
+\DontPrintSemicolon
+\caption{History based Monte Carlo algorithm}
+\label{alg:historybased}
+\ForEach{particle history}
+{ 
+    \While{particle not escaped or absorbed}
+    {
+       sample distance to collision in material\;
+       sample distance to material interface\;
+       compute distance to cell boundary\;
+       select minimum distance, move particle, and perform event\;
+       \If{particle escaped spatial domain}
+       {
+          update leakage tally\;
+          end particle history\;
+       }
+       \If{particle absorbed}
+       {
+          update absorption tally\;
+          end particle history\;
+       }
+    }
+}
+\end{algorithm}
+
+\begin{algorithm}
+\DontPrintSemicolon
+\caption{Monte Carlo Method}
+\label{alg:mcmethod}
+Parse Inputs\;
+\ForEach{Cycle}
+{
+	Cycle Initialize\;
+	Cycle Tracking\;
+	Cycle Finalize\;
+}
+Gather Tallies\;
+\end{algorithm}
+
+%%
+%Main Phases
+%%
+%Init( Initializing data structures / load balancing )
+%%
+%Tracking ( do particle tracking physics )
+%%
+%Finalize ( reduce tallies / collect statistics )
+%%
+%Variance Reductions( can occure in init or tracking )
+%%
+%
+%%
+
+

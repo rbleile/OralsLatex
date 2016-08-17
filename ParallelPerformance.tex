@@ -1,0 +1,116 @@
+\subsection{Parallel Performance}
+
+In this section we will see the parallel performance of a number of different Monte Carlo particle transport applications on different architectures ranging from the vector machines of the 80's to multi-core compute clusters.
+%
+
+\subsection*{ \textbf{Shared Memory Performance}} 
+
+Shared memory systems refer to machines or models where all processors can access the same memory space.
+%
+Taking this a step further the unified memory architecture (UMA) shared memory systems not only do all processors have access to the same memory but they also have access to all memory in  the same time~\cite{el2005advanced}.
+%
+One type of shared memory system that was popular in the 1970's and 1980's was the vector machine.
+%
+Vector machines took the shared memory system and added additional synchronicity to the system by making all of the processors issue the same instruction~\cite{russell1978cray}.
+%
+
+\subsection*{Vector Machine Performance}
+
+%
+In the 1980's Monte Carlo transport algorithms began adapting "event-based" methods in order to vectorize their algorithms for use on a vector machine.
+%
+These new algorithms were used because the traditional history based approach has complete independence of particle histories.
+%
+But in order to effectively utilize the vector architecture particles must be computed on the same code paths.
+%
+By changing the algorithm to follow events instead of histories the Monte Carlo method could be used in a vector based approach. ~\cite{martin1986monte}
+%
+
+%
+One common element when reviewing the work done in this area is to see that the vector approach is often related to stacks, and properly organizing particles into the right stack so that calculations can be preformed~\cite{brown1984monte, bobrowicz1984vectorized}.
+%
+Another approach is to try to use only one main stack and pull off only the minimum information needed to compute the events into sub-stacks~\cite{martin1986monte}.
+%
+With each of these approaches particle events determine how the particles are organized or what information is needed for processing.
+%
+The main drawback to the event based approach is the added time processing data movement or sorting.
+%
+
+%
+Brown reported theoretical speedups of 20x-85x for his consideration and deemed this approach well worth the efforts required to change codes around in order to use this approach ~\cite{brown1984monte}.
+%
+Martin saw speedups randing from 5x to 12x depending on the problem and the machine he was running on by using the single big stack, sub-stack approach~\cite{martin1986monte}.
+%
+Bobrowicz explicit stack approach reaches speedups of around 8x - 10x compared with the original history-based approach~\cite{bobrowicz1984vectorized}.
+%
+Finally Burns in using a LANL Benchmark code GAMTEB showed he could acheive similar performance to Bobrowics by following a similar approached as that laid out by Brown~\cite{burns1989vectorization}.
+%
+
+\subsection*{Multi-Threaded Architecture Performance}
+
+%
+Other shared memory systems, separate from vector machines, where tried in this time.
+%
+One such machine was the Tera Multi-Threaded Architecture (MTA).
+%
+This approach focused on the use of incredibly parallel processors, hardware threading, and a simple shared memory, no cache, design.
+%
+The idea was by focusing on threading they could mask away memory latency~\cite{majumdar2000parallel, snavely1998multi}.
+%
+
+%
+One Photon transport application tried two methods of parallelizing their application on the Tera MTA. 
+%
+For their problem the zones and energies of the region needed to be looped over and photons falling in those ranges where then computed.
+%
+So for their application they chose to parallelize over zones and also over zones and energies at once through loop unrolling.
+%
+Table~\ref{tab:MTAPerf} shows that the parallelization on the MTA over zones and energies maintains incredible efficiency giving their application good speedups here, while parallelizing over only zones does not expose enough parallel work to hide memory latency and so efficiency drops of quickly.
+%
+\begin{table}
+\caption {Parallel performance on the MTA using multithreaing} \label{tab:MTAPerf} 
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Procs & Time (sec) & Speedup & Efficiency \\
+\hline
+\multicolumn{4}{|c|}{Parallelization by zones only} \\
+\hline
+1 & 764 & 1.00 & 1.00 \\
+\hline
+2 & 400 & 1.91 & 0.95 \\
+\hline
+4 & 227 & 3.37 & 0.84 \\
+\hline
+8 & 167 & 4.58 & 0.57 \\
+\hline
+\multicolumn{4}{|c|}{Parallelization by zones and energies} \\
+\hline
+1 & 745 & 1.00 & 1.00 \\
+\hline
+2 & 370 & 2.01 & 1.01 \\
+\hline
+4 & 187 & 3.98 & 0.99 \\
+\hline
+8 & 94 & 7.92 & 0.99 \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+More modern systems utilize shared memory ideas as well, with a majority of the scientific efforts utilizing openMP threading models for shared memory processing.
+%
+Often this model is overlooked in preference of distribued computing via MPI but that is not always the case.
+%
+Given an all particle method, openMP codes tend to scale incredibly well with the only draw backs having to do with those few areas requiring atomic operations.
+%
+With, in my experience, an nearly perfect efficiency in the case of no atomic operations and plenty of work.
+
+\subsection*{ \textbf{Distributed Memory Performance}}
+
+One of the major transitions in supercomputing came with the shift from vector computing to distributed memory computing.
+%
+This type of computing is most often done with MPI and has for the last 20 years and to this day been a primary method of achieving parallel performance on clusters and supercomputers alike.
+%
+
+\subsection*{ \textbf{Distributed + Shared Memory Performance}}
