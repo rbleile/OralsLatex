@@ -1,3 +1,143 @@
 \subsection{First Pass at GPU Computing}
 
-Research papers on peoples fists attempts at GPU computing with varying results.
+In this section we will analyze the different approaches that people have taken to get their Monte Carlo transport codes working for GPUs.
+%
+By comparing and contrasting these different approaches we can see for a variety of problems if any approaches were more successful and which approaches struggled to get desired levels of performance out of the hardware.
+%
+ It is important to note that the actual runtimes and speedups are less important then the theoretical speedups compared to the achieved speedups as hardware has been changing very quickly over the last ten years for these comparisons.
+ %
+
+One of the first considerations the scientific community has when being introduced to a new computing platform is what levels of accuracy can they achieve with their simulation codes.
+%
+It was common that in early GPU computing when double floating point precision was not supported or supported well that people started thinking about GPU computing as not being accurate enough for their needs.
+%
+Many early attempts at GPU computing includes discussions of accuracy in order to validate the correctness of their results.
+%
+While modern GPGPUs support double precision much better than before making much of the worry irrelevant, it is still important to consider the accuracy of a method that runs on a new hardware and may use a new algorithm.
+
+%
+Nelson discussed accuracy in his thesis work ~\cite{nelson2009monte}, stating that during the time of his work the floating-point arithmetic accuracy was not fully IEEE-754 compliant which opens the question of accuracy without a more fully featured test. Additionally, since NVIDIA as complete control over the implementation of floating point calculations on their GPUs their may be differences between generations that mitigate the usefulness of an accuracy study on one generation of hardware.
+%
+Current generations of the NVIDIA GPU hardware are IEE-754 compliant. 
+%
+In order to address issues of floating point accuracy they have even included a detailed description of the standard and the way CUDA follows the standard showing that at least while floating point accuracy is still a concern it is no more a concern than it was on a CPU implementation.~\cite{cudaToolkitv7.5}
+%
+Nelson's other primary accuracy consideration was the difference in computation time between double and single precision.
+%
+In older GPU hardware there was no support for double precision in the hardware and so in order to achieve double precision significantly more calculations were needed.
+%
+In modern GPU hardware double precision is becoming increasingly better supported and in the gpgpu cards there are dedicated double precision units and all of the necessary hardware changes required to include them.
+%
+
+Others also wanted to consider the accuracy of their initial gpu conversions.
+%
+Jia et. al ~\cite{jia2010development} showed that in their development of a Mont Carlo dose calculation code they could achieve speedups of 5 to 6.6 times their CPU version while maintaining within 1\% of the dosing for more then 98\% of the calculation points.
+%
+They considered this adequate accuracy to consider using GPUs for doing these computations.
+%
+Yepes et. al~\cite{yepes2010gpu} also considered accuracy in their assessment of their GPU implementation.
+%
+They concluded that in term of accuracy there was a good agreement between the dose distributions calculated with each version they ran, the largest discrepencies being only $\sim$3\%, and so they could run the GPU version as accurately as any general-purpose Monte Carlo program.
+%
+
+A second factor that is important to people making their first pass at GPU Monte Carlo is performance.
+%
+Most early GPU studies emphasize the speedups between CPU and GPU as the primary advantage for moving over to the GPU hardware.
+%
+Given the change in supercomputing designs these comparisons have become increasingly more important.
+%
+
+
+
+%%
+\subsubsection*{ The Following Text Is not complete... it is abstracts and summaries to be made into a complete story. }
+%
+
+%
+It is a known fact that Monte Carlo simulations of radiation transport are computationally intensive and may require long computing times. The authors introduce a new paradigm for the acceleration of Monte Carlo simulations: The use of a graphics processing unit (GPU) as the main computing device instead of a central processing unit (CPU).
+A GPU-based Monte Carlo code that simulates photon transport in a voxelized geometry with the accurate physics models fromPENELOPE has been developed using the CUDA? programming model (NVIDIA Corporation, Santa Clara, CA). An outline of the new code and a sample x-ray imaging simulation with an anthropomorphic phantom are presented. A remarkable 27-fold speed up factor was obtained using a GPU compared to a single core CPU. The reported results show that GPUs are currently a good alternative to CPUs for the simulation of radiation transport. Since the performance of GPUs is currently increasing at a faster pace than that of CPUs, the advantages of GPU-based software are likely to be more pronounced in the future.
+ ~\cite{badal2009accelerating} 
+%
+
+(This is a PHD Thesis)
+
+This work examined the feasibility of utilizing Graphics Processing Units (GPUs) to accelerate Monte Carlo neutron transport problems.  These GPUs use many parallel processors to perform the complex calculations necessary to create three - dimensional images at fast enough rates for the video game industry.  In 2006 NVIDIA released a programming framework (called CUDA) that allows developers to easily program for the many cores provided by GPUs for  general purpose programs.  Initial assessments have suggested that the MC algorithm may not be  able to fully utilize the GPU constraints.  These constraints include the fact that MC codes are  highly dependent on branch statements (IF, ELSE, FOR, and WHILE) which can have a large  impact on GPU performance.  In this work, a Monte Carlo neutron transport code was written from scratch to be run on  both the x86 CPU platform and the GPU CUDA platform to understand the type of performance that can be gained by utilizing GPUs. 
+
+After optimizing the code to run on the GPU, a speedup of nearly 21x was found when using only single - precision  floating point math.  This can be further increased with no additional effort if accuracy is sacrificed for speed: using a compiler flag, the speedup was increased to  nearly 24x.  Further, if double - precision floating point math is desired for neutron tracking through the geometry, a speedup of 11x was found. 
+
+While the GPUs have proven to be useful, they are not without limitations.  The following are such limitations: the maximum memory currently available on a single GPU is 4GB; the GPU RAM does not provide error - checking and correction; and the optimization required to decrease GPU runtime can lead to code that is not readable by those who are not the original developers. 
+~\cite{nelson2009monte}
+%
+
+%
+Graphics-processing units (GPUs) suitable for general-purpose numerical computation are now available with performances in excess of 1 Teraflops, faster by one to two orders of magnitude than conventional desktop CPUs. Monte Carlo particle transport algorithms are ideally suited to parallel processing architectures and so are good candidates for acceleration using a GPU. We have developed a general-purpose code that computes the transport of high energy (>1 keV) photons through arbitrary 3-dimensional geometry models, simulates their physical interactions and performs tallying and variance reduction. We describe a new algorithm, the particle-per-block technique, that provides a good match with the underlying GPU multiprocessor hardware design. Benchmarking against an existing CPU-based simulation running on a single-core of a commodity desktop CPU demonstrates that our code can accurately model X-ray transport, with an approximately 35-fold speed-up factor.
+~\cite{tickner2010monte} 
+ %
+ 
+ %
+ Monte Carlo simulation is the most accurate method for absorbed dose calculations in radiotherapy. Its efficiency still requires improvement for routine clinical applications, especially for online adaptive radiotherapy. In this paper, we report our recent development on a GPU-based Monte Carlo dose calculation code for coupled electron?photon transport. We have implemented the dose planning method (DPM) Monte Carlo dose calculation package (Sempau et al 2000 Phys. Med. Biol. 45 2263?91) on the GPU architecture under the CUDA platform. The implementation has been tested with respect to the original sequential DPM code on the CPU in phantoms with water?lung?water or water?bone?water slab geometry. A 20 MeV mono-energetic electron point source or a 6 MV photon point source is used in our validation. The results demonstrate adequate accuracy of our GPU implementation for both electron and photon beams in the radiotherapy energy range. Speed-up factors of about 5.0?6.6 times have been observed, using an NVIDIA Tesla C1060 GPU card against a 2.27 GHz Intel Xeon CPU processor.
+ ~\cite{jia2010development}
+ %
+ 
+ %
+ An essential component in proton radiotherapy is the algorithm to calculate the radiation dose to be delivered to the patient. The most common dose algorithms are fast but they are approximate analytical approaches. However their level of accuracy is not always satisfactory, especially for heterogeneous anatomical areas, like the thorax. Monte Carlo techniques provide superior accuracy; however, they often require large computation resources, which render them impractical for routine clinical use. Track-repeating algorithms, for example the fast dose calculator, have shown promise for achieving the accuracy of Monte Carlo simulations for proton radiotherapy dose calculations in a fraction of the computation time. We report on the implementation of the fast dose calculator for proton radiotherapy on a card equipped with graphics processor units (GPUs) rather than on a central processing unit architecture. This implementation reproduces the full Monte Carlo and CPU-based track-repeating dose calculations within 2\%, while achieving a statistical uncertainty of 2\% in less than 1 min utilizing one single GPU card, which should allow real-time accurate dose calculations.
+ ~\cite{yepes2010gpu}
+ %
+ 
+ %
+ 
+The history of Monte Carlo methods is closely linked to that of computers: The first known Monte Carlo ~rogram
+was written in 1947 for the EN lAC; a pre-release of the first Fortran compiler was used for Mon~e Carlo In 1957;
+Monte Carlo codes were adapted to vector computers in the I 980s, clusters and parallel computers In the 199.0s, and
+teraflop systems in the 2000s. Recent advances include hierarchical parallelism, combini.ng threaded calculatIOns on
+multicore processors with message-passing among different nodes. WIth. the advances In computmg, Monte Carlo
+codes have evolved with new capabilities and new ways of use. ProductIon codes such as MCNP, MYP, MONK,
+TRIPOLI and SCALE are now 20-30 years old (or more) and are very rich in advanced featUres. The former
+"method 'Of last resort" has now become the first choice for many applications. Calculations are now routmely
+performed on office computers, not just on supercomputers. Current research and development efforts ~re
+investigating the use of Monte Carlo methods on FPGAs. GPUs, and many-core processors. Other far-reachmg
+research is exploring ways to adapt Monte Carlo methods to future exaflop systems that may have 1 M or more
+concurrent computational processes.
+ ~\cite{brown2011recent}
+ %
+
+ %
+ Monte Carlo simulation is ideally suited for solving Boltzmann neutron transport equation in
+inhomogeneous media. However, routine applications require the computation time to be reduced to hours
+and even minutes in a desktop system. The interest in adopting GPUs for Monte Carlo acceleration is
+rapidly mounting, fueled partially by the parallelism afforded by the latest GPU technologies and the
+challenge to perform full-size reactor core analysis on a routine basis. In this study, Monte Carlo codes for
+a fixed-source neutron transport problem and an eigenvalue/criticality problem were developed for CPU
+and GPU environments, respectively, to evaluate issues associated with computational speedup afforded by
+the use of GPUs. The results suggest that a speedup factor of 30 in Monte Carlo radiation transport of
+neutrons is within reach using the state-of-the-art GPU technologies. However, for the
+eigenvalue/criticality problem, the speedup was 8.5. In comparison, for a task of voxelizing unstructured
+mesh geometry that is more parallel in nature, the speedup of 45 was obtained. It was observed that, to date,
+most attempts to adopt GPUs for Monte Carlo acceleration were based on naïve implementations and have
+not yielded the level of anticipated gains. Successful implementation of Monte Carlo schemes for GPUs
+will likely require the development of an entirely new code. Given the prediction that future-generation
+GPU products will likely bring exponentially improved computing power and performances, innovative
+hardware and software solutions may make it possible to achieve full-core Monte Carlo calculation within
+one hour using a desktop computer system in a few years. 
+ ~\cite{ding2011evaluation}
+ %
+ 
+  %
+  An electron-photon coupled Monte Carlo code ARCHER - Accelerated Radiation-transport Computations in Heterogeneous Environments - is being developed at Rensselaer Polytechnic Institute as a software test bed for emerging heterogeneous high performance computers that utilize accelerators such as GPUs. In this paper, the preliminary results of code development and testing are presented. The electron transport in media was modeled using the class-II condensed history method. The electron energy considered ranges from a few hundred keV to 30 MeV. Moller scattering and bremsstrahlung processes above a preset energy were explicitly modeled. Energy loss below that threshold was accounted for using the Continuously Slowing Down Approximation (CSDA). Photon transport was dealt with using the delta tracking method. Photoelectric effect, Compton scattering and pair production were modeled. Voxelised geometry was supported. A serial ARHCHER-CPU was first written in C++. The code was then ported to the GPU platform using CUDA C. The hardware involved a desktop PC with an Intel Xeon X5660 CPU and six NVIDIA Tesla M2090 GPUs. ARHCHER was tested for a case of 20 MeV electron beam incident perpendicularly on a water-aluminum-water phantom. The depth and lateral dose profiles were found to agree with results obtained from well tested MC codes. Using six GPU cards, 6x10{sup 6} histories of electrons were simulated within 2 seconds. In comparison, the same case running the EGSnrc and MCNPX codes required 1645 seconds and 9213 seconds, respectively, on a CPU with a single core used. 
+ ~\cite{su2013monte}
+ %
+
+  %
+  Conventional Monte Carlo (MC) methods for radiation transport computations are 'history-based', which means that one particle history at a time is tracked. Simulations based on such methods suffer from thread divergence on the graphics processing unit (GPU), which severely affects the performance of GPUs. To circumvent this limitation, event-based vectorized MC algorithms can be utilized. A versatile software test-bed, called ARCHER - Accelerated Radiation-transport Computations in Heterogeneous Environments - was used for this study. ARCHER facilitates the development and testing of a MC code based on the vectorized MC algorithm implemented on GPUs by using NVIDIA's Compute Unified Device Architecture (CUDA). The ARCHER{sub GPU} code was designed to solve a neutron eigenvalue problem and was tested on a NVIDIA Tesla M2090 Fermi card. We found that although the vectorized MC method significantly reduces the occurrence of divergent branching and enhances the warp execution efficiency, the overall simulation speed is ten times slower than the conventional history-based MC method on GPUs. By analyzing detailed GPU profiling information from ARCHER, we discovered that the main reason was the large amount of global memory transactions, causing severe memory access latency. Several possible solutions to alleviate the memory latency issue are discussed. 
+ ~\cite{du2013evaluation}
+ %
+ 
+ %
+ Hardware accelerators are currently becoming increasingly important in boosting high performance computing systems. In this study, we tested the performance of two accelerator models, Nvidia Tesla M2090 GPU and Intel Xeon Phi 5110p coprocessor, using a new Monte Carlo photon transport package called ARCHER-CT we have developed for fast CT imaging dose calculation. The package contains three components, ARCHER-CTCPU, ARCHER-CTGPU and ARCHER-CTCOP designed to be run on the multi-core CPU, GPU and coprocessor architectures respectively. A detailed GE LightSpeed Multi-Detector Computed Tomography (MDCT) scanner model and a family of voxel patient phantoms are included in the code to calculate absorbed dose to radiosensitive organs under user-specified scan protocols. The results from ARCHER agree well with those from the production code Monte Carlo N-Particle eXtended (MCNPX). It is found that all the code components are significantly faster than the parallel MCNPX run on 12 MPI processes, and that the GPU and coprocessor codes are 5.15?5.81 and 3.30?3.38 times faster than the parallel ARCHER-CTCPU, respectively. The M2090 GPU performs better than the 5110p coprocessor in our specific test. Besides, the heterogeneous computation mode in which the CPU and the hardware accelerator work concurrently can increase the overall performance by 13?18\%.
+ ~\cite{liu2015comparison}
+ %
+ 
+ %
+ The Monte Carlo radiation transport community faces a number of challenges associated with peta- and exa-scale computing systems that rely increasingly on heterogeneous architectures involving hardware accelerators such as GPUs and Xeon Phi coprocessors. Existing Monte Carlo codes and methods must be strategically upgraded to meet emerging hardware and software needs. In this paper, we describe the development of a software, called ARCHER (Accelerated Radiation-transport Computations in Heterogeneous EnviRonments), which is designed as a versatile testbed for future Monte Carlo codes. Preliminary results from five projects in nuclear engineering and medical physics are presented.
+ ~\cite{xu2015archer}
+ %
