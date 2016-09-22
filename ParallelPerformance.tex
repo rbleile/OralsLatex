@@ -1,6 +1,27 @@
-\subsection{Parallel Performance}
+\subsection{ \textbf{ Parallel Performance }}
 
 In this section we will see the parallel performance of a number of different Monte Carlo particle transport applications on different architectures ranging from the vector machines of the 80's to multi-core compute clusters.
+%
+There has been a tremendous growth in the Monte Carlo industry since its inception over 60 years ago.
+%
+The first models developed in run in 1947 would take five hours to compute 100 collisions, a tasks that today can be done in milliseconds.
+%
+In the 1940's and 1950's Monte Carlo codes were written in very low level languages on the earliest computers.
+%
+The 1960's to 1980's saw a great increase in the capabilities of the Monte Carlo codes.
+%
+In the 1980's Monte Carlo codes adopted vector machines and parallel/vector computers.
+%
+In the 1990's Monte Carlo become more common place and parallelism increased to 100s or 1000s or processors through PVM or MPI.
+%
+In the 2000's multicore processors meant threading become more common place mixing local and global forms of parallelism reaching 10,000s or processors.~\cite{brown2011recent}
+%
+
+This growth in computer processing can also be categorized in terms of the styles of memory accesses.
+%
+Early systems were shared memory environments almost exclusively.
+%
+Then distributed memory systems become popular and finally the combination of distributed and shared memory systems became popular.
 %
 
 \subsection*{ \textbf{Shared Memory Performance}} 
@@ -168,9 +189,4 @@ Yang has recently shown that the MPI+OpenMP model has benefits of achieving the 
 He was able to show 82-84\% parallel efficiencies and a decrease in memory cost from \~1.4GB to \~200MB for 8 processors~\cite{yanghybrid}.
 %
 Majumdar shows that with 16 nodes and 8 OpenMP threads per node, he was able to achieve a 95\% parallel efficiency which is an improvement over the his MPI only methods 88\% parallel efficiency~\cite{majumdar2000parallel}. 
-%
-
-%
-
-
 %

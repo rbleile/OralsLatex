@@ -1,4 +1,44 @@
 \subsection{Monte Carlo and Ray Tracking}
 
-a look at the combined efforts to put ray tracing techniques into monte carlo applications.
-MC and optix.
+One important and often computationally expensive aspect of Monte Carlo transport is the step that determines if the particle will collide with any background geometry, or at least cross into a different material zone.
+%
+This is done in a very similar way to the visualization technique known as ray tracing.
+%
+Ray racing is a technique in computer graphics for "generating an image by tracing the path of light through pixels in an image plane and simulating the effects of its encounters with virtual objects"~\cite{wikipediaRayTracing}.
+
+The general process of ray tracing is very similar to Monte Carlo transport in the need to do many intersection tests and from potentially scattered sources.
+%
+Bergmann decided to study the potential of using the power of a highly optimized GPU library, OptiX~\cite{bergmann2014development}.
+%
+OptiX is a scalable framework for building ray tracing applications~\cite{optixProgrammingGuide}~\cite{parker2010optix}.
+
+%
+The first study conducted was to determine the optimum configuration for OptiX as well as the capability for OptiX to be initialized with random starting points and directions as is most likely to be the case in a Monte Carlo application.
+%
+When using a ray tracing library it is important to consider the two areas that can scale: the number of concurrently traced rays and the number of geometrical objects in the scene.
+%
+Since nuclear reactor simulations might contain thousands of material zones in complex geometric layouts; knowing this last scaling parameter is especially important to not overlook.~\cite{bergmann2014development}.
+%
+ In these studies after reaching $10^6$ particles the rates became fairly consistent.
+ %
+ Bergmann also notes some important points, such as which acceleration structure was always best and when memory become a constraint on the problem that could be run.
+ %
+ The conclusion from this study was that OptiX could be used to handle the geometry representation in a Monte Carlo neutron transport code.
+ %
+ Additionally, for best performance one should use a primitive-based geometry instancing method, a BVH acceleration structure, and run as many parallel rays as possible.
+%
+
+%
+In addition to the use of a pre-existing tool like NVIDIA's OptiX library, other groups looked at optimizing Mont Carlo transport by focusing on treating it like a ray tracing problem.
+%
+Xiao et al. ~\cite{xiao2015monte} focused on the data locality issues in all ray tracing applications on GPUs.
+%
+They describe a new data locality method based on task partitioning and scheduling in order to enhance spacial and temporal data locality by ordering random rays into coherent groups.
+%
+By applying this method they achieved a 6-8X speedup over the previous GPU version of radiation therapy Monte Carlo transport. 
+%
+
+These examples show that progress in connected fields can positively impact the applications in Monte Carlo transport.
+%
+Ray tracing is only one aspect of a full Monte Carlo transport application but as we have seen here it can be greatly beneficial to look at work done in these related fields and bring those ideas back into the full application.
+

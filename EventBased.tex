@@ -1,3 +1,20 @@
 \subsection{Event Based Techniques}
 
 A look at old and new event based approaches for mc applications.
+
+\subsection*{Abstracts:}
+
+%
+
+For nuclear reactor analysis such as the neutron eigenvalue calculations, the time consuming Monte Carlo (MC) simulations can be accelerated by using graphics processing units (GPUs). However, traditional MC methods are often history-based, and their performance on GPUs is affected significantly by the thread divergence problem. In this paper we describe the development of a newly designed event-based vectorized MC algorithm for solving the neutron eigenvalue problem. The code was implemented using NVIDIA?s Compute Unified Device Architecture (CUDA), and tested on a NVIDIA Tesla M2090 GPU card. We found that although the vectorized MC algorithm greatly reduces the occurrence of thread divergence thus enhancing the warp execution efficiency, the overall simulation speed is roughly ten times slower than the history-based MC code on GPUs. Profiling results suggest that the slow speed is probably due to the memory access latency caused by the large amount of global memory transactions. Possible solutions to improve the code efficiency are discussed.~\cite{liu2014comparative}
+
+%
+
+In order to efficiently use new features of supercomputers, production codes, usually written 10 ? 20 years ago, must be tailored for modern computer architectures. We have chosen to optimize the CPM-2 code, a production reactor assembly code based on the collision probability transport method. Substantional speedups in the execution times were obtained with the parallel/vector version of the CPM-2 code. In addition, we have developed a new transfer probability method, which removes some of the modelling limitations of the collision probability method encoded in the CPM-2 code, and can fully utilize parallel/vector architecture of a multiprocessor IBM 3090.~\cite{vujic1991vectorization}
+
+%
+
+
+
+
+

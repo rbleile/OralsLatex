@@ -51,7 +51,7 @@ Most early GPU studies emphasize the speedups between CPU and GPU as the primary
 Given the change in supercomputing designs these comparisons have become increasingly more important.
 %
 
-Badal and Badano~\cite{badal2009accelerating} present work on photon transport in a voxelized geometry showing results around 27$\times$ over a single core CPU.
+Badal and Badano~\cite{badal2009accelerating} present work on photon transport in a voxelized geometry showing results around 27X over a single core CPU.
 %
 Their work emphasizes simply using GPUs instead of CPUs and the advanatage as GPUs continue to increase in performance faster than CPUs.
 %
@@ -60,17 +60,17 @@ Nelsons work presented in his thesis~\cite{nelson2009monte} shows a variety of m
 %
 His work solving neutron transport considered multiple models for running the problem and optimizing for the GPU.
 %
-The model that produced his best results shows 19.37$\times$ from a 49,152 neutrons per batch run for single precision.
+The model that produced his best results shows 19.37X from a 49,152 neutrons per batch run for single precision.
 %
-The same model shows 23.91$\times$ when using single precision and fast math,
+The same model shows 23.91X when using single precision and fast math,
 %
-For double precision performance the model labeled model four had the fastest speedups with 11.21$\times$ and 12.66$\times$ with fast math.
+For double precision performance the model labeled model four had the fastest speedups with 11.21X and 12.66X with fast math.
 
 Work presented by Tickner~\cite{tickner2010monte} on X-ray and gamma ray transport uses a slightly modified scheme from the others by launching particles on a per block basis.
 %
 In this way he hoped to remove the instruction level dependancies between particles running on the GPU hardware.
 %
-In this work he showed he was capable of producing speedups of up to 35$\times$ over those running the old algorithm.
+In this work he showed he was capable of producing speedups of up to 35X over those running the old algorithm.
 
 Jia et. al's  work~\cite{jia2010development} in a dose calculation code for coupled electron photon transport follows a relatively straight forward algorithm.
 %
@@ -78,13 +78,13 @@ First they copy the necessary data to the GPU, then they launch with each thread
 %
 Finally, when the correct number of particles has been simulated the results are brought back to the CPU and the program terminates.
 %
-This method produced a modest performance increase of around 5 to 6.6 $\times$ their runs on a CPU when run on a GPU.
+This method produced a modest performance increase of around 5 to 6.6X their runs on a CPU when run on a GPU.
 %
 The limitation of this speedup was attributed to the branching of the code and that effect it had on the GPU hardware.
 
 In contrast to Jia et al's work Yepes et al~\cite{yepes2010gpu} showed that a slightly different algorithm could greatly improve results.
 %
-By converting a track-repeating algorithm instead of a full Monte Carlo Yepes et al gained aroung 75$\times$ the performance on the GPU over the CPU.
+By converting a track-repeating algorithm instead of a full Monte Carlo Yepes et al gained aroung 75X the performance on the GPU over the CPU.
 %
 It is thought that the simpler logic of this algorithm generated threads which followed closer logic to that of the algorithm presented in Jia at al's work.
 
@@ -123,7 +123,7 @@ For example the particle intersection tests with the background geometry can be 
 Areas where these parallel instructions can be utilized within a particles calculation are then used by the threads in a block computing for that particle.
 %
 
-This particle-per-block technique has shows promise as an effective way to counter act the divergence issue.
+This particle-per-block technique has shows promise as an effective way to counteract the divergence issue.
 %
 Positives, as they also described, particles often diverge quite quickly from one another in the code paths they follow.
 %
@@ -154,57 +154,17 @@ We will have a discussion of this further in the Section on event based algorith
 %
 Event based approaches require much more work then simply transforming an existing code to use the history based version on the GPU.
 %
-And as Du et al discovered in their attempt at a event based Monte Carlo version of the Archer code~\cite{xu2015archer}~\cite{du2013evaluation}  getting any speedups with that method is a whole new host of challenges to overcome.
+And as Du et al discovered in their attempt at a event based Monte Carlo version of the Archer code~\cite{xu2015archer}~\cite{du2013evaluation}~\cite{liu2015comparison}~\cite{su2013monte}  getting any speedups with that method is a whole new host of challenges to overcome.
 
-%%
-\subsection*{ Abstracts: }
-\subsubsection*{The Following Text Is not complete... it is abstracts and summaries to be made into a complete story. }
+\subsection*{ Evaluation: }
+
+A number of studies were conducted by groups identifying the potential benefits of GPU hardware but also the hardware and software issues when developing Monte Carlo applications.
 %
- 
- %
- 
-The history of Monte Carlo methods is closely linked to that of computers: The first known Monte Carlo ~rogram
-was written in 1947 for the EN lAC; a pre-release of the first Fortran compiler was used for Mon~e Carlo In 1957;
-Monte Carlo codes were adapted to vector computers in the I 980s, clusters and parallel computers In the 199.0s, and
-teraflop systems in the 2000s. Recent advances include hierarchical parallelism, combini.ng threaded calculatIOns on
-multicore processors with message-passing among different nodes. WIth. the advances In computmg, Monte Carlo
-codes have evolved with new capabilities and new ways of use. ProductIon codes such as MCNP, MYP, MONK,
-TRIPOLI and SCALE are now 20-30 years old (or more) and are very rich in advanced featUres. The former
-"method 'Of last resort" has now become the first choice for many applications. Calculations are now routmely
-performed on office computers, not just on supercomputers. Current research and development efforts ~re
-investigating the use of Monte Carlo methods on FPGAs. GPUs, and many-core processors. Other far-reachmg
-research is exploring ways to adapt Monte Carlo methods to future exaflop systems that may have 1 M or more
-concurrent computational processes.
- ~\cite{brown2011recent}
- %
+Among these concerns are memory limitations, lack of ECC support, lack of software optimization, limitations of SMIP architecture, clock speeds, and complex memory allocation schemes.
+%
+In addition the achieved performance was often not more than could be gotten with unchanged codes on a cluster.
+%
+In some cases though speedups were large and easy to achieve such as the 45X speedup of the voxelized approach. 
+%
+The only strong conclusion from these works are that a clear and defined path are not yet known on how to take full advantage of the available parallelism without suffering performance penalties in turn. ~\cite{ding2011evaluation}
 
- %
- Monte Carlo simulation is ideally suited for solving Boltzmann neutron transport equation in
-inhomogeneous media. However, routine applications require the computation time to be reduced to hours
-and even minutes in a desktop system. The interest in adopting GPUs for Monte Carlo acceleration is
-rapidly mounting, fueled partially by the parallelism afforded by the latest GPU technologies and the
-challenge to perform full-size reactor core analysis on a routine basis. In this study, Monte Carlo codes for
-a fixed-source neutron transport problem and an eigenvalue/criticality problem were developed for CPU
-and GPU environments, respectively, to evaluate issues associated with computational speedup afforded by
-the use of GPUs. The results suggest that a speedup factor of 30 in Monte Carlo radiation transport of
-neutrons is within reach using the state-of-the-art GPU technologies. However, for the
-eigenvalue/criticality problem, the speedup was 8.5. In comparison, for a task of voxelizing unstructured
-mesh geometry that is more parallel in nature, the speedup of 45 was obtained. It was observed that, to date,
-most attempts to adopt GPUs for Monte Carlo acceleration were based on naïve implementations and have
-not yielded the level of anticipated gains. Successful implementation of Monte Carlo schemes for GPUs
-will likely require the development of an entirely new code. Given the prediction that future-generation
-GPU products will likely bring exponentially improved computing power and performances, innovative
-hardware and software solutions may make it possible to achieve full-core Monte Carlo calculation within
-one hour using a desktop computer system in a few years. 
- ~\cite{ding2011evaluation}
- %
- 
-  %
-  An electron-photon coupled Monte Carlo code ARCHER - Accelerated Radiation-transport Computations in Heterogeneous Environments - is being developed at Rensselaer Polytechnic Institute as a software test bed for emerging heterogeneous high performance computers that utilize accelerators such as GPUs. In this paper, the preliminary results of code development and testing are presented. The electron transport in media was modeled using the class-II condensed history method. The electron energy considered ranges from a few hundred keV to 30 MeV. Moller scattering and bremsstrahlung processes above a preset energy were explicitly modeled. Energy loss below that threshold was accounted for using the Continuously Slowing Down Approximation (CSDA). Photon transport was dealt with using the delta tracking method. Photoelectric effect, Compton scattering and pair production were modeled. Voxelised geometry was supported. A serial ARHCHER-CPU was first written in C++. The code was then ported to the GPU platform using CUDA C. The hardware involved a desktop PC with an Intel Xeon X5660 CPU and six NVIDIA Tesla M2090 GPUs. ARHCHER was tested for a case of 20 MeV electron beam incident perpendicularly on a water-aluminum-water phantom. The depth and lateral dose profiles were found to agree with results obtained from well tested MC codes. Using six GPU cards, 6x10{sup 6} histories of electrons were simulated within 2 seconds. In comparison, the same case running the EGSnrc and MCNPX codes required 1645 seconds and 9213 seconds, respectively, on a CPU with a single core used. 
- ~\cite{su2013monte}
- %
-
- %
- Hardware accelerators are currently becoming increasingly important in boosting high performance computing systems. In this study, we tested the performance of two accelerator models, Nvidia Tesla M2090 GPU and Intel Xeon Phi 5110p coprocessor, using a new Monte Carlo photon transport package called ARCHER-CT we have developed for fast CT imaging dose calculation. The package contains three components, ARCHER-CTCPU, ARCHER-CTGPU and ARCHER-CTCOP designed to be run on the multi-core CPU, GPU and coprocessor architectures respectively. A detailed GE LightSpeed Multi-Detector Computed Tomography (MDCT) scanner model and a family of voxel patient phantoms are included in the code to calculate absorbed dose to radiosensitive organs under user-specified scan protocols. The results from ARCHER agree well with those from the production code Monte Carlo N-Particle eXtended (MCNPX). It is found that all the code components are significantly faster than the parallel MCNPX run on 12 MPI processes, and that the GPU and coprocessor codes are 5.15?5.81 and 3.30?3.38 times faster than the parallel ARCHER-CTCPU, respectively. The M2090 GPU performs better than the 5110p coprocessor in our specific test. Besides, the heterogeneous computation mode in which the CPU and the hardware accelerator work concurrently can increase the overall performance by 13?18\%.
- ~\cite{liu2015comparison}
- %

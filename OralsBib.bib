@@ -176,6 +176,14 @@
 }
 
 %Parallel Performance
+@article{brown2011recent,
+  title={Recent advances and future prospects for Monte Carlo},
+  author={Brown, Forrest B},
+  journal={Progress in nuclear science and technology},
+  volume={2},
+  pages={1--4},
+  year={2011}
+}
 @inproceedings{brantley2013recent,
   title={Recent advances in the mercury Monte Carlo particle transport code},
   author={Brantley, PS and Dawson, SA and McKinley, MS and O'Brien, MJ and Stevens, DE and Beck, BR and Jurgenson, ED and Ebbers, CA and Hall, JM},
@@ -361,15 +369,6 @@
   publisher={IOP Publishing}
 }
 
-@article{brown2011recent,
-  title={Recent advances and future prospects for Monte Carlo},
-  author={Brown, Forrest B},
-  journal={Progress in nuclear science and technology},
-  volume={2},
-  pages={1--4},
-  year={2011}
-}
-
 @article{ding2011evaluation,
   title={EVALUATION OF SPEEDUP OF MONTE CARLO CALCULATIONS OF TWO SIMPLE REACTOR PHYSICS PROBLEMS CODED FOR THE GPU/CUDA ENVIRONMENT},
   author={Ding, Aiping and Liu, Tianyu and Liang, Chao and Ji, Wei and Shephard, Mark S and Xu, X George and Brown, Forrest B},
@@ -411,6 +410,95 @@
   publisher={Elsevier}
 }
 
+%%Not referenced Yet
+
+@inproceedings{despres2008stream,
+  title={Stream processors: a new platform for Monte Carlo calculations},
+  author={Despr{\'e}s, Philippe and Rinkel, Jean and Hasegawa, Bruce H and Prevrhal, Sven},
+  booktitle={Journal of Physics: Conference Series},
+  volume={102},
+  number={1},
+  pages={012007},
+  year={2008},
+  organization={IOP Publishing}
+}
+@article{gong2011accelerating,
+  title={Accelerating MCNP-based Monte Carlo simulations for neutron transport on GPU},
+  author={Gong, C and Liu, J and Yang, B and Deng, L and Li, G and Li, X and Hu, Q and Gong, Z},
+  journal={International Journal of Radiation Oncology* Biology* Physics},
+  volume={81},
+  number={2},
+  pages={S157--S158},
+  year={2011},
+  publisher={Elsevier}
+}
+
+@article{ren2010gpu,
+  title={GPU-based Monte Carlo simulation for light propagation in complex heterogeneous tissues},
+  author={Ren, Nunu and Liang, Jimin and Qu, Xiaochao and Li, Jianfeng and Lu, Bingjia and Tian, Jie},
+  journal={Optics express},
+  volume={18},
+  number={7},
+  pages={6811--6823},
+  year={2010},
+  publisher={Optical Society of America}
+}
+
+
+%Monte Carlo and Ray Tracing
+
+@misc{wikipediaRayTracing, title={Ray tracing (graphics)}, url={https://en.wikipedia.org/wiki/Ray\_tracing\_(graphics)}, journal={Wikipedia}, publisher={Wikimedia Foundation}} 
+
+@misc{optixProgrammingGuide, title={OptiX Programming Guide}, url={http://docs.nvidia.com/gameworks/content/gameworkslibrary/optix/optix\_programming\_guide.htm}, journal={OptiX Programming Guide}, publisher={NVIDIA Coorperation} }
+ 
+@inproceedings{parker2010optix,
+  title={Optix: a general purpose ray tracing engine},
+  author={Parker, Steven G and Bigler, James and Dietrich, Andreas and Friedrich, Heiko and Hoberock, Jared and Luebke, David and McAllister, David and McGuire, Morgan and Morley, Keith and Robison, Austin and others},
+  booktitle={ACM Transactions on Graphics (TOG)},
+  volume={29},
+  number={4},
+  pages={66},
+  year={2010},
+  organization={ACM}
+}
+
+@article{bergmann2014development,
+  title={The Development of WARP-A Framework for Continuous Energy Monte Carlo Neutron Transport in General 3D Geometries on GPUs},
+  author={Bergmann, Ryan Mitchell},
+  year={2014}
+}
+
+@inproceedings{xiao2015monte,
+  title={Monte Carlo Based Ray Tracing in CPU-GPU Heterogeneous Systems and Applications in Radiation Therapy},
+  author={Xiao, Kai and Chen, Danny Z and Hu, X Sharon and Zhou, Bo},
+  booktitle={Proceedings of the 24th International Symposium on High-Performance Parallel and Distributed Computing},
+  pages={247--258},
+  year={2015},
+  organization={ACM}
+}
+
+%Event based
+@inproceedings{liu2014comparative,
+  title={A comparative study of history-based versus vectorized Monte Carlo methods in the GPU/CUDA environment for a simple neutron eigenvalue problem},
+  author={Liu, Tianyu and Du, Xining and Ji, Wei and Xu, X George and Brown, Forrest B},
+  booktitle={SNA+ MC 2013-Joint International Conference on Supercomputing in Nuclear Applications+ Monte Carlo},
+  pages={04206},
+  year={2014},
+  organization={EDP Sciences}
+}
+
+@article{vujic1991vectorization,
+  title={Vectorization and parallelization of a production reactor assembly code},
+  author={Vujic, Jasmina L and Martin, William R},
+  journal={Progress in Nuclear Energy},
+  volume={26},
+  number={3},
+  pages={147--162},
+  year={1991},
+  publisher={Elsevier}
+}
+
+
 
 %20
 @MISC {michaelwolfe2016,
@@ -447,3 +535,72 @@ publisher={NVIDIA Coorperation},
 year={2015}, 
 month={Sep}
 } 
+
+%Portable Performance
+@inproceedings{larsen2015ray,
+  title={Ray tracing within a data parallel framework},
+  author={Larsen, Matthew and Meredith, Jeremy S and Navr{\'a}til, Paul A and Childs, Hank},
+  booktitle={2015 IEEE Pacific Visualization Symposium (PacificVis)},
+  pages={279--286},
+  year={2015},
+  organization={IEEE}
+}
+@inproceedings{larsen2015volume,
+  title={Volume Rendering Via Data-Parallel Primitives.},
+  author={Larsen, Matthew and Labasan, Stephanie and Navr{\'a}til, Paul A and Meredith, Jeremy S and Childs, Hank},
+  booktitle={EGPGV},
+  pages={53--62},
+  year={2015}
+}
+@article{moreland2015visualization,
+  title={Visualization for Exascale: Portable Performance is Critical},
+  author={Moreland, Kenneth and Larsen, Matthew and Childs, Hank},
+  journal={Supercomputing frontiers and innovations},
+  volume={2},
+  number={3},
+  pages={67--75},
+  year={2015}
+}
+@inproceedings{edwards2012kokkos,
+  title={Kokkos Array performance-portable manycore programming model},
+  author={Edwards, H Carter and Sunderland, Daniel},
+  booktitle={Proceedings of the 2012 International Workshop on Programming Models and Applications for Multicores and Manycores},
+  pages={1--10},
+  year={2012},
+  organization={ACM}
+}
+@inproceedings{lo2012piston,
+  title={PISTON: A Portable Cross-Platform Framework for Data-Parallel Visualization Operators.},
+  author={Lo, Li-ta and Sewell, Christopher and Ahrens, James P},
+  booktitle={EGPGV},
+  pages={11--20},
+  year={2012}
+}
+
+
+%Unlisted References
+@inproceedings{xu2014research,
+  title={Research on GPU Acceleration for Monte Carlo Criticality Calculation},
+  author={Xu, Qi and Yu, Ganglin and Wang, Kan},
+  booktitle={SNA+ MC 2013-Joint International Conference on Supercomputing in Nuclear Applications+ Monte Carlo},
+  pages={04210},
+  year={2014},
+  organization={EDP Sciences}
+}
+
+@article{xu2012gpu,
+  title={A GPU-based local acceleration strategy for Monte Carlo neutron transport},
+  author={Xu, Qi and Yu, Ganglin and Wu, Xiaofei and Wang, Kan},
+  journal={Transactions of the American Nuclear Society},
+  volume={107},
+  pages={526},
+  year={2012}
+}
+
+@INPROCEEDINGS {tonyScudiero,
+    author = "Tony Scudiero",
+    title  = "Monte Carlo Neutron Transport - Simulating Nuclear Reactions One Neutron at a Time",
+    note   = "In: GPU Technology Conference. San Jose, California, 2014"
+}
+
+
