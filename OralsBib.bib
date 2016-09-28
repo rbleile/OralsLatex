@@ -449,7 +449,7 @@
 
 @misc{wikipediaRayTracing, title={Ray tracing (graphics)}, url={https://en.wikipedia.org/wiki/Ray\_tracing\_(graphics)}, journal={Wikipedia}, publisher={Wikimedia Foundation}} 
 
-@misc{optixProgrammingGuide, title={OptiX Programming Guide}, url={http://docs.nvidia.com/gameworks/content/gameworkslibrary/optix/optix\_programming\_guide.htm}, journal={OptiX Programming Guide}, publisher={NVIDIA Coorperation} }
+@misc{optixProgrammingGuide, title={OptiX Programming Guide}, url={http://docs.nvidia.com/gameworks/content/gameworkslibrary/optix/optix \_programming\_guide.htm}, journal={OptiX Programming Guide}, publisher={NVIDIA Coorperation} }
  
 @inproceedings{parker2010optix,
   title={Optix: a general purpose ray tracing engine},
@@ -579,6 +579,34 @@ month={Sep}
 
 
 %Unlisted References
+@book{blelloch1990vector,
+  title={Vector models for data-parallel computing},
+  author={Blelloch, Guy E},
+  volume={356},
+  year={1990},
+  publisher={MIT press Cambridge}
+}
+
+@inproceedings{rahaman2015portability,
+  title={Portability and Performance of Nuclear Reactor Simulations on Many-Core Architectures},
+  author={Rahaman, Ronald and Medina, David and Lund, Amanda and Tramm, John and Warburton, Tim and Siegel, Andrew},
+  booktitle={Proceedings of the 3rd International Conference on Exascale Applications and Software},
+  pages={42--47},
+  year={2015},
+  organization={University of Edinburgh}
+}
+
+@article{alerstam2008parallel,
+  title={Parallel computing with graphics processing units for high-speed Monte Carlo simulation of photon migration},
+  author={Alerstam, Erik and Svensson, Tomas and Andersson-Engels, Stefan},
+  journal={Journal of biomedical optics},
+  volume={13},
+  number={6},
+  pages={060504--060504},
+  year={2008},
+  publisher={International Society for Optics and Photonics}
+}
+
 @inproceedings{xu2014research,
   title={Research on GPU Acceleration for Monte Carlo Criticality Calculation},
   author={Xu, Qi and Yu, Ganglin and Wang, Kan},
@@ -597,10 +625,203 @@ month={Sep}
   year={2012}
 }
 
+@inproceedings{bosilca2011performance,
+  title={Performance portability of a GPU enabled factorization with the DAGuE framework},
+  author={Bosilca, George and Bouteiller, Aurelien and Herault, Thomas and Lemarinier, Pierre and Saengpatsa, Narapat Ohm and Tomov, Stanimire and Dongarra, Jack J},
+  booktitle={2011 IEEE International Conference on Cluster Computing},
+  pages={395--402},
+  year={2011},
+  organization={IEEE}
+}
+
+@article{du2012cuda,
+  title={From CUDA to OpenCL: Towards a performance-portable solution for multi-platform GPU programming},
+  author={Du, Peng and Weber, Rick and Luszczek, Piotr and Tomov, Stanimire and Peterson, Gregory and Dongarra, Jack},
+  journal={Parallel Computing},
+  volume={38},
+  number={8},
+  pages={391--407},
+  year={2012},
+  publisher={Elsevier}
+}
+
+@techreport{crossno2015nnsa,
+  title={NNSA/CEA Cooperation in Computer Science: Visualization.},
+  author={Crossno, Patricia J and Patchett, John and Brugger, Eric and Guilbaud, Claire and Carrard, Thierry},
+  year={2015},
+  institution={Sandia National Laboratories (SNL-NM), Albuquerque, NM (United States)}
+}
+
 @INPROCEEDINGS {tonyScudiero,
     author = "Tony Scudiero",
     title  = "Monte Carlo Neutron Transport - Simulating Nuclear Reactions One Neutron at a Time",
     note   = "In: GPU Technology Conference. San Jose, California, 2014"
 }
 
+@article{lee2010debunking,
+  title={Debunking the 100X GPU vs. CPU myth: an evaluation of throughput computing on CPU and GPU},
+  author={Lee, Victor W and Kim, Changkyu and Chhugani, Jatin and Deisher, Michael and Kim, Daehyun and Nguyen, Anthony D and Satish, Nadathur and Smelyanskiy, Mikhail and Chennupaty, Srinivas and Hammarlund, Per and others},
+  journal={ACM SIGARCH Computer Architecture News},
+  volume={38},
+  number={3},
+  pages={451--460},
+  year={2010},
+  publisher={ACM}
+}
+
+%% OpenACC
+
+@inproceedings{wienke2012openacc,
+  title={OpenACC?first experiences with real-world applications},
+  author={Wienke, Sandra and Springer, Paul and Terboven, Christian and an Mey, Dieter},
+  booktitle={European Conference on Parallel Processing},
+  pages={859--870},
+  year={2012},
+  organization={Springer}
+}
+
+@article{wang2013performance,
+  title={Performance portability evaluation for openacc on intel knights corner and nvidia kepler},
+  author={Wang, Yichao and Qin, Qiang and SEE, Simon Chong Wee and Lin, James},
+  journal={HPC China},
+  year={2013}
+}
+
+@misc{openacc, title={OpenACC}, url={http://www.openacc.org/}, journal={OpenACC}} 
+
+%% OpenMP
+
+@misc{openmp, title={OpenMP}, url={http://www.openmp.org/}, journal={OpenMP}} 
+
+@article{ayguade2010extending,
+  title={Extending OpenMP to survive the heterogeneous multi-core era},
+  author={Ayguad{\'e}, Eduard and Badia, Rosa M and Bellens, Pieter and Cabrera, Daniel and Duran, Alejandro and Ferrer, Roger and Gonz{\'a}lez, Marc and Igual, Francisco and Jim{\'e}nez-Gonz{\'a}lez, Daniel and Labarta, Jes{\'u}s and others},
+  journal={International Journal of Parallel Programming},
+  volume={38},
+  number={5-6},
+  pages={440--459},
+  year={2010},
+  publisher={Springer}
+}
+
+@article{lee2009openmp,
+  title={OpenMP to GPGPU: a compiler framework for automatic translation and optimization},
+  author={Lee, Seyong and Min, Seung-Jai and Eigenmann, Rudolf},
+  journal={ACM Sigplan Notices},
+  volume={44},
+  number={4},
+  pages={101--110},
+  year={2009},
+  publisher={ACM}
+}
+
+%% VTK-m
+
+@techreport{moreland2015vtk,
+  title={VTK-m Overview (NVIDIA Design Review).},
+  author={Moreland, Kenneth D},
+  year={2015},
+  institution={Sandia National Laboratories (SNL-NM), Albuquerque, NM (United States)}
+}
+
+@techreport{moreland2014vtk,
+  title={VTK-m: A Foundation (SDAV Meeting 2014-07).},
+  author={Moreland, Kenneth D and Maynard, Robert Kitware and Sewell, Christopher LANL and Meredith, Jeremy ORNL},
+  year={2014},
+  institution={Sandia National Laboratories (SNL-NM), Albuquerque, NM (United States)}
+}
+
+%%Thrust
+
+@misc{hoberock2008thrust,
+  title={Thrust},
+  author={Hoberock, Jared and Bell, Nathan},
+  year={2008}
+}
+@article{hoberock2010thrust,
+  title={Thrust: A parallel template library},
+  author={Hoberock, Jared and Bell, Nathan},
+  journal={Online at http://thrust. googlecode. com},
+  volume={42},
+  pages={43},
+  year={2010}
+}
+
+%%DAX
+
+@article{morelanddax,
+  title={Dax: Data Analysis at Extreme},
+  author={Moreland, Kenneth and Ayachit, Utkarsh and Geveci, Berk and Ma, Kwan-Liu}
+}
+
+@inproceedings{moreland2011dax,
+  title={Dax toolkit: A proposed framework for data analysis and visualization at extreme scale},
+  author={Moreland, Kenneth and Ayachit, Utkarsh and Geveci, Berk and Ma, Kwan-Liu},
+  booktitle={Large Data Analysis and Visualization (LDAV), 2011 IEEE Symposium on},
+  pages={97--104},
+  year={2011},
+  organization={IEEE}
+}
+
+%%Kokkos
+
+@article{edwards2014kokkos,
+  title={Kokkos: Enabling manycore performance portability through polymorphic memory access patterns},
+  author={Edwards, H Carter and Trott, Christian R and Sunderland, Daniel},
+  journal={Journal of Parallel and Distributed Computing},
+  volume={74},
+  number={12},
+  pages={3202--3216},
+  year={2014},
+  publisher={Elsevier}
+}
+
+
+@article{edwards2012manycore,
+  title={Manycore performance-portability: Kokkos multidimensional array library},
+  author={Edwards, H Carter and Sunderland, Daniel and Porter, Vicki and Amsler, Chris and Mish, Sam},
+  journal={Scientific Programming},
+  volume={20},
+  number={2},
+  pages={89--114},
+  year={2012},
+  publisher={IOS Press}
+}
+
+
+%%Raja
+
+@article{hornung2014raja,
+  title={The RAJA portability layer: overview and status},
+  author={Hornung, R and Keasler, J and others},
+  journal={Lawrence Livermore National Laboratory, Livermore, USA},
+  year={2014}
+}
+@techreport{hornung2016raja,
+  title={RAJA-LLNL HPC Architecture Portability Encapsulation Layer Version 1.0},
+  author={Hornung, Richard and Keasler, Jeffery and Kunen, Adam and Jones, Holger and Beckingsale, David},
+  year={2016},
+  institution={Lawrence Livermore National Laboratory (LLNL), Livermore, CA (United States)}
+}
+
+%%Chapel
+
+@inproceedings{sidelnik2012performance,
+  title={Performance portability with the chapel language},
+  author={Sidelnik, Albert and Maleki, Saeed and Chamberlain, Bradford L and Garzar'n, Mar{\'\i}a J and Padua, David},
+  booktitle={Parallel \& Distributed Processing Symposium (IPDPS), 2012 IEEE 26th International},
+  pages={582--594},
+  year={2012},
+  organization={IEEE}
+}
+@article{chamberlain2007parallel,
+  title={Parallel programmability and the chapel language},
+  author={Chamberlain, Bradford L and Callahan, David and Zima, Hans P},
+  journal={International Journal of High Performance Computing Applications},
+  volume={21},
+  number={3},
+  pages={291--312},
+  year={2007},
+  publisher={SAGE Publications}
+}
 
