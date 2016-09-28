@@ -1,4 +1,4 @@
-\subsection{Load Balance and Domain Decomposition Algorithms}
+\subsection{ \textbf{ Load Balance and Domain Decomposition} }
 
 In order to achieve high levels of parallelism in transport problems with many geometries or zones different parallel execution models are used.
 %
@@ -19,7 +19,7 @@ If one processor has more work than any other all of the others must wait for th
 This load-imbalance can cause significant issues with scalability as paralleism is increased from hundreds to millions of processors ~\cite{o2013scalable}.
 %
 
-\subsubsection*{When to Load balance}
+\subsection*{When to Load balance}
 
 %
 One key consideration when wanting to preform a load balance calculation is to understand the cost of preforming that calculation as well.
@@ -47,7 +47,7 @@ S = \frac{\varepsilon_C}{\varepsilon_{LB}} \\
 if\ (\tau^{'} < 0.9 \cdot \tau \ )\ DynamicLoadBalance();
 \end{eqnarray}
 
-\subsubsection*{Extended Domain Decomposition}
+\subsection*{Extended Domain Decomposition}
 
 As an extension to the domain decomposition of meshes, O'Brien and Joy demonstrated an algorithm to domain decompose Constructive Solid Geometry (CSG) in a Monte Carlo transport code.
 %
@@ -61,7 +61,7 @@ In addition to pure mesh and pure CSG problems other combinations might be usefu
 In this method a mesh region is embedded inside a CSG region allowing for the use of each in whichever region one or the other is more optimal.
 ~\cite{greenman2009enhancements}
 
-\subsubsection*{Load Balance at Scale}
+\subsection*{Load Balance at Scale}
 
 %
 When load balancing massively parallel computers it is unscalable to need to examine the workload of every processor.

@@ -1,10 +1,4 @@
-\section{What is Monte Carlo Neutron Transport?}
-
-%1.	Background in Monte Carlo Transport - Physics / "what is" papers
-%	
-%	a. Types of transport ( Neutron, Photon, Charged Particle )
-%	
-%	b. fundamental methods ( varience reduction, nuclear data lookups )
+\section{ \textbf{What is Monte Carlo Neutron Transport?}}
 
 \begin{displayquote}
 "The first thoughts and attempts I made to practice [the Monte Carlo method] were suggested by a question which occurred to me in 1946 as I was convalescing from an illness and playing solitaire. The question was what are the chances that a Canfield solitaire laid out with 52 cards will come out successfully? After spending a lot of time trying to estimate them by pure combinatorial calculations, I wondered whether a more practical method than "abstract thinking" might not be to lay it out say one hundred times and simply observe and count the number of successful plays. This was already possible to envisage with the beginning of the new era of fast computers, and I immediately thought of problems of neutron diffusion and other questions of mathematical physics, and more generally how to change processes described by certain differential equations into an equivalent form interpretable as a succession of random operations. Later... [in 1946, I ] described the idea to John von Neumann and we began to plan actual calculations."
@@ -18,7 +12,7 @@ John von Neumann became interested in Stan Ulams idea and was outlined in detail
 Since this time Monte Carlo methods have continued to be a primary way for solving many questions in Neutron transport. ~\cite{theMCM}
 %
 
-\subsection{Definition}
+\subsection{ \textbf{ Definition} }
 
 E. E. Lewis and W. F. Miller Jr. in Computational Methods of Neuron Transport describes Monte Carlo transport as a simulation of some number of particle histories by using a random number generator.
 %
@@ -44,7 +38,7 @@ One very important question to answer with any statistical answer is just how go
 It turns out that the uncertainty in $\hat{x}$ decreases with increasing numbers of particle histories, and generally falls of asymptotically proportionate to $N^{-1/2}$. ~\cite{LewisCMNT}
 %
 
-\subsection{The Equation}
+\subsection{ \textbf{ The Equation} }
 
 %
 The equation being solved by the neutron transport problem, shown below, displays each of the pieces that makes up a full Monte Carlo transport algorithm.
@@ -79,7 +73,7 @@ $\Omega$ is angular direction,
 and $t$ is the term for time. ~\cite{gentileMCPTAPO}
 %
 
-\subsection{Algorithm Approach}
+\subsection{ \textbf{ Algorithm Approach} }
 
 While there are many ways people can solve this problem generally people consider tracking particle histories and the algorithm that follows is often called the history based approach because of this.
 % 
@@ -129,18 +123,6 @@ Parse Inputs\;
 Gather Tallies\;
 \end{algorithm}
 
-%%
-%Main Phases
-%%
-%Init( Initializing data structures / load balancing )
-%%
-%Tracking ( do particle tracking physics )
-%%
-%Finalize ( reduce tallies / collect statistics )
-%%
-%Variance Reductions( can occure in init or tracking )
-%%
-%
-%%
+
 
 
