@@ -1,37 +1,58 @@
 \subsection{ \textbf{First Pass at GPU Computing}}
 
-In this section we will analyze the different approaches that people have taken to get their Monte Carlo transport codes working for GPUs.
+This section will analyze the different approaches that people have taken to get their Monte Carlo transport codes working for GPU architectures.
 %
-By comparing and contrasting these different approaches we can see for a variety of problems if any approaches were more successful and which approaches struggled to get desired levels of performance out of the hardware.
+It will begin by comparing and contrasting different approaches by evaluating a few key areas of the studies that have been done: accuracy, performance and algorithmic choices.
 %
- It is important to note that the actual runtimes and speedups are less important then the theoretical speedups compared to the achieved speedups as hardware has been changing very quickly over the last ten years for these comparisons.
- %
+Following will be an evaluation of the effectiveness of the approaches for the range of problems being addressed.
+%
+As a side note it is important to notice that I will be reporting speedups as reported by each paper on the hardware they were using at the time of their study.
 
-\subsection*{ Accuracy: }
+\subsection*{ \textbf{Accuracy:} }
 
 One of the first considerations the scientific community has when being introduced to a new computing platform is what levels of accuracy can they achieve with their simulation codes.
+%
+Since the change from CPU to GPU computing brings a completely different hardware design it is important to understand how that design might affect the accuracy of any caluclations it is preforming.
+%
+This concern was especially important in the early days of GPU computing when double precision was not supported and often even single precision answers would provide slightly different results.
+%
+There are three key areas of accuracy that we will look at with these studies, being: Floating point precision, differences between CPU and GPU results, and IEE-754 compliance.
+%
+
 %
 It was common that in early GPU computing when double floating point precision was not supported or supported well that people started thinking about GPU computing as not being accurate enough for their needs.
 %
 Many early attempts at GPU computing includes discussions of accuracy in order to validate the correctness of their results.
 %
 While modern GPGPUs support double precision much better than before making much of the worry irrelevant, it is still important to consider the accuracy of a method that runs on a new hardware and may use a new algorithm.
+%
 
+\subsubsection*{\textbf{Floating Point Accuracy} }
+
+One of the primary concerns of the early GPU studies involved understanding the limits of floating point arithmetic on the GPU architecture.
 %
-Nelson discussed accuracy in his thesis work ~\cite{nelson2009monte}, stating that during the time of his work the floating-point arithmetic accuracy was not fully IEEE-754 compliant which opens the question of accuracy without a more fully featured test. Additionally, since NVIDIA as complete control over the implementation of floating point calculations on their GPUs their may be differences between generations that mitigate the usefulness of an accuracy study on one generation of hardware.
-%
-Current generations of the NVIDIA GPU hardware are IEE-754 compliant. 
-%
-In order to address issues of floating point accuracy they have even included a detailed description of the standard and the way CUDA follows the standard showing that at least while floating point accuracy is still a concern it is no more a concern than it was on a CPU implementation.~\cite{cudaToolkitv7.5}
-%
-Nelson's other primary accuracy consideration was the difference in computation time between double and single precision.
+Nelson in his thesis work~\cite{nelson2009monte} describes one of his primary accuracy considerations as being the difference between single and double precision calculations.
 %
 In older GPU hardware there was no support for double precision in the hardware and so in order to achieve double precision significantly more calculations were needed.
 %
-In modern GPU hardware double precision is becoming increasingly better supported and in the gpgpu cards there are dedicated double precision units and all of the necessary hardware changes required to include them.
+In modern GPU hardware 64 bit double precision is becoming increasingly better supported and in the GPGPU cards there are dedicated double precision units and all of the necessary hardware changes required to include them.
 %
 
-Others also wanted to consider the accuracy of their initial gpu conversions.
+\subsubsection*{\textbf{Differences Between CPU and GPU results} }
+
+More then the differences between single and double precision are also a concern for differences between the results that arise when using the same precision.
+%
+This concern can be explained by understanding how floating-point math is accomplished on a computer~\cite{goldberg1991every}.
+%
+There are two main reasons that differences arise.
+%
+The first is that floating point mathematical operations that are done in a different order might produce a different result and sue to the nature of parallel computing often you cannot know or guarantee the order a set of calculations will be preformed in.
+%
+The second reason is that modern day CPUs using x86 processors preform math internally on 80bit registers while a GPU does it on 32 bit (single precision) or 64 bit (double precision) registers.
+%
+Because of this each math operation on a CPU might stay in registers and only be rounded down to 64 bits when it is saved to memory.
+%
+
 %
 Jia et. al ~\cite{jia2010development} showed that in their development of a Mont Carlo dose calculation code they could achieve speedups of 5 to 6.6 times their CPU version while maintaining within 1\% of the dosing for more then 98\% of the calculation points.
 %
@@ -40,6 +61,17 @@ They considered this adequate accuracy to consider using GPUs for doing these co
 Yepes et. al~\cite{yepes2010gpu} also considered accuracy in their assessment of their GPU implementation.
 %
 They concluded that in term of accuracy there was a good agreement between the dose distributions calculated with each version they ran, the largest discrepencies being only $\sim$3\%, and so they could run the GPU version as accurately as any general-purpose Monte Carlo program.
+%
+As these two groups have shown this amount of error is often very small and over the entire course of the simulation only brings 1-3\% errors.
+
+\subsubsection*{ \textbf{IEE-754 Compliance} }
+Nelson discussed accuracy in his thesis work~\cite{nelson2009monte}, stating that during the time of his work the floating-point arithmetic accuracy was not fully IEEE-754 compliant which opens the question of accuracy without a more fully featured test. 
+%
+Additionally, since NVIDIA as complete control over the implementation of floating point calculations on their GPUs their may be differences between generations that mitigate the usefulness of an accuracy study on one generation of hardware.
+%
+Current generations of the NVIDIA GPU hardware are IEE-754 compliant however. 
+%
+In order to address issues of floating point accuracy they have even included a detailed description of the standard and the way CUDA follows the standard showing that at least while floating point accuracy is still a concern it is no more a concern than it was on a CPU implementation.~\cite{cudaToolkitv7.5}
 %
 
 \subsection*{Performance:}
