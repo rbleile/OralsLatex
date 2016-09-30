@@ -74,7 +74,7 @@ Current generations of the NVIDIA GPU hardware are IEE-754 compliant however.
 In order to address issues of floating point accuracy they have even included a detailed description of the standard and the way CUDA follows the standard showing that at least while floating point accuracy is still a concern it is no more a concern than it was on a CPU implementation.~\cite{cudaToolkitv7.5}
 %
 
-\subsection*{Performance:}
+\subsection*{\textbf{Performance:}}
 
 A second factor that is important to people making their first pass at GPU Monte Carlo is performance.
 %
@@ -83,11 +83,33 @@ Most early GPU studies emphasize the speedups between CPU and GPU as the primary
 Given the change in supercomputing designs these comparisons have become increasingly more important.
 %
 
+%
+Often, performance is compared to the hardware maximmums such as peak of FLOPS or Memory Bandwidth.
+%
+It is often assumed that an increase in available FLOPS will translate directly into incredible performance gains.
+%
+In Lee et al.'s Debunking the 100X GPU vs. CPU myth~\cite{lee2010debunking}, this discussion of performance is brought into new light showing the relative performance gains for different types of applications.
+%
+The important thing to consider is the limiting factor between the hardware and the code.
+%
+Because of this comparing current performance with that of peak performance is often very misleading.
+%
+
+%
+The following discussions show the relative performances of Monte Carlo transport applications that underwent their initial transformations or studies to use the GPU hardware.
+%
+We will not see he 100x performance that is often sought after, but instead we can understand the impact that each applications problem, algorithms, and implementation differences had on the performance as a whole.
+%
+
+\subsubsection*{\textbf{Photon Transport}}
+%
 Badal and Badano~\cite{badal2009accelerating} present work on photon transport in a voxelized geometry showing results around 27X over a single core CPU.
 %
 Their work emphasizes simply using GPUs instead of CPUs and the advanatage as GPUs continue to increase in performance faster than CPUs.
 %
 
+\subsubsection*{\textbf{Neutron Transport}}
+%
 Nelsons work presented in his thesis~\cite{nelson2009monte} shows a variety of models and considerations for his performance results.
 %
 His work solving neutron transport considered multiple models for running the problem and optimizing for the GPU.
@@ -97,29 +119,38 @@ The model that produced his best results shows 19.37X from a 49,152 neutrons per
 The same model shows 23.91X when using single precision and fast math,
 %
 For double precision performance the model labeled model four had the fastest speedups with 11.21X and 12.66X with fast math.
+%
 
+\subsubsection*{\textbf{Gamma Ray Transport}}
+%
 Work presented by Tickner~\cite{tickner2010monte} on X-ray and gamma ray transport uses a slightly modified scheme from the others by launching particles on a per block basis.
 %
 In this way he hoped to remove the instruction level dependancies between particles running on the GPU hardware.
 %
-In this work he showed he was capable of producing speedups of up to 35X over those running the old algorithm.
+In this work he showed he was capable of producing speedups of up to 35X over a single core cpu, and a significant improvement on any per-thread methods we have seen so far.
+%
 
+\subsubsection*{\textbf{Coupled Electron Photon Transport}}
+%
 Jia et. al's  work~\cite{jia2010development} in a dose calculation code for coupled electron photon transport follows a relatively straight forward algorithm.
 %
-First they copy the necessary data to the GPU, then they launch with each thread independently computing the necessary work for their particle.
-%
-Finally, when the correct number of particles has been simulated the results are brought back to the CPU and the program terminates.
-%
-This method produced a modest performance increase of around 5 to 6.6X their runs on a CPU when run on a GPU.
+In their work they offload the data and computations to the GPU, simulate the particles, and then copy memory back.
+%First they copy the necessary data to the GPU, then they launch with each thread independently computing the necessary work for their particle.
+%%
+%Finally, when the correct number of particles has been simulated the results are brought back to the CPU and the program terminates.
+%%
+This method produced a modest performance increase on a GPU of around 5 to 6.6X over their runs on a CPU.
 %
 The limitation of this speedup was attributed to the branching of the code and that effect it had on the GPU hardware.
 
-In contrast to Jia et al's work Yepes et al~\cite{yepes2010gpu} showed that a slightly different algorithm could greatly improve results.
+\subsubsection*{\textbf{Track Repeating Alogorithm}}
+In contrast to Jia et al's work Yepes et al~\cite{yepes2010gpu} showed that a different algorithm could greatly improve results.
 %
-By converting a track-repeating algorithm instead of a full Monte Carlo Yepes et al gained aroung 75X the performance on the GPU over the CPU.
+By converting a track-repeating algorithm instead of a full Monte Carlo, Yepes et al. gained aroung 75X the performance on the GPU over the CPU.
 %
 It is thought that the simpler logic of this algorithm generated threads which followed closer logic to that of the algorithm presented in Jia at al's work.
 
+\subsubsection*{\textbf{Performance Evaluation}}
 Throughout all of these examples one common theme can be seen.
 %
 Performance can be gained doing Monte Carlo on the GPU.
@@ -128,23 +159,35 @@ Performance can be more difficult to get due to the highly divergent nature of t
 %
 Methods to deal with this divergence can show promising results that are worthy of further study.
 %
-These outcomes are expected outcomes since Monte Carlo applications embarrassingly parallel (a good sign for GPUs ) but also incredibly divergent ( a bad sign for GPUs ).
+These outcomes are expected outcomes since Monte Carlo applications are embarrassingly parallel ( good for GPUs ) but also incredibly divergent ( bad for GPUs ).
+%
 
-\subsection*{Approaches: }
+In this section we see a wide range in performances, from as low as 5x to as high as 75x.
+%
+While simplifications played a large role in the 75x algorithm we do see a full monte carlo application achieving speeds of 35x in the case of the work by Tickner~\cite{tickner2010monte}.
+%
+I think that is important to note that while some of the differences in performance are due to the nature of each problem being solved, the algorithmic choices made can have a significant impact on the GPU implementations.
+%
 
-Monte Carlo transport applications tend to follow a simple model where each tracked particle is given its own thread and computations progress embarrassingly parallel. 
+\subsection*{Algorithms:}
+
+Based on the performance studies we have just seen, it is important to highlight the algorithmic approaches that were taken so that we can understand the performances of each approach.
+%
+If we can clearly find algorithms that show positive performance results than other codes can implement them for potential gain.
+%
+In this section we are going to look closely at a few of the important or interesting algorithms we have seen attempted.
+%
+
+%
+Monte Carlo transport applications tend to follow a simple model where each tracked particle is given its own thread and computations progress in an embarrassingly parallel fashion. 
 %
 On a GPU this also makes sense as a starting point since particles are independent and this progression leads to a simple natural parallel approach.
 %
 It is often pointed out however that due to the divergent nature of Monte Carlo this approach might not be the best way organize Monte Carlo codes on GPU hardware.
 %
 
-We mentioned in the previous section one persons approach at solving this dilemma and their performance gains by dealing with this issue.
-%
-We will now look closer at the algorithm they used to better understand why if at all their approach should afford better performance than what was seen before.
-%
-
-We will first look at the particle-per-block tracking algorithm described by Tickner~\cite{tickner2010monte}.
+\subsubsection*{\textbf{Particle-Per-Block}}
+We will first look at an alternative approach, the particle-per-block tracking algorithm described by Tickner~\cite{tickner2010monte}.
 %
 First each tracked particle or quantum of radiation is given to a block of threads.
 %
@@ -157,13 +200,13 @@ Areas where these parallel instructions can be utilized within a particles calcu
 
 This particle-per-block technique has shows promise as an effective way to counteract the divergence issue.
 %
-Positives, as they also described, particles often diverge quite quickly from one another in the code paths they follow.
+Particles often diverge quite quickly from one another in the code paths they follow.
 %
 This means that threads in a block are not always able to travel in lock step and can cause some serialization of the parallel regions.
 %
 By using only one particle per block the divergence problem is nearly entirely removed from the equation.
 %
-Additionally this method introduces new areas of parallelism that are not otherwise being taken advantage of, instruction level parallelism in the particles calculations.
+Additionally this method introduces new areas of parallelism that are not otherwise being taken advantage of, instruction level parallelism in the calculations for a single particle.
 %
 
 %
@@ -180,23 +223,65 @@ In summary I think that this method has some merit if it can find enough paralle
 %
 I also think that this method might end up showing the same characteristics of the simpler particle-per-thread model if the extra parallelism is not found, and instead loose out on the parallelism provided by particles that are not divergent from one another. 
 
+\subsubsection*{\textbf{Event-Based Approaches}}
+
 A second possibly more obvious method to escape the divergence issue is to switch particle tracking algorithms more dramatically from a history based version to an event based version.
 %
 We will have a discussion of this further in the Section on event based algorithms later in this paper.
 %
 Event based approaches require much more work then simply transforming an existing code to use the history based version on the GPU.
 %
-And as Du et al discovered in their attempt at a event based Monte Carlo version of the Archer code~\cite{xu2015archer}~\cite{du2013evaluation}~\cite{liu2015comparison}~\cite{su2013monte}  getting any speedups with that method is a whole new host of challenges to overcome.
+And as Du et al discovered in their attempt at a event based Monte Carlo version of the Archer code~\cite{xu2015archer}~\cite{du2013evaluation}~\cite{liu2015comparison}~\cite{su2013monte},  getting any speedups with that method has a whole new host of challenges to overcome.
 
-\subsection*{ Evaluation: }
+\subsubsection*{\textbf{Voxelization Approaches}}
+
+This method was used as for comparison on the GPUs.
+%
+Voxelization of a geometry was done for each voxel and this process involved: ray-stabbing number counted on the GPU and then a parity-counting method was run on the CPU to detect if the voxel was inside the mesh surface~\cite{na2010deformable}.
+%
+This method contained no divergence since all threads follow the exact same code paths.
+%
+This process is often done to voxelize geometries for before Monte Carlo codes can be run.
+%
+Doing this algorithm with no divergence produces a 45.5x speedup on the GPU over the CPU.
+%
+This example was shows in Ding et al.'s evaluation report~\cite{ding2011evaluation} in order to show the performance of the same GPU on different aspects related to Monte Carlo transport.
+
+\subsection*{ \textbf{Evaluation:}}
+
+\begin{table}
+\caption { GPU speedup evaluation results } \label{tab:GPUPerfEval} 
+\begin{center}
+\begin{tabular}{ |C{.10\textwidth}|C{.10\textwidth}|C{.10\textwidth}|C{.10\textwidth}|}
+\hline
+ & & & \\
+Case & Execution Time $T_{CPU}$ (minutes) & Execution Time $T_{GPU}$ (minutes) & Speed-up factor $T_{CPU}/T_{GPU}$ \\
+ & & & \\
+ \hline
+ & & & \\
+Neutron Transport Problem & $~ 0.496$ & $ ~0.017$ & $~ 29.2$ \\ 
+ & & & \\
+\hline
+ & & & \\
+eigenvalue/criticality problem & $ 4.25 $ & $ ~ 0.5 $ & $ ~ 8.5 $ \\
+ & & & \\
+\hline
+ & & & \\
+Voxelization & $ 2380.4 $ & $ ~ 52.3 $ & $~ 45.5 $ \\
+ & & & \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
 
 A number of studies were conducted by groups identifying the potential benefits of GPU hardware but also the hardware and software issues when developing Monte Carlo applications.
 %
-Among these concerns are memory limitations, lack of ECC support, lack of software optimization, limitations of SMIP architecture, clock speeds, and complex memory allocation schemes.
+Among these concerns are memory limitations, lack of ECC support, lack of software optimization, limitations of SIMD architecture, clock speeds, and complex memory allocation schemes.
 %
 In addition the achieved performance was often not more than could be gotten with unchanged codes on a cluster.
 %
 In some cases though speedups were large and easy to achieve such as the 45X speedup of the voxelized approach. 
 %
+The results from Ding et al.'s evaluations can be seen in Table~\ref{tab:GPUPerfEval}.
+%
 The only strong conclusion from these works are that a clear and defined path are not yet known on how to take full advantage of the available parallelism without suffering performance penalties in turn. ~\cite{ding2011evaluation}
-
