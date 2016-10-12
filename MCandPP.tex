@@ -1,3 +1,213 @@
-\section{Monte Carlo and Portable Performance}
+\section{\textbf{Monte Carlo and Portable Performance}}
 
-a look at monte carlo and pp abstractions. My alps work
+In this section Monte Carlo transport applications will be evaluated as a platform for portable performance studies.
+%
+Monte Carlo transport offers a unique set of challenges and interesting lessons to the world of portable performance possibilities.
+%
+Already discussed are efforts in Ray Tracing done by using the EAVL/VTK-m framework, and the successes seen there. 
+%
+In addition, the idea of portable performance is a popular one with many different groups putting forward possible designs and library options.
+%
+Each of these abstraction layers-- EAVL, DAX, PISTON, VTK-m, Thrust, OpenMP, OpenACC, RAJA, Chapel, and Kokkos --has its own plusses and minuses, as well as different levels of effort required to make it function in already existing codes.
+%
+
+%
+There is a large number of potential directions and possible areas to focus on in this study.
+%
+Looking now at Bleile's work with a Monte Carlo mini app, ALPSMC~\cite{}~\cite{}, the Mont Carlo algorithmic question of event based versus history based algorithms in a simplified Monte Carlo code, while also studying the effects different parallel paradigms have on performance and ease of code conversion.
+%
+
+\subsection{\textbf{ALPSMC}}
+
+ALPSMC is a Monte Carlo test code that models neutron transport in a one dimensional planar geometry, through a binary stochastic medium.
+%
+It is originally a serial C++ application that follows an all particle history based approach.
+%
+This history based algorithm is shown in Algorithm~\ref{alg:historybased}
+%
+
+\begin{algorithm}
+\DontPrintSemicolon
+\caption{History-based Monte Carlo algorithm}
+\label{alg:historybased}
+\ForEach{particle history}
+{ 
+    generate particle from boundary condition or source\;
+    \While{particle not escaped or absorbed}
+    {
+       sample distance to collision in material\;
+       sample distance to material interface\;
+       compute distance to cell boundary\;
+       select minimum distance, move particle, and perform event\;
+       \If{particle escaped spatial domain}
+       {
+          update leakage tally\;
+          end particle history\;
+       }
+       \If{particle absorbed}
+       {
+          update absorption tally\;
+          end particle history\;
+       }
+    }
+}
+\end{algorithm}
+%
+
+%
+The original work was to convert this algorithm into an event based approach.
+%
+The event based algorithm performs data parallel operations across all of the particles that are in the same event, as well as a series of data parallel steps required to do proper book keeping to get the particles for each event.
+%
+The event based algorithm is defined in Algorithm~\ref{alg:eventbased}.
+%
+The operations required to launch the event kernels are defined as follows and correspond to lines 6 and 7 of Algorithm~\ref{alg:eventbased}.
+%
+"
+\begin{itemize}
+\item[Step 1:] thrust::transform --- Fill out a stencil map of 1's and 0's of all particles doing event E (where each particle whose next event is E will get a 1 in the stencil map at its index location)
+\item[Step 2:] thrust::reduce --- Count the number of elements labeled 1 in the stencil (determines the number of particles that will perform event E)
+\item[Step 3:] Check if the number of elements is greater than 0 (check if any particles are performing event E)
+\item[Step 4:] thrust::exclusive\_scan --- generate indices for index mapping from stencil map (indices for each particle performing event E)
+\item[Step 5:] Allocate a new map of appropriate size (map to hold indices for all particles performing event E)
+\item[Step 6:] Scatter indexes from scan into new index map (reduces the exclusive\_scan generated indices into the map that holds only enough for particles performing event E)
+\item[Step 7:] Use new index map in permutation\_iterator loops over all particles (combining the index map with the permutation iterator allows loops over all particles to operate only on the particles selected in the index map)
+\end{itemize}
+"~\cite{}
+%
+
+\begin{algorithm}
+\DontPrintSemicolon
+\caption{Event-based Monte Carlo algorithm}
+\label{alg:eventbased}
+\ForEach{batch of particle histories (fits in memory constraint)}
+{ 
+    generate all particles in batch from boundary condition or source\;
+    determine next event for all particles (collision, material interface crossing, cell boundary crossing)\;
+    \While{particles remaining in batch}
+    {
+       \ForEach{event E in (collision, material interface crossing, cell boundary crossing)}
+       {
+          identify all particles whose next event is E\;
+          perform event E for identified particles and determine next event for these particles\;
+       }
+       \If{particle escaped spatial domain}
+       {
+          update leakage tally\;
+       }
+       \If{particle absorbed}
+       {
+          update absorption tally\;
+       }
+       delete particles absorbed or leaked\;
+    }
+}
+\end{algorithm}
+
+Thrust was chosen as the platform for implementing the data parallel operations, though many of the options discussed would have worked for this.
+%
+The key design choice was that each operation can be done using data parallel primitives.
+%
+ This study also use a direct CUDA implementation that launched kernels for the main events and used thrust for data management.
+
+
+The performance results from the initial implementation~\cite{} were varied, with the best CUDA version reaching about 12x and the thrust OpenMP version reaching 2.2x with 16 threads.
+%
+The optimized implementation discovered a few areas for improvement and achieved fairly significant results.
+%
+Table~\ref{tab:ALPSspeedup} shows the summary of ALPSMC speedup results.
+%
+
+\begin{table}
+\caption { Maximum speedups for each approach when compared to the original history-based serial method } \label{tab:ALPSspeedup} 
+\begin{center}
+\begin{tabular}{ |c|c|}
+\hline
+Method & Speedup\\
+\hline
+CUDA Event SOA & 31.32\\
+\hline
+CUDA History 52.78\\
+\hline
+Thrust Event CUDA SOA & 54.62\\
+\hline
+Thrust Event OpenMP SOA & 5.54\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+Through this experience we have demonstrated a few important points.
+%
+First we demonstrated excellent performance in both algorithms, achieving \~50x performance for both history and event based algorithms.
+%
+Additionally, this examples showed that using data parallel design and an abstraction layer -- in this case Thrust -- can preform just as well as when programmed in native CUDA under these circumstances. 
+%
+Lastly, while the GPU performance is high the CPU performance is still lacking.
+%
+Figure~\ref{fig:OMPScale} shows that the OpenMP version scales well but it has a much higher overhead than the original serial version.
+
+\begin{figure}
+\label{fig:OMPScale}
+\includegraphics[width=0.49\textwidth]{thrustOMPSpeedup.pdf}
+\caption{Speedups versus number of particles for the event based Thrust CPU method with 1, 2, 4, 8, 16 OpenMP threads compared to the Thrust CPU method serially.~\cite{}}
+\end{figure}
+
+All of these considerations lay a foundation for future study.
+%
+ALPSMC is a small test code that functions like a mini app to a larger application.
+%
+Since ALPSMC does simplify many of the complex parts of the Monte Carlo transport problem the actual speedups may not accurately reflect the final performance possibilities of a more fully featured Monte Carlo transport code.
+%
+
+\subsection{Proposal}
+
+This survey has outlined the long history of Monte Carlo transport applications and research.
+%
+In this survey we have seen that there has been a major revival of computational study with every new generation of supercomputing platform.
+%
+Monte Carlo transport applications have only one significant gap in knowledge were groups have just recently started adding supporting research.
+%
+That area is the case of a fully features Monte Carlo application on GPUs and scalable to high numbers of GPUs as we will see on the next generation of supercomputers.
+
+Previous thesis work lays a starting foundation to build upon, but does not begin to provide a full solution for other groups to follow.
+%
+One significant hurdle in the Monte Carlo transport world is the necessary redesign for GPU hardware.
+%
+It is important for groups to not need to rewrite their entire applications, which can consist of hundreds of thousands of lines of code.
+%
+Codes like MCNP~\cite{goorley2012initial}~\cite{padovani2012mcnpx}, Mercury~\cite{brantley2013recent}, and even OpenMC~\cite{romano2015openmc}
+will all be faced with many decisions on how to progress into the future of computing.
+
+The OpenMC group has started looking into this problem through the use of mini applications, RSBench~\cite{tramm2014performance} and XSBench~\cite{tramm2014xsbench}. 
+%
+This approach allows groups to focus on the specific areas that are important to them and optimize an easier to manipulate application before attempting any changes on a full scale production application.
+%
+One of the major focuses of this work has been in the area of continuous energy cross section searches, since for a large number of their problems that functionality took \~85\% of their workload.
+
+As with many other groups the Mercury group at LLNL has also begun work on a mini application.
+%
+This application is different to RSBench and XSBench in multiple ways but most significantly it uses the multi group energy cross sections and emphasizes  many of the key areas of the Mercy production application.
+%
+This application will provide a begining point for redesign of the Mercury Monte Carlo code and allow for a rich research environment for the upcomming years.
+%
+
+I propose to work under the Mercury group on the Quicksilver mini application, in order to develop a scalable GPU version of the code in a way that can translate to direct modifications of the production application.
+%
+I will further explore the event versus history based dilemma under the Quicksilver application in order to understand the potential performance when compared to the much larger necissary redesign.
+%
+I also plan on exploring the potential for a hybrid event/history algorithm that might utilize the advantages of both when possible.
+%
+I also plan on using the data parallel primitive design scheme as well as some layer of abstraction to make my research portable to multiple architecture platforms.
+%
+Additionally, there are a number of optimizations, data structures, and smaller research problems to tackle along the path of development.
+%
+Finally, I plan on summarizing the results of my research through large scale testing on the Trinity MIC platform, as well as the not yet released Sierra NVIDIA Volta platform.
+
+The goal of this research will be to provide a concrete path forward for the Mercury team as well as provide a mini application that scales well on both of the competing top architectures at once.
+%
+This path involved many as of yet unanswered questions and a clear path of research for providing new an unique research to this field.
+
+
+
+
