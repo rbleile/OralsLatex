@@ -167,11 +167,50 @@ It supports programming at higher and lower levels, as required by the programme
 
 \subsection*{\textbf{VTK-m}}
 
+VTK-m arose as the joined collaborations of three separate groups at three separate national labs combining together and joining forces with Kitware, the owners of the current VTK (Visualization ToolKit) software.
+%
+Visualization applications use VTK in order to express visualization algorithms and data structures in their codes.
+%
+VTK-m came about from the three projects, EAVL, DAX, and PISTON, with the design goal of being a portable performance solution for visualization applications and algorithms.
+%
+
+The VTK-m framework takes the concepts of data parallel primitives and patterns generated from those primitives to provide a framework for accomplishing visualization algorithms.
+%
+By utilizing data parallel primitives that can be compiled for different platforms, VTK-m achieves portable performance.
+% 
 \cite{moreland2015vtk}
 \cite{moreland2014vtk}
 
-\subsubsection*{EAVL}
-\subsubsection*{PISTON} 
-\subsubsection*{Dax}  
-\cite{morelanddax}
-\cite{moreland2011dax}
+The contributions of the three projects to VTK-m are as follows.
+
+\begin{itemize}
+\item[EAVL] Provided a robust data model
+\item[DAX] Provided a model for parallel work dispatching
+\item[Piston] Provided many data parallel algorithms and implementations
+\end{itemize}
+
+\subsubsection*{\textbf{EAVL}}
+
+EAVL or the Extrame-scale Analysis and Visualization Library was developed with three goals in mind: Data Model -- "Expanding on traditional models to support current and forthcoming scientific data sets". Efficiency -- "Improve memory and algorithmic efficiency through the enhanced data model, and support stricter memory controls and accelerator device memory models". Scalability -- "Support distributed and data parallelism, and transparently target heterogeneous systems."
+~\cite{jeremyEAVL}
+
+\subsubsection*{\textbf{Dax}}
+
+Dax or Data Analysis at Extreme is a library developed to support fine grained concurrency for data analysis and visualization algorithms.
+%
+This toolkit provides a dispatcher that schedules worklets onto data.
+%
+The Dax toolkit simplifies the development of parallel visualization algorithms and provides a data parallel framework for scheduling and launching parallel jobs.
+~\cite{morelanddax}
+~\cite{moreland2011dax}
+
+\subsubsection*{\textbf{PISTON}} 
+
+The Portable Data-Parallel Visualization and Analysis Library, referred to as PISTON, is a cross-platform library that provides operations for scientific visualization and analysis.
+%
+These operations are preformed using data parallel primitives and the NVIDIA Thrust library.
+%
+PISTON uses Thrust to preform the data parallel operations and for its cross-platform compatibility.
+%
+PISTON adds useful algorithms for data visualization and analysis as well as an interface into the thrust calls.
+~\cite{PISTON}
