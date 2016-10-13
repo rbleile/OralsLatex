@@ -20,41 +20,150 @@ Given this wide array of possible architectures the value of portable performanc
 
 \subsection*{\textbf{OpenMP}}
 
-\cite{openmp}
-\cite{lee2009openmp}
+Parallelism through OpenMP is achieved through the use of compiler directives, library routines, and environmental variables.
+%
+These are used to specify the high level parallelism for programs using the Fortran and C/C++ languages.
+%
+These directives, routines and variables have been expanded to include methods to describe regions of code or data should be moved to another computing device, like an accelerator.~\cite{openmp}
+
+Lee et. al.~\cite{lee2009openmp} describe several advantages for using OpenMP as a programming paradigm for use on a GPGPU:
+\begin{itemize}
+\item "OpenMP is efficient at expressing loop-level parallelism in applications, which is an ideal target for utilizing GPU's highly parallel computing units to accelerate data-parallel computations.
+\item The concept of a master thread and a pool of worker threads in OpenMP's fork-join model represents well the relationship between the master thread running on the host CPU and a pool of threads in a GPU device.
+\item Incremental parallelization of applications, which is one of OpenMP's features, can add the same benefit to GPGPU programming."
+\end{itemize}~\cite{lee2009openmp}
+
+By including target device directives as well as other supporting features, OpenMP is able to utilize its experiences in parallel computing and offer a familiar solution to programmers who need to make new or existing algorithms and codes work for parallel CPUs, GPUs and more.
 \cite{ayguade2010extending}
 
 \subsection*{\textbf{OpenACC}}
 
+OpenACC enables the offloading of loops and regions of code onto accelerator devices.
+%
+The OpenACC API uses a host-directed model of execution where the main program runs on the host, or CPU, and the computational work is offloaded to a device accelerator, or GPU.
+%
+The OpenACC memory model outlines two memory spaces which do not automatically synchronize, requiring explicit synchronization calls between memory spaces.
+%
+OpenACC operates in a similar fashion to OpenMP by using compiler directives to define regions of code for their operations to effect.
 \cite{wienke2012openacc}
+
+OpenACC is designed to be portable.
+%
+Its directive based programming allow programmers to create high-level host+accelerator applications without needing to explicitly handle many of the extra aspects to working on an accelerator.
 \cite{openacc}
-\cite{wang2013performance}
+
+OpenACC has shown to be able to achieve reasonable performance on multiple platforms.
+%
+Wang et. al.~\cite{wang2013performance} performed a performance study showing that for some benchmarks the OpenACC version were able to achieve more than 82\% performance when compared with peak performance for both the Intel Knights Corner and NVIDIA Kepler architectures.
 
 \subsection*{\textbf{Thrust}}
 
-\cite{hoberock2008thrust}
+Thrust is a library of algorithms and data structures that can be used to provide an interface to parallel programming in order to increase a programmers productivity.
+%
+Thrust is designed similar to the standard template library, allowing programmers familiar with the C++ STL to feel instantly comfortable working in the thrust environment.
+%
+Through this design pattern Thrust has lowered the barrier to entry allowing access to GPU hardware and memory without the needed to interact with the CUDA API.
+%
 \cite{hoberock2010thrust}
+
+In addition to adding parallel algorithms, Thrust provides multiple compilable backend technologies that allow the programmer to write their algorithms using thrust and then compile them in CUDA, TBB, and OpenMP.
+%
+This offers up a wide array of portable solutions that programmers can take advantage of in order to much more easily write portable and performant applications.
+\cite{thrust}
+
+Thrust offers a variety of algorithms with significant performance advantages leading to real world performance gains.
+%
+Such as upwards of 32x performance gains over niave algorithm implementations of the fill algorithm on some hardware, and 2.7x performance gains with radix sort by utilizing only significant bits when possible.
+%
+These performance gains come for free when using a thrust algorithm to accomplish a data parallel task.
+%
+~\cite{bell2011thrust}
+
+In addition, thrust provides all of the main data parallel operations defined in Guy Blellochs work~\cite{blelloch1990vector}.
+%
+One method of achieving performance is to then rewrite an algorithm using data parallel primitives or algorithms and then use the existing Thrust methods to preform the operations.
 
 \subsection*{\textbf{RAJA}}
 
+The RAJA portability layer is designed to be a lightweight method of providing loop-level parallelism in existing codes.
+%
+The idea behind the design was that, especially at labs like LLNL, there are a large number of scientific code basis that will need to make some sort of transition in order to utilize upcoming architectures.
+%
+RAJA was designed to be able to replace curretly existing loops with with a wrapper loop to at first make no change or impact; but then
+%
+once the RAJA abstraction layer is in place, the loop can be changed to run on different architectures.
+%
 \cite{hornung2014raja}
 \cite{hornung2016raja}
 
+RAJA achieved their flexibility through macro replacements in the library.
+%
+By changing a compile time option the user can define if they want the OpenMP parallel launcher, a CUDA kernel launcher, or a serial launcher.
+%
+In this manner RAJA is a useful tool for generically replacing large numbers of parallel loops with a consistent theme that creates inlined parallel code for the compilers to optimize, instead of the large and sometimes convoluted template models.
+%
+\cite{hornung2014raja}
+\cite{hornung2016raja}
+
+In addition to providing a library, the RAJA group provided an idea for a second possible approach to portability.
+%
+RAJA like approaches involve custom macro definition to replace the variable portions of the code inline and offer the compiler the path it expects, while minimizing code redundancy when programming for multiple platforms.
+
 \subsection*{\textbf{Kokkos}}
 
+The Kokkos C++ library provides a programming model that enables performance portability accross devices.
+%
+The objective of the Kokkos library is to allow as much of the users code as possible to be compiled for different devices, while obtaining the same performance as a variant of the code that was written specifically for that device.
+%
+Kokkos uses the idea of execution and memory spaces to provide an abstraction to the problem.
+%
+In their model threads are said to execute in an execution space, while data resides within a memory space.
+%
+Then relationships are defined between the different execution and memory spaces.
+\cite{edwards2014kokkos}
+
+Parallelism in Kokkos comes from parallel execution patterns, data parallel and task parallel patterns are used.
+%
+The primary data parallel patterns are: parallel\_for, parallel\_reduce, and parallel\_scan.
+%
+The data parallel computational kernels are implemented as standard c++ functors.
+%
+
+The Kokkos abstraction layer has demonstrated performance of approximately 90\% of the performance of the optimized architecture specific versions for kernel tests and mini-applications.
+%
+Kokkos has demonstrated performance on Xeon, Xeon Phi, and Kepler architectures, showing the portability of this solution.
 \cite{edwards2014kokkos}
 \cite{edwards2012manycore}
 
 \subsection*{\textbf{Chapel}}
 
+Chapel is an object-oriented parallel programming language which was designed from first principles~\cite{sidelnik2012performance}.
+%
+Chapel was developed in order to improve the programmability and productivity on parallel machines.
+%
+DARPA's High Performance Computing Systems defines productivity as "a combination of of performance, programmability, portability, and robustness".
+~\cite{chamberlain2007parallel}
+%
+Chapel used this idea to make a global-view parallel language that uses a block-imperative programming style.
+%
+Chapel purposely avoided building on the C or Fortran languages in order to help programmers avoid falling back into sequential programming patterns.
+%
 \cite{chamberlain2007parallel}
-\cite{sidelnik2012performance}
+
+Chapel uses a code generation design to generate parallel C or CUDA code.
+%
+The Chapel language defines the parallelism and so can be used as the basis for optimized code generation on many different platforms.
+%
+Chapel uses this design to achieve portability and performance with their language.
+
 
 \subsection*{\textbf{VTK-m}}
 
 \cite{moreland2015vtk}
 \cite{moreland2014vtk}
 
-\subsubsection*{Dax} 
+\subsubsection*{EAVL}
+\subsubsection*{PISTON} 
+\subsubsection*{Dax}  
 \cite{morelanddax}
 \cite{moreland2011dax}
