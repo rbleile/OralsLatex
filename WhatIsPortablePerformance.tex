@@ -139,7 +139,7 @@ Kokkos has demonstrated performance on Xeon, Xeon Phi, and Kepler architectures,
 
 Chapel is an object-oriented parallel programming language which was designed from first principles~\cite{sidelnik2012performance}.
 %
-Chapel was developed in order to improve the programmability and productivity on parallel machines.
+Chapel was developed in order to improve the programmability and productivity of development on parallel machines.
 %
 DARPA's High Performance Computing Systems defines productivity as "a combination of of performance, programmability, portability, and robustness".
 ~\cite{chamberlain2007parallel}
@@ -155,6 +155,14 @@ Chapel uses a code generation design to generate parallel C or CUDA code.
 The Chapel language defines the parallelism and so can be used as the basis for optimized code generation on many different platforms.
 %
 Chapel uses this design to achieve portability and performance with their language.
+
+Chapel's design goal is to support any parallel algorithm that a programmer could conceive without the need to fall back to other parallel libraries.
+%
+Chapel supports concepts for describing parallelism separate from those used to describe locality.
+%
+It supports programming at higher and lower levels, as required by the programmer as well as advanced higher-level features such as data distributions or parallel loop schedules.
+%
+~\cite{bradchamberlain2013}
 
 
 \subsection*{\textbf{VTK-m}}
