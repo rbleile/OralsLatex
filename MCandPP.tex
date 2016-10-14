@@ -63,17 +63,16 @@ The event based algorithm is defined in Algorithm~\ref{alg:eventbased}.
 %
 The operations required to launch the event kernels are defined as follows and correspond to lines 6 and 7 of Algorithm~\ref{alg:eventbased}.
 %
-"
 \begin{itemize}
-\item[Step 1:] thrust::transform --- Fill out a stencil map of 1's and 0's of all particles doing event E (where each particle whose next event is E will get a 1 in the stencil map at its index location)
-\item[Step 2:] thrust::reduce --- Count the number of elements labeled 1 in the stencil (determines the number of particles that will perform event E)
-\item[Step 3:] Check if the number of elements is greater than 0 (check if any particles are performing event E)
-\item[Step 4:] thrust::exclusive\_scan --- generate indices for index mapping from stencil map (indices for each particle performing event E)
-\item[Step 5:] Allocate a new map of appropriate size (map to hold indices for all particles performing event E)
-\item[Step 6:] Scatter indexes from scan into new index map (reduces the exclusive\_scan generated indices into the map that holds only enough for particles performing event E)
-\item[Step 7:] Use new index map in permutation\_iterator loops over all particles (combining the index map with the permutation iterator allows loops over all particles to operate only on the particles selected in the index map)
+\item{[Step 1:]} thrust::transform --- Fill out a stencil map of 1's and 0's of all particles doing event E (where each particle whose next event is E will get a 1 in the stencil map at its index location)
+\item{[Step 2:]} thrust::reduce --- Count the number of elements labeled 1 in the stencil (determines the number of particles that will perform event E)
+\item{[Step 3:]} Check if the number of elements is greater than 0 (check if any particles are performing event E)
+\item{[Step 4:]} thrust::exclusive\_scan --- generate indices for index mapping from stencil map (indices for each particle performing event E)
+\item{[Step 5:]} Allocate a new map of appropriate size (map to hold indices for all particles performing event E)
+\item{[Step 6:]} Scatter indexes from scan into new index map (reduces the exclusive\_scan generated indices into the map that holds only enough for particles performing event E)
+\item{[Step 7:]} Use new index map in permutation\_iterator loops over all particles (combining the index map with the permutation iterator allows loops over all particles to operate only on the particles selected in the index map)
 \end{itemize}
-"~\cite{}
+~\cite{alpsmc1}
 %
 
 \begin{algorithm}
@@ -108,14 +107,13 @@ Thrust was chosen as the platform for implementing the data parallel operations,
 %
 The key design choice was that each operation can be done using data parallel primitives.
 %
- This study also use a direct CUDA implementation that launched kernels for the main events and used thrust for data management.
+This study also use a direct CUDA implementation that launched kernels for the main events and used Thrust for data management for comparison.
 
-
-The performance results from the initial implementation~\cite{} were varied, with the best CUDA version reaching about 12x and the thrust OpenMP version reaching 2.2x with 16 threads.
+The performance results from the initial implementation~\cite{alpsmc1} were varied, with the best CUDA version reaching about 12x and the thrust OpenMP version reaching 2.2x with 16 threads.
 %
 The optimized implementation discovered a few areas for improvement and achieved fairly significant results.
 %
-Table~\ref{tab:ALPSspeedup} shows the summary of ALPSMC speedup results.
+Table~\ref{tab:ALPSspeedup} shows the summary of ALPSMC speedup results~\cite{alpsmc2}.
 %
 
 \begin{table}
@@ -127,7 +125,7 @@ Method & Speedup\\
 \hline
 CUDA Event SOA & 31.32\\
 \hline
-CUDA History 52.78\\
+CUDA History & 52.78\\
 \hline
 Thrust Event CUDA SOA & 54.62\\
 \hline
@@ -139,18 +137,18 @@ Thrust Event OpenMP SOA & 5.54\\
 
 Through this experience we have demonstrated a few important points.
 %
-First we demonstrated excellent performance in both algorithms, achieving \~50x performance for both history and event based algorithms.
+First we demonstrated excellent performance in both algorithms, achieving \textasciitilde50x performance for both history and event based algorithms.
 %
-Additionally, this examples showed that using data parallel design and an abstraction layer -- in this case Thrust -- can preform just as well as when programmed in native CUDA under these circumstances. 
+Additionally, this examples showed that using data parallel design and an abstraction layer -- in this case Thrust -- can preform just as well as when programmed in native CUDA under some circumstances. 
 %
 Lastly, while the GPU performance is high the CPU performance is still lacking.
 %
 Figure~\ref{fig:OMPScale} shows that the OpenMP version scales well but it has a much higher overhead than the original serial version.
 
 \begin{figure}
-\label{fig:OMPScale}
 \includegraphics[width=0.49\textwidth]{thrustOMPSpeedup.pdf}
-\caption{Speedups versus number of particles for the event based Thrust CPU method with 1, 2, 4, 8, 16 OpenMP threads compared to the Thrust CPU method serially.~\cite{}}
+\caption{Speedups versus number of particles for the event based Thrust CPU method with 1, 2, 4, 8, 16 OpenMP threads compared to the Thrust CPU method serially.~\cite{alpsmc2}}
+\label{fig:OMPScale}
 \end{figure}
 
 All of these considerations lay a foundation for future study.
@@ -160,7 +158,7 @@ ALPSMC is a small test code that functions like a mini app to a larger applicati
 Since ALPSMC does simplify many of the complex parts of the Monte Carlo transport problem the actual speedups may not accurately reflect the final performance possibilities of a more fully featured Monte Carlo transport code.
 %
 
-\subsection{Proposal}
+\subsection{\textbf{Proposal}}
 
 This survey has outlined the long history of Monte Carlo transport applications and research.
 %
@@ -183,7 +181,7 @@ The OpenMC group has started looking into this problem through the use of mini a
 %
 This approach allows groups to focus on the specific areas that are important to them and optimize an easier to manipulate application before attempting any changes on a full scale production application.
 %
-One of the major focuses of this work has been in the area of continuous energy cross section searches, since for a large number of their problems that functionality took \~85\% of their workload.
+One of the major focuses of this work has been in the area of continuous energy cross section searches, since for a large number of their problems that functionality took \textasciitilde85\% of their workload.
 
 As with many other groups the Mercury group at LLNL has also begun work on a mini application.
 %

@@ -17,6 +17,13 @@ Given this wide array of possible architectures the value of portable performanc
 
 \subsection{ \textbf{Abstraction Layers}}
 
+Abstraction layers are the method many use to achieve portable performance.
+%
+The key idea behind an abstraction layer is to hide the complexity of parallelism behind an abstraction.
+%
+Then the abstraction can handle how to parallelize a given section onto separate hardware architecture platforms.
+%
+Following are a list of the most known abstraction layers with a summary of their benefits and goals.
 
 \subsection*{\textbf{OpenMP}}
 
@@ -28,10 +35,10 @@ These directives, routines and variables have been expanded to include methods t
 
 Lee et. al.~\cite{lee2009openmp} describe several advantages for using OpenMP as a programming paradigm for use on a GPGPU:
 \begin{itemize}
-\item "OpenMP is efficient at expressing loop-level parallelism in applications, which is an ideal target for utilizing GPU's highly parallel computing units to accelerate data-parallel computations.
-\item The concept of a master thread and a pool of worker threads in OpenMP's fork-join model represents well the relationship between the master thread running on the host CPU and a pool of threads in a GPU device.
-\item Incremental parallelization of applications, which is one of OpenMP's features, can add the same benefit to GPGPU programming."
-\end{itemize}~\cite{lee2009openmp}
+\item "OpenMP is efficient at expressing loop-level parallelism in applications, which is an ideal target for utilizing GPU's highly parallel computing units to accelerate data-parallel computations."
+\item "The concept of a master thread and a pool of worker threads in OpenMP's fork-join model represents well the relationship between the master thread running on the host CPU and a pool of threads in a GPU device."
+\item "Incremental parallelization of applications, which is one of OpenMP's features, can add the same benefit to GPGPU programming."~\cite{lee2009openmp}
+\end{itemize}
 
 By including target device directives as well as other supporting features, OpenMP is able to utilize its experiences in parallel computing and offer a familiar solution to programmers who need to make new or existing algorithms and codes work for parallel CPUs, GPUs and more.
 \cite{ayguade2010extending}
@@ -79,7 +86,7 @@ These performance gains come for free when using a thrust algorithm to accomplis
 %
 ~\cite{bell2011thrust}
 
-In addition, thrust provides all of the main data parallel operations defined in Guy Blellochs work~\cite{blelloch1990vector}.
+In addition, thrust provides all of the main data parallel operations defined in Guy Blelloch's work~\cite{blelloch1990vector}.
 %
 One method of achieving performance is to then rewrite an algorithm using data parallel primitives or algorithms and then use the existing Thrust methods to preform the operations.
 
@@ -167,7 +174,7 @@ It supports programming at higher and lower levels, as required by the programme
 
 \subsection*{\textbf{VTK-m}}
 
-VTK-m arose as the joined collaborations of three separate groups at three separate national labs combining together and joining forces with Kitware, the owners of the current VTK (Visualization ToolKit) software.
+VTK-m arose as the joined collaborations of three separate groups at three separate national labs comming together and joining forces with Kitware, the owners of the current VTK (Visualization ToolKit) software.
 %
 Visualization applications use VTK in order to express visualization algorithms and data structures in their codes.
 %
@@ -212,5 +219,5 @@ These operations are preformed using data parallel primitives and the NVIDIA Thr
 %
 PISTON uses Thrust to preform the data parallel operations and for its cross-platform compatibility.
 %
-PISTON adds useful algorithms for data visualization and analysis as well as an interface into the thrust calls.
+PISTON adds useful algorithms for data visualization and analysis as well as an interface into the Thrust calls.
 ~\cite{PISTON}

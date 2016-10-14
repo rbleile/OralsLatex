@@ -6,7 +6,7 @@ It will begin by comparing and contrasting different approaches by evaluating a 
 %
 Following will be an evaluation of the effectiveness of the approaches for the range of problems being addressed.
 %
-As a side note it is important to notice that I will be reporting speedups as reported by each paper on the hardware they were using at the time of their study.
+As a side note it is important to notice that I will be reporting speedups as reported by each paper on the hardware they were using at the time of their study; the GPU hardware has changed in computing power dramatically over the last ten years in terms of performance and additional features.
 
 \subsection*{ \textbf{Accuracy:} }
 
@@ -20,7 +20,7 @@ There are three key areas of accuracy that we will look at with these studies, b
 %
 
 %
-It was common that in early GPU computing when double floating point precision was not supported or supported well that people started thinking about GPU computing as not being accurate enough for their needs.
+It was common that in early GPU computing, when double floating point precision was not supported or supported well, that people started thinking about GPU computing as not being accurate enough for their needs.
 %
 Many early attempts at GPU computing includes discussions of accuracy in order to validate the correctness of their results.
 %
@@ -46,7 +46,7 @@ This concern can be explained by understanding how floating-point math is accomp
 %
 There are two main reasons that differences arise.
 %
-The first is that floating point mathematical operations that are done in a different order might produce a different result and sue to the nature of parallel computing often you cannot know or guarantee the order a set of calculations will be preformed in.
+The first is that floating point mathematical operations that are done in a different order might produce a different result and due to the nature of parallel computing often you cannot know or guarantee the order a set of calculations will be preformed in.
 %
 The second reason is that modern day CPUs using x86 processors preform math internally on 80bit registers while a GPU does it on 32 bit (single precision) or 64 bit (double precision) registers.
 %
@@ -227,7 +227,7 @@ I also think that this method might end up showing the same characteristics of t
 
 A second possibly more obvious method to escape the divergence issue is to switch particle tracking algorithms more dramatically from a history based version to an event based version.
 %
-We will have a discussion of this further in the Section on event based algorithms later in this paper.
+We will have a discussion of this further in Section~\ref{sec:EventBased} later in this paper.
 %
 Event based approaches require much more work then simply transforming an existing code to use the history based version on the GPU.
 %
@@ -235,9 +235,9 @@ And as Du et al discovered in their attempt at a event based Monte Carlo version
 
 \subsubsection*{\textbf{Voxelization Approaches}}
 
-This method was used as for comparison on the GPUs.
+This method was used for comparison on the GPUs.
 %
-Voxelization of a geometry was done for each voxel and this process involved: ray-stabbing number counted on the GPU and then a parity-counting method was run on the CPU to detect if the voxel was inside the mesh surface~\cite{na2010deformable}.
+Voxelization of a geometry was done for each voxel and this process involved: ray-stabbing numbers counted on the GPU and then a parity-counting method was run on the CPU to detect if the voxel was inside the mesh surface~\cite{na2010deformable}.
 %
 This method contained no divergence since all threads follow the exact same code paths.
 %
@@ -245,7 +245,7 @@ This process is often done to voxelize geometries for before Monte Carlo codes c
 %
 Doing this algorithm with no divergence produces a 45.5x speedup on the GPU over the CPU.
 %
-This example was shows in Ding et al.'s evaluation report~\cite{ding2011evaluation} in order to show the performance of the same GPU on different aspects related to Monte Carlo transport.
+This example is in Ding et al.'s evaluation report~\cite{ding2011evaluation} in order to show the performance of the same GPU on different aspects related to Monte Carlo transport.
 
 \subsection*{ \textbf{Evaluation:}}
 

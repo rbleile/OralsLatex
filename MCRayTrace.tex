@@ -1,14 +1,14 @@
-\subsection{Monte Carlo and Ray Tracking}
+\subsection{\textbf{Monte Carlo and Ray Tracking}}
 
 One important and often computationally expensive aspect of Monte Carlo transport is the step that determines if the particle will collide with any background geometry, or at least cross into a different material zone.
 %
 This is done in a very similar way to the visualization technique known as ray tracing.
 %
-Ray racing is a technique in computer graphics for "generating an image by tracing the path of light through pixels in an image plane and simulating the effects of its encounters with virtual objects"~\cite{wikipediaRayTracing}.
+Ray tracing is a technique in computer graphics for "generating an image by tracing the path of light through pixels in an image plane and simulating the effects of its encounters with virtual objects"~\cite{wikipediaRayTracing}.
 
 The general process of ray tracing is very similar to Monte Carlo transport in the need to do many intersection tests and from potentially scattered sources.
 %
-Bergmann decided to study the potential of using the power of a highly optimized GPU library, OptiX~\cite{bergmann2014development}.
+Bergmann decided to study the potential of using the power of a highly optimized GPU ray tracing library, OptiX~\cite{2014development}.
 %
 OptiX is a scalable framework for building ray tracing applications~\cite{optixProgrammingGuide}~\cite{parker2010optix}.
 
@@ -17,7 +17,7 @@ The first study conducted was to determine the optimum configuration for OptiX a
 %
 When using a ray tracing library it is important to consider the two areas that can scale: the number of concurrently traced rays and the number of geometrical objects in the scene.
 %
-Since nuclear reactor simulations might contain thousands of material zones in complex geometric layouts; knowing this last scaling parameter is especially important to not overlook.~\cite{bergmann2014development}.
+Since nuclear reactor simulations might contain thousands of material zones in complex geometric layouts; knowing this last scaling parameter is especially important to not overlook~\cite{2014development}.
 %
  In these studies after reaching $10^6$ particles the rates became fairly consistent.
  %

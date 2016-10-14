@@ -119,13 +119,13 @@ Procs & Time (sec) & Speedup & Efficiency \\
 \end{center}
 \end{table}
 
-More modern systems utilize shared memory ideas as well, with a majority of the scientific efforts utilizing openMP threading models for shared memory processing.
+More modern systems utilize shared memory ideas as well, with a majority of the scientific efforts utilizing OpenMP threading models for shared memory processing.
 %
 Often this model is overlooked in preference of distributed computing via MPI but that is not always the case.
 %
-Given an all particle method, openMP codes tend to scale incredibly well with the only draw backs having to do with those few areas requiring atomic operations.
+Given an all particle method, OpenMP codes tend to scale incredibly well with the only draw backs having to do with those few areas requiring atomic operations.
 %
-With, in my experience, an nearly perfect efficiency on a node, in the case of no atomic operations and plenty of work.
+With a nearly perfect efficiency on a node, in the case of no atomic operations and plenty of work.
 
 \subsection*{ \textbf{Distributed Memory Performance}}
 
@@ -145,7 +145,7 @@ Since each particle history is independent of any other particle histories and c
 %
 The only complications we normally see when we move to the distributed memory systems is that we often use domain decomposition which increases the complexity and use of the message passing interface.
 %
-We will discuss the domain decomposition challenges in the load balance section under state of the art research.
+We will discuss the domain decomposition challenges in the load balance sub-section to follow.
 %
 
 %
@@ -186,7 +186,7 @@ Utilizing MPI for node to node communication and OpenMP for on node parallelism~
 %
 Yang has recently shown that the MPI+OpenMP model has benefits of achieving the nearly perfect parallel efficiency one would expect as well as significantly decreasing the memory overhead to an equivalent MPI only implementation.
 %
-He was able to show 82-84\% parallel efficiencies and a decrease in memory cost from \~1.4GB to \~200MB for 8 processors~\cite{yanghybrid}.
+He was able to show 82-84\% parallel efficiencies and a decrease in memory cost from \textasciitilde1.4GB to \textasciitilde200MB for 8 processors~\cite{yanghybrid}.
 %
 Majumdar shows that with 16 nodes and 8 OpenMP threads per node, he was able to achieve a 95\% parallel efficiency which is an improvement over the his MPI only methods 88\% parallel efficiency~\cite{majumdar2000parallel}. 
 %

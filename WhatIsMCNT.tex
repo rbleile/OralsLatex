@@ -7,9 +7,9 @@
 - Stan Ulam 1983 ~\cite{theMCM}
 \end{displayquote}
 
-John von Neumann became interested in Stan Ulams idea and was outlined in detail how to solve the neutron diffusion and multiplication problems in fission devices.
+John von Neumann became interested in Stan Ulams idea and outlined in detail how to solve the neutron diffusion and multiplication problems in fission devices.
 %
-Since this time Monte Carlo methods have continued to be a primary way for solving many questions in Neutron transport. ~\cite{theMCM}
+Since this time Monte Carlo methods have continued to be a primary way for solving many questions in neutron transport. ~\cite{theMCM}
 %
 
 \subsection{ \textbf{ Definition} }
@@ -58,7 +58,7 @@ $$
 \chi (E) \int _{E'} \nu (E') \Sigma_{f} (\vec{r},E') \int _{\Omega '} \Psi ( \vec{r}, E, \Omega, t ) d \Omega ' dE'\ +\ $$
 $$
 S_ext(\vec{r}, E, \Omega, t )
-$$ ~\cite{gentileMCPTAPO}
+$$
 %
 where $ \Psi ( \vec{r}, E, \Omega, t ) $ is angular flux, 
 $\Sigma_a (\vec{r}, E )$ is the macroscopic cross section for particle absorption, 
@@ -81,7 +81,7 @@ Algorithm~\ref{alg:historybased} shows the history based approach for a simple r
 %
 Algorithm~\ref{alg:mcmethod} shows the outer most scope of a Monte Carlo Problem for referencing where different optimizations or stages occur.
 %
-For example in Algorithm~\ref{alg:historybased} this takes place inside the Cycle Loop and shows only the steps for Cycle Tracking.
+For example Algorithm~\ref{alg:historybased} takes place inside the Cycle loop of Alogrithm~\ref{alg:mcmethod} and shows only the steps for Cycle Tracking.
 
 \begin{algorithm}
 \DontPrintSemicolon

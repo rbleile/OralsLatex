@@ -1,4 +1,5 @@
-\subsection{Event Based Techniques}
+\subsection{\textbf{Event Based Techniques}}
+\label{sec:EventBased}
 
 Much discussion has been aimed at the negative affect divergence in Monte Carlo codes has on  performance.
 %
@@ -21,7 +22,7 @@ In the event-based approach particles are processed in groups that are performin
 There are multiple variations to this idea and a few of those are presented here.
 %
 
-\subsection*{Vectorized Algorithm}
+\subsection*{\textbf{Vectorized Algorithm}}
 
 %
 Early event based algorithms were designed for vector machines and were called vectorized algorithms.
@@ -95,10 +96,10 @@ There are many variations but the principal differences all depend on the method
 %
 There are variations using stack, tags, and tasks.
 %
-The major downside to the event based approach is that is requires a large change to the source code.
+The major downside to the event based approach is that is requires a large change to pre-existing source code.
 %
 
-\subsection*{Event Based for GPU}
+\subsection*{\textbf{Event Based for GPU}}
 
 %
 Event based methods used for the GPU follow similar design patterns as those that were developed for vector machines.
@@ -111,20 +112,20 @@ Figure~\ref{fig:outerLoopWARP} outlines the outer transport loop between neutron
 %
 
 \begin{figure}
-\label{fig:innerLoopWARP}
 \includegraphics[width=0.49\textwidth]{InnerLoopWARP}
 \caption{WAP inner tranport loop that is executed until all neutrons in a batch are completed~\cite{2014development}}
+\label{fig:innerLoopWARP}
 \end{figure}
 
 \begin{figure}
-\label{fig:outerLoopWARP}
 \includegraphics[width=0.49\textwidth]{OuterLoopWARP}
 \caption{WAP inner tranport loop that is executed until all neutrons in a batch are completed~\cite{2014development}}
+\label{fig:outerLoopWARP}
 \end{figure}
 
 Bergmann's event based Monte Carlo code WARP~\cite{2014development} utilizes a series of kernels that each solves one piece of the process.
 %
-Once the each neutron knows which path it will go down -- i.e. scattering, fission, etc. -- each of those possible paths is launched in a seperate kernel.
+Once each neutron knows which path it will go down -- i.e. scattering, fission, etc. -- each of those possible paths is launched in a separate kernel.
 %
 Unlike the basic vectorized approach or the stack based approach however, all of the events are launched at once using concurrent kernels due to CUDA streaming properties.
 %
@@ -134,7 +135,7 @@ Not all attempts at vectorization, or implementing an event based algorithm for 
 %
 Liu~\cite{liu2014comparative} describes an event based approach that after being implemented produced a roughly ten times slower version then the history based code.
 %
-This example shows how complicated the task of implementing an event-based algorithm can be, and that it is possible as well that not al Monte Carlo transport problems can be solved efficiently in an event-based fashion.
+This example shows how complicated the task of implementing an event-based algorithm can be, and that it is possible as well that not all Monte Carlo transport problems can be solved efficiently in an event-based fashion.
 %
 Liu attributed their slow down to the memory access latency due to the high amount of global memory transactions and showed that the cost of this in an event based method did not outweigh the benefit of reducing thread divergence and increasing warp execution efficiency.
 
