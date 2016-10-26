@@ -12,7 +12,7 @@ As a side note it is important to notice that I will be reporting speedups as re
 
 One of the first considerations the scientific community has when being introduced to a new computing platform is what levels of accuracy can they achieve with their simulation codes.
 %
-Since the change from CPU to GPU computing brings a completely different hardware design it is important to understand how that design might affect the accuracy of any caluclations it is preforming.
+Since the change from CPU to GPU computing brings a completely different hardware design it is important to understand how that design might affect the accuracy of any calculations it is performing.
 %
 This concern was especially important in the early days of GPU computing when double precision was not supported and often even single precision answers would provide slightly different results.
 %
@@ -27,7 +27,7 @@ Many early attempts at GPU computing includes discussions of accuracy in order t
 While modern GPGPUs support double precision much better than before making much of the worry irrelevant, it is still important to consider the accuracy of a method that runs on a new hardware and may use a new algorithm.
 %
 
-\subsubsection*{\textbf{Floating Point Accuracy} }
+\subsubsection*{\textbf{Floating Point Accuracy}}
 
 One of the primary concerns of the early GPU studies involved understanding the limits of floating point arithmetic on the GPU architecture.
 %
@@ -38,36 +38,36 @@ In older GPU hardware there was no support for double precision in the hardware 
 In modern GPU hardware 64 bit double precision is becoming increasingly better supported and in the GPGPU cards there are dedicated double precision units and all of the necessary hardware changes required to include them.
 %
 
-\subsubsection*{\textbf{Differences Between CPU and GPU results} }
+\subsubsection*{\textbf{Differences Between CPU and GPU results}}
 
-More then the differences between single and double precision are also a concern for differences between the results that arise when using the same precision.
+Of larger concern than the differences between single and double precision, are differences in results that arise when using the same precision.
 %
 This concern can be explained by understanding how floating-point math is accomplished on a computer~\cite{goldberg1991every}.
 %
 There are two main reasons that differences arise.
 %
-The first is that floating point mathematical operations that are done in a different order might produce a different result and due to the nature of parallel computing often you cannot know or guarantee the order a set of calculations will be preformed in.
+The first is that floating point mathematical operations that are done in a different order might produce a different result and due to the nature of parallel computing often you cannot know or guarantee the order a set of calculations will be performed in.
 %
-The second reason is that modern day CPUs using x86 processors preform math internally on 80bit registers while a GPU does it on 32 bit (single precision) or 64 bit (double precision) registers.
+The second reason is that modern day CPUs using x86 processors perform math internally on 80bit registers while a GPU does it on 32 bit (single precision) or 64 bit (double precision) registers.
 %
-Because of this each math operation on a CPU might stay in registers and only be rounded down to 64 bits when it is saved to memory.
+Because of this, each math operation on a CPU might stay in registers and only be rounded down to 64 bits when it is saved to memory.
 %
 
 %
-Jia et. al ~\cite{jia2010development} showed that in their development of a Mont Carlo dose calculation code they could achieve speedups of 5 to 6.6 times their CPU version while maintaining within 1\% of the dosing for more then 98\% of the calculation points.
+Jia et. al ~\cite{jia2010development} showed that in their development of a Mont Carlo dose calculation code they could achieve speedups of 5 to 6.6 times their CPU version while maintaining within 1\% of the dosing for more than 98\% of the calculation points.
 %
 They considered this adequate accuracy to consider using GPUs for doing these computations.
 %
 Yepes et. al~\cite{yepes2010gpu} also considered accuracy in their assessment of their GPU implementation.
 %
-They concluded that in term of accuracy there was a good agreement between the dose distributions calculated with each version they ran, the largest discrepencies being only $\sim$3\%, and so they could run the GPU version as accurately as any general-purpose Monte Carlo program.
+They concluded that in term of accuracy there was a good agreement between the dose distributions calculated with each version they ran, the largest discrepancies being only $\sim$3\%, and so they could run the GPU version as accurately as any general-purpose Monte Carlo program.
 %
 As these two groups have shown this amount of error is often very small and over the entire course of the simulation only brings 1-3\% errors.
 
 \subsubsection*{ \textbf{IEE-754 Compliance} }
 Nelson discussed accuracy in his thesis work~\cite{nelson2009monte}, stating that during the time of his work the floating-point arithmetic accuracy was not fully IEEE-754 compliant which opens the question of accuracy without a more fully featured test. 
 %
-Additionally, since NVIDIA as complete control over the implementation of floating point calculations on their GPUs their may be differences between generations that mitigate the usefulness of an accuracy study on one generation of hardware.
+Additionally, since NVIDIA has complete control over the implementation of floating point calculations on their GPUs there may be differences between generations that mitigate the usefulness of an accuracy study on one generation of hardware.
 %
 Current generations of the NVIDIA GPU hardware are IEE-754 compliant however. 
 %
@@ -84,7 +84,7 @@ Given the change in supercomputing designs these comparisons have become increas
 %
 
 %
-Often, performance is compared to the hardware maximmums such as peak of FLOPS or Memory Bandwidth.
+Often, performance is compared to the hardware maximums such as peak of FLOPS or Memory Bandwidth.
 %
 It is often assumed that an increase in available FLOPS will translate directly into incredible performance gains.
 %
@@ -98,14 +98,14 @@ Because of this comparing current performance with that of peak performance is o
 %
 The following discussions show the relative performances of Monte Carlo transport applications that underwent their initial transformations or studies to use the GPU hardware.
 %
-We will not see he 100x performance that is often sought after, but instead we can understand the impact that each applications problem, algorithms, and implementation differences had on the performance as a whole.
+We will not see the 100x performance that is often sought after, but instead we can understand the impact that each applications problem, algorithms, and implementation differences had on the performance as a whole.
 %
 
 \subsubsection*{\textbf{Photon Transport}}
 %
 Badal and Badano~\cite{badal2009accelerating} present work on photon transport in a voxelized geometry showing results around 27X over a single core CPU.
 %
-Their work emphasizes simply using GPUs instead of CPUs and the advanatage as GPUs continue to increase in performance faster than CPUs.
+Their work emphasizes simply using GPUs instead of CPUs and the advantage as GPUs continue to increase in performance faster than CPUs.
 %
 
 \subsubsection*{\textbf{Neutron Transport}}
@@ -193,7 +193,7 @@ First each tracked particle or quantum of radiation is given to a block of threa
 %
 Then calculations are performed for one particle on each block of threads.
 %
-For example the particle intersection tests with the background geometry can be preformed in parallel on those threads for each piece of geometry that particle might be able to collide with.
+For example the particle intersection tests with the background geometry can be performed in parallel on those threads for each piece of geometry that particle might be able to collide with.
 %
 Areas where these parallel instructions can be utilized within a particles calculation are then used by the threads in a block computing for that particle.
 %

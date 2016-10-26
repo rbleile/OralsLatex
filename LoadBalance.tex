@@ -17,28 +17,28 @@ In many applications there is at least one portion of the calculation that must 
 %
 If one processor has more work than any other all of the others must wait for that processor to complete its work~\cite{procassini2005load}~\cite{o2005dynamic}.
 %
-This load-imbalance can cause significant issues with scalability as paralleism is increased from hundreds to millions of processors ~\cite{o2013scalable}.
+This load-imbalance can cause significant issues with scalability as parallelism is increased from hundreds to millions of processors ~\cite{o2013scalable}.
 %
 
 \subsection*{When to Load balance}
 
 %
-One key consideration when wanting to preform a load balance calculation is to understand the cost of preforming that calculation as well.
+One key consideration when wanting to perform a load balance calculation is to understand the cost of performing that calculation as well.
 %
 If too much time is spent making sure the problem is always perfectly load balanced then computational resources are being wasted on a non-essential calculation resulting is overall slower performance.
 %
 However, if too little resources are devoted to load-balancing than the problem will suffer from load-imbalance and the negative effects that entails.
 %
-One solution is to preform load balance at the start of each cycle or iteration of a Monte Carlo transport calculation but only when that load balance will result in a faster overall calculation~\cite{o2005dynamic}.
+One solution is to perform load balance at the start of each cycle or iteration of a Monte Carlo transport calculation but only when that load balance will result in a faster overall calculation~\cite{o2005dynamic}.
 %
 
 An algorithm to determine when to load balance was explained in references~\cite{procassini2005load}~\cite{o2005dynamic} where the following criterion could be checked inexpensively each cycle to determine if a load-balance operation should take place.
 %
 First, is to compute a speedup factor by comparing current parallel efficiency ($ \varepsilon_C $) to what parallel efficiency would be if processors were to redistribute their load ($ \varepsilon_{LB} $).
 %
-Second, is to predict the run time by using the time to execute the previous cycle($ \tau_{Phys} $), the speedup factor($S$), and finally the time to compute the load balance itself($ \tau_{LB} $).
+Second, is to predict the run time by using the time to execute the previous cycle($ \tau_{Phys} $), the speedup factor($S$), and finally, the time to compute the load balance itself($ \tau_{LB} $).
 %
-Finally ,is to compare the predicted run with and without load balancing to determine if the operation is worth while.~\cite{o2005dynamic}
+Finally, is to compare the predicted run with and without load balancing to determine if the operation is worthwhile.~\cite{o2005dynamic}
 
 
 \begin{eqnarray}
@@ -52,14 +52,14 @@ if\ (\tau^{'} < 0.9 \cdot \tau \ )\ DynamicLoadBalance();
 
 As an extension to the domain decomposition of meshes, O'Brien and Joy demonstrated an algorithm to domain decompose Constructive Solid Geometry (CSG) in a Monte Carlo transport code.
 %
-One key difference between mesh and CSG geometries is that mesh geometries contain a description of cell connectivity where as cells defined though CSG does not.
+One key difference between mesh and CSG geometries is that mesh geometries contain a description of cell connectivity whereas cells defined through CSG does not.
 %
 In order to domain decompose these CSG cells, each cell was given a bounding box; since each domain is also a box, a test for if a cell belongs inside a domain becomes an axis-aligned box-box intersection test.~\cite{o2009domain}
 %
 
 In addition to pure mesh and pure CSG problems other combinations might be useful, such as the combination of mesh and CSG problems where there are large-scale heterogeneous and homogeneous regions.
 %
-In this method a mesh region is embedded inside a CSG region allowing for the use of each in whichever region one or the other is more optimal.
+In this method, a mesh region is embedded inside a CSG region allowing for the use of each in whichever region one or the other is more optimal.
 ~\cite{greenman2009enhancements}
 
 \subsection*{Load Balance at Scale}
@@ -67,14 +67,14 @@ In this method a mesh region is embedded inside a CSG region allowing for the us
 %
 When load balancing massively parallel computers it is unscalable to need to examine the workload of every processor.
 %
-O'Brien, Brantley and Joy present their scalable load balancing algorithm that runs in $\Theta ( log ( N ) )$ by using iterative processor-pair-wise balancing steps that will ultimitely lead to a balanced workload.
+O'Brien, Brantley and Joy present their scalable load balancing algorithm that runs in $\Theta ( log ( N ) )$ by using iterative processor-pair-wise balancing steps that will ultimately lead to a balanced workload.
 %
 Their algorithm shows remarkable ability to load balance and is demonstrated up to 2 million processors on the Sequoia supercomputer at Lawrence Livermore National Laboratory.
 ~\cite{o2013scalable}
 %
 
 %
-The pair-wise load balancing scheme maintained a high efficiency; with the load-balanced runs maintaining efficiencies of 95\% at 2 million processors while the not load-balanced runs continuously drops to around 68\% efficiency at 2 million processors.
+The pair-wise load balancing scheme maintained a high efficiency; with the load-balanced runs maintaining efficiencies of 95\% at 2 million processors while the not load-balanced runs continuously drop to around 68\% efficiency at 2 million processors.
 %
 In addition the load-balanced version is able to maintain near perfect scaling up to 2 million processors.
 %

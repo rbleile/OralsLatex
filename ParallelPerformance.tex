@@ -160,15 +160,17 @@ In an all particle code, Mercury at LLNL, we can see parallel efficiencies of 80
 \subsection*{ \textbf{Distributed + Shared Memory Performance}}
 
 %
-Given the heterogenous nature of todays computing environment, and even in the fairly homogenous environment we are leaving, it is a common next step to consider combining distributed and shared memory parallel schemes.
+Given the heterogenous nature of today's computing environment, and even in the fairly homogenous environment we are leaving, it is a common next step to consider combining distributed and shared memory parallel schemes.
 %
 It seems an obvious extension to either of these models to add the other.
 %
 Shared memory parallelism exists on a node or on one of the new accelerator devices.
 %
-Distributed memory parallelism provides the opportunity for scaling to large supercomputers or clusters, giving you many nodes to work with.
+Distributed memory parallelism provides the opportunity for scaling to large supercomputers or clusters, giving users many nodes to work with.
 %
-Given the nature of these two models it is surprising how often the additional extension of combining them is not done as most often shared memory models are overlooked in favor of distributed models, and since the distributed model works "well enough" even with in a node, it is often not worth the effort to try to combine these two methods.
+Given the nature of these two models it is surprising how often the additional extension of combining them is not done as most often. 
+%
+Shared memory models are overlooked in favor of distributed models, and since the distributed model works "well enough" even within a node, it is often not worth the effort to try to combine these two methods.
 %
 This is no longer going to be true when we start adding accelerators and many people have found benefits of combining these models anyways.
 %
@@ -188,5 +190,5 @@ Yang has recently shown that the MPI+OpenMP model has benefits of achieving the 
 %
 He was able to show 82-84\% parallel efficiencies and a decrease in memory cost from \textasciitilde1.4GB to \textasciitilde200MB for 8 processors~\cite{yanghybrid}.
 %
-Majumdar shows that with 16 nodes and 8 OpenMP threads per node, he was able to achieve a 95\% parallel efficiency which is an improvement over the his MPI only methods 88\% parallel efficiency~\cite{majumdar2000parallel}. 
+Majumdar shows that with 16 nodes and 8 OpenMP threads per node, he was able to achieve a 95\% parallel efficiency which is an improvement over his MPI only methods 88\% parallel efficiency~\cite{majumdar2000parallel}. 
 %
