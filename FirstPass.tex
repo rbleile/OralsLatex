@@ -116,7 +116,7 @@ His work solving neutron transport considered multiple models for running the pr
 %
 The model that produced his best results shows 19.37X from a 49,152 neutrons per batch run for single precision.
 %
-The same model shows 23.91X when using single precision and fast math,
+The same model shows 23.91X when using single precision and fast math.
 %
 For double precision performance the model labeled model four had the fastest speedups with 11.21X and 12.66X with fast math.
 %
@@ -166,7 +166,7 @@ In this section we see a wide range in performances, from as low as 5x to as hig
 %
 While simplifications played a large role in the 75x algorithm we do see a full monte carlo application achieving speeds of 35x in the case of the work by Tickner~\cite{tickner2010monte}.
 %
-I think that is important to note that while some of the differences in performance are due to the nature of each problem being solved, the algorithmic choices made can have a significant impact on the GPU implementations.
+I think that it important to note that while some of the differences in performance are due to the nature of each problem being solved, the algorithmic choices made can have a significant impact on the GPU implementations.
 %
 
 \subsection*{Algorithms:}
@@ -198,7 +198,7 @@ For example the particle intersection tests with the background geometry can be 
 Areas where these parallel instructions can be utilized within a particles calculation are then used by the threads in a block computing for that particle.
 %
 
-This particle-per-block technique has shows promise as an effective way to counteract the divergence issue.
+This particle-per-block technique has shown promise as an effective way to counteract the divergence issue.
 %
 Particles often diverge quite quickly from one another in the code paths they follow.
 %
