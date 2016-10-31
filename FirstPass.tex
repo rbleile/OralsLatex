@@ -54,7 +54,7 @@ Because of this, each math operation on a CPU might stay in registers and only b
 %
 
 %
-Jia et. al ~\cite{jia2010development} showed that in their development of a Mont Carlo dose calculation code they could achieve speedups of 5 to 6.6 times their CPU version while maintaining within 1\% of the dosing for more than 98\% of the calculation points.
+Jia et. al ~\cite{jia2010development} showed that in their development of a Monte Carlo dose calculation code they could achieve speedups of 5 to 6.6 times their CPU version while maintaining within 1\% of the dosing for more than 98\% of the calculation points.
 %
 They considered this adequate accuracy to consider using GPUs for doing these computations.
 %
@@ -78,7 +78,7 @@ In order to address issues of floating point accuracy they have even included a 
 
 A second factor that is important to people making their first pass at GPU Monte Carlo is performance.
 %
-Most early GPU studies emphasize the speedups between CPU and GPU as the primary advantage for moving over to the GPU hardware.
+Most early GPU studies emphasize the speedups between CPUs and GPUs as the primary advantage for moving over to the GPU hardware.
 %
 Given the change in supercomputing designs these comparisons have become increasingly more important.
 %
@@ -173,7 +173,7 @@ I think that it important to note that while some of the differences in performa
 
 Based on the performance studies we have just seen, it is important to highlight the algorithmic approaches that were taken so that we can understand the performances of each approach.
 %
-If we can clearly find algorithms that show positive performance results than other codes can implement them for potential gain.
+If we can clearly find algorithms that show positive performance results, than other codes can implement them for potential gain.
 %
 In this section we are going to look closely at a few of the important or interesting algorithms we have seen attempted.
 %
@@ -212,7 +212,7 @@ Additionally this method introduces new areas of parallelism that are not otherw
 %
 This method however, does not take full advantage of the parallelism in the hardware like those methods that do not mind the divergence do.
 %
-Many threads can execute simultaneously at once within a block and only groupings of 32 threads are held in a WARP forced into the lockstep pattern that causes potential slowdowns.
+Many threads can execute simultaneously at once within a block and only groupings of 32 threads are held in a WARP and forced into the lockstep pattern that causes potential slowdowns.
 %
 By running only one particle per block you are sacrificing some parallelism as not all tasks to calculate a particles path are parallel operations.
 %

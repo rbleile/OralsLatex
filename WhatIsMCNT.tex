@@ -83,9 +83,9 @@ The most common method is to track individual particle histories until a predete
 %
 This method is known as the history based approach.
 %
-In order to simulate a particle, the distance the particle must travel before it has any interaction must be computed and compared with the rest.
+In order to simulate a particle, the distance the particle must travel before it has any interactions must be computed and compared with all possible interactions.
 %
-The interaction with the shortest distance is chosen followed by updating the particle and tallies based on the distance traveled and interaction occurring.
+The interaction with the shortest distance is chosen, followed by updating the particle and tallies based on the distance traveled and interaction occurring.
 % 
 Algorithm~\ref{alg:historybased} shows the history based approach for a simple research code~\cite{alpsmc1} that has simple properties we can use to describe the method.
 %

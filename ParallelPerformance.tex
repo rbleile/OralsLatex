@@ -1,10 +1,10 @@
 \subsection{ \textbf{ Parallel Performance }}
 
-In this section we will see the parallel performance of a number of different Monte Carlo particle transport applications on different architectures ranging from the vector machines of the 80's to multi-core compute clusters.
+In this section we will see the parallel performance of a number of different Monte Carlo particle transport applications on different architectures, ranging from the vector machines of the 80's to multi-core compute clusters.
 %
 There has been a tremendous growth in the Monte Carlo industry since its inception over 60 years ago.
 %
-The first models developed in run in 1947 would take five hours to compute 100 collisions, a tasks that today can be done in milliseconds.
+The first models developed in 1947 would take five hours to compute 100 collisions, a tasks that today can be done in milliseconds.
 %
 In the 1940's and 1950's Monte Carlo codes were written in very low level languages on the earliest computers.
 %
@@ -14,7 +14,7 @@ In the 1980's Monte Carlo codes adopted vector machines and parallel/vector comp
 %
 In the 1990's Monte Carlo become more common place and parallelism increased to 100s or 1000s or processors through PVM or MPI.
 %
-In the 2000's multicore processors meant threading become more common place mixing local and global forms of parallelism reaching 10,000s or processors.~\cite{brown2011recent}
+In the 2000's multicore processors meant threading become more common place mixing local and global forms of parallelism reaching 10,000s of processors.~\cite{brown2011recent}
 %
 
 This growth in computer processing can also be categorized in terms of the styles of memory accesses.
@@ -28,7 +28,7 @@ Then distributed memory systems become popular and finally the combination of di
 
 Shared memory systems refer to machines or models where all processors can access the same memory space.
 %
-Taking this a step further the unified memory architecture (UMA) shared memory systems not only do all processors have access to the same memory but they also have access to all memory in  the same time~\cite{el2005advanced}.
+Taking this a step further, in the unified memory architecture (UMA) shared memory systems, all processors have access to the same memory and access to all memory takes the same amount of time~\cite{el2005advanced}.
 %
 One type of shared memory system that was popular in the 1970's and 1980's was the vector machine.
 %
@@ -86,7 +86,7 @@ For their problem the zones and energies of the region needed to be looped over 
 %
 So for their application they chose to parallelize over zones and also over zones and energies at once through loop unrolling.
 %
-Table~\ref{tab:MTAPerf} shows that the parallelization on the MTA over zones and energies maintains incredible efficiency giving their application good speedups here, while parallelizing over only zones does not expose enough parallel work to hide memory latency and so efficiency drops of quickly.
+Table~\ref{tab:MTAPerf} shows that the parallelization on the MTA over zones and energies maintains incredible efficiency giving their application good speedups here, while parallelizing over only zones does not expose enough parallel work to hide memory latency and so efficiency drops off quickly.
 %
 \begin{table}
 \caption {Parallel performance on the MTA using multithreaing} \label{tab:MTAPerf} 
@@ -143,7 +143,7 @@ The Monte Carlo particle transport history-based approach lends itself to the di
 %
 Since each particle history is independent of any other particle histories and can be easily split up over processors~\cite{yanghybrid}.
 %
-The only complications we normally see when we move to the distributed memory systems is that we often use domain decomposition which increases the complexity and use of the message passing interface.
+The only complications we normally see when we move to distributed memory systems are ways to handle large and complex geometries such as the use of domain decomposition which increases the complexity and use of the message passing interface.
 %
 We will discuss the domain decomposition challenges in the load balance sub-section to follow.
 %
@@ -168,9 +168,9 @@ Shared memory parallelism exists on a node or on one of the new accelerator devi
 %
 Distributed memory parallelism provides the opportunity for scaling to large supercomputers or clusters, giving users many nodes to work with.
 %
-Given the nature of these two models it is surprising how often the additional extension of combining them is not done as most often. 
+Given the nature of these two models it is surprising how often the additional extension of combining them is not done. 
 %
-Shared memory models are overlooked in favor of distributed models, and since the distributed model works "well enough" even within a node, it is often not worth the effort to try to combine these two methods.
+Shared memory models are overlooked in favor of distributed models, and since the distributed model works "well enough" even within a node, so that it is often not worth the effort to try to combine these two methods.
 %
 This is no longer going to be true when we start adding accelerators and many people have found benefits of combining these models anyways.
 %

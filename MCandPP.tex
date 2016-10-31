@@ -4,7 +4,7 @@ In this section Monte Carlo transport applications will be evaluated as a platfo
 %
 Monte Carlo transport offers a unique set of challenges and interesting lessons to the world of portable performance possibilities.
 %
-Already discussed are efforts in Ray Tracing done by using the EAVL/VTK-m framework, and the successes seen there. 
+Efforts in Ray Tracing using the EAVL/VTK-m framework showed significant success and provide similar workloads to those used in Monte Carlo transport problems.
 %
 In addition, the idea of portable performance is a popular one with many different groups putting forward possible designs and library options.
 %
@@ -14,12 +14,12 @@ Each of these abstraction layers-- EAVL, DAX, PISTON, VTK-m, Thrust, OpenMP, Ope
 %
 There is a large number of potential directions and possible areas to focus on in this study.
 %
-Looking now at Bleile's work with a Monte Carlo mini app, ALPSMC~\cite{}~\cite{}, the Mont Carlo algorithmic question of event based versus history based algorithms in a simplified Monte Carlo code, while also studying the effects different parallel paradigms have on performance and ease of code conversion.
+Looking now at Bleile's work with a Monte Carlo mini app, ALPSMC~\cite{alpsmc1}~\cite{alpsmc2}, the Monte Carlo algorithmic question of event based versus history based algorithms in a simplified Monte Carlo code was evaluated, while also studying the effects different parallel paradigms have on performance and ease of code conversion.
 %
 
 \subsection{\textbf{ALPSMC}}
 
-ALPSMC is a Monte Carlo test code that models neutron transport in a one dimensional planar geometry, through a binary stochastic medium.
+ALPSMC~\cite{brantley2011benchmark} is a Monte Carlo test code that models neutron transport in a one dimensional planar geometry, through a binary stochastic medium.
 %
 It is originally a serial C++ application that follows an all particle history based approach.
 %
