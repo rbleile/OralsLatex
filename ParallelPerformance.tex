@@ -1,80 +1,84 @@
 \subsection{ \textbf{ Parallel Performance }}
 
-In this section we will see the parallel performance of a number of different Monte Carlo particle transport applications on different architectures, ranging from the vector machines of the 80's to multi-core compute clusters.
+This section covers the parallel performance of a number of different Monte Carlo particle transport applications on different architectures, ranging from the vector machines of the 80's to multi-core compute clusters.
 %
 There has been a tremendous growth in the Monte Carlo industry since its inception over 60 years ago.
 %
-The first models developed in 1947 would take five hours to compute 100 collisions, a tasks that today can be done in milliseconds.
+The first models developed in 1947 would take five hours to compute 100 collisions, a task that today can be done in milliseconds.
 %
-In the 1940's and 1950's Monte Carlo codes were written in very low level languages on the earliest computers.
+In the 1940's and 1950's, Monte Carlo codes were written in very low level languages on the earliest computers.
 %
-The 1960's to 1980's saw a great increase in the capabilities of the Monte Carlo codes.
+The 1960's to 1980's saw a great increase in the capabilities of the Monte Carlo codes as computing power increased and codes become more fully featured.
 %
-In the 1980's Monte Carlo codes adopted vector machines and parallel/vector computers.
+In the 1980's Monte Carlo codes adopted parallel/vector machines.
 %
-In the 1990's Monte Carlo become more common place and parallelism increased to 100s or 1000s or processors through PVM or MPI.
+In the 1990's Monte Carlo codes become more commonplace and parallelism increased to 100s or 1000s or processors through message passing with Parallel Virutal Machines (PVM)~\cite{pvm2011} or the Message Passing Interface (MPI)~\cite{blaiseMPI}.
 %
-In the 2000's multicore processors meant threading become more common place mixing local and global forms of parallelism reaching 10,000s of processors.~\cite{brown2011recent}
+In the 2000's multicore processors meant threading became more commonplace, mixing local and global forms of parallelism reaching 10,000s of processors.~\cite{brown2011recent}
 %
 
 This growth in computer processing can also be categorized in terms of the styles of memory accesses.
 %
-Early systems were shared memory environments almost exclusively.
+Early systems were shared-memory environments almost exclusively.
 %
-Then distributed memory systems become popular and finally the combination of distributed and shared memory systems became popular.
+Then distributed-memory systems became popular.
+%
+Finally, hybrid parallel systems, meaning systems that use both distributed- and shared-memory parallelism, became popular.
 %
 
-\subsection*{ \textbf{Shared Memory Performance}} 
+\subsection*{ \textbf{Shared-Memory Performance}} 
 
-Shared memory systems refer to machines or models where all processors can access the same memory space.
+Shared-memory systems refer to machines or models where all processors can access the same memory space.
 %
-Taking this a step further, in the unified memory architecture (UMA) shared memory systems, all processors have access to the same memory and access to all memory takes the same amount of time~\cite{el2005advanced}.
+Taking this a step further, in the unified memory architecture (UMA), all processors have access to the same memory and access to all memory takes the same amount of time~\cite{el2005advanced}.
 %
-One type of shared memory system that was popular in the 1970's and 1980's was the vector machine.
+One type of shared-memory system that was popular was the vector machine.
 %
-Vector machines took the shared memory system and added additional synchronicity to the system by making all of the processors issue the same instruction~\cite{russell1978cray}.
+Vector machines took the shared-memory system and added additional synchronicity to the system by making all of the processors issue the same instruction~\cite{russell1978cray}.
 %
 
 \subsection*{Vector Machine Performance}
 
 %
-In the 1980's Monte Carlo transport algorithms began adapting "event-based" methods in order to vectorize their algorithms for use on a vector machine.
+In the 1980's Monte Carlo transport algorithms began adapting ``event-based" methods.
 %
-These new algorithms were used because the traditional history based approach has complete independence of particle histories.
+The traditional history-based approach was not well suited for vector architectures, since the particle histories follow independent code paths.
 %
-But in order to effectively utilize the vector architecture particles must be computed on the same code paths.
+In order to vectorize the algorithms and make them usable on the vector machine architectures, the codes had to be reorganized to follow the same code paths across independently computed particle histories.
 %
 By changing the algorithm to follow events instead of histories the Monte Carlo method could be used in a vector based approach. ~\cite{martin1986monte}
 %
 
 %
-One common element when reviewing the work done in this area is to see that the vector approach is often related to stacks, and properly organizing particles into the right stack so that calculations can be preformed~\cite{brown1984monte, bobrowicz1984vectorized}.
+One common element when reviewing the work done in this area is to see that the vector approach is often related to stack data structue.
 %
-Another approach is to try to use only one main stack and pull off only the minimum information needed to compute the events into sub-stacks~\cite{martin1986monte}.
+The challenge then becomes properly organizing particles into the right stack so that calculations can be performed~\cite{brown1984monte, bobrowicz1984vectorized}.
+%
+Another approach is to try to use only one main particle stack and pull off only the minimum information needed to compute each of the events into sub-stacks~\cite{martin1986monte}.
 %
 With each of these approaches particle events determine how the particles are organized or what information is needed for processing.
 %
-The main drawback to the event based approach is the added time processing data movement or sorting.
+The main drawback to the event based approach is the added time for data movement or sorting.
 %
 
 %
-Brown reported theoretical speedups of 20x-85x for his consideration and deemed this approach well worth the efforts required to change codes around in order to use this approach ~\cite{brown1984monte}.
+Brown reported the potential for speedups of 20x-85x in his theoretical analysis of the use of event-based methods, and deemed this approach well worth the efforts required to change codes around in order to use this approach on vector machines ~\cite{brown1984monte}.
 %
-Martin saw speedups randing from 5x to 12x depending on the problem and the machine he was running on by using the single big stack, sub-stack approach~\cite{martin1986monte}.
+Martin's single big stack, sub-stack approach saw speedups randing from 5x to 12x depending on the problem and the machine he was running on~\cite{martin1986monte}.
 %
-Bobrowicz explicit stack approach reaches speedups of around 8x - 10x compared with the original history-based approach~\cite{bobrowicz1984vectorized}.
+Bobrowicz's explicit stack approach reached speedups of around 8x - 10x compared with the original history-based approach~\cite{bobrowicz1984vectorized}.
 %
-Finally Burns in using a LANL Benchmark code GAMTEB showed he could acheive similar performance to Bobrowics by following a similar approached as that laid out by Brown~\cite{burns1989vectorization}.
+Finally, Burns used GAMTEB, the LANL Benchmark code, to show he could achieve similar performance to Bobrowicz by following a similar approach as Brown~\cite{burns1989vectorization}.
 %
 
 \subsection*{Multi-Threaded Architecture Performance}
 
 %
-Other shared memory systems, separate from vector machines, where tried in this time.
+Other shared-memory systems, separate from vector machines, where tried in this time.
 %
 One such machine was the Tera Multi-Threaded Architecture (MTA).
 %
-This approach focused on the use of incredibly parallel processors, hardware threading, and a simple shared memory, no cache, design.
+This approach focused on the use of parallel processors, hardware threading, and a shared-memory no cache, design.
 %
 The idea was by focusing on threading they could mask away memory latency~\cite{majumdar2000parallel, snavely1998multi}.
 %
@@ -82,9 +86,9 @@ The idea was by focusing on threading they could mask away memory latency~\cite{
 %
 One Photon transport application tried two methods of parallelizing their application on the Tera MTA. 
 %
-For their problem the zones and energies of the region needed to be looped over and photons falling in those ranges where then computed.
+For their problem the zones and energies of the region needed to be looped over, with photons being computed when a region that contains them is processed.
 %
-So for their application they chose to parallelize over zones and also over zones and energies at once through loop unrolling.
+So for their application they chose to parallelize both over zones and over a combination of zones and energies through loop unrolling.
 %
 Table~\ref{tab:MTAPerf} shows that the parallelization on the MTA over zones and energies maintains incredible efficiency giving their application good speedups here, while parallelizing over only zones does not expose enough parallel work to hide memory latency and so efficiency drops off quickly.
 %
@@ -119,19 +123,19 @@ Procs & Time (sec) & Speedup & Efficiency \\
 \end{center}
 \end{table}
 
-More modern systems utilize shared memory ideas as well, with a majority of the scientific efforts utilizing OpenMP threading models for shared memory processing.
+More modern systems utilize shared-memory ideas as well, with a majority of the scientific efforts utilizing OpenMP threading models for shared-memory processing.
 %
 Often this model is overlooked in preference of distributed computing via MPI but that is not always the case.
 %
-Given an all particle method, OpenMP codes tend to scale incredibly well with the only draw backs having to do with those few areas requiring atomic operations.
+Given an all particle method, OpenMP codes tend to scale with good efficiency with the only drawbacks having to do with those few areas requiring atomic operations.
 %
-With a nearly perfect efficiency on a node, in the case of no atomic operations and plenty of work.
+In the case of no atomic operations and plenty of work shared-memory implementations have nearly perfect efficiency on a node.
 
-\subsection*{ \textbf{Distributed Memory Performance}}
+\subsection*{ \textbf{distributed-memory Performance}}
 
-One of the major transitions in supercomputing came with the shift from vector computing to distributed memory computing.
+One of the major transitions in supercomputing came with the shift from vector computing to distributed-memory computing.
 %
-This type of computing is most often done with MPI and has, for the last 20 years, been a primary method of achieving parallel performance on clusters and supercomputers alike.
+This type of computing is most often done with MPI and has, for the last 20 years, been a primary method of achieving parallel performance on commodity clusters and supercomputers alike.
 %
 In the message passing model of parallelism, independent processes work together through the use of messages to pass data between processors.
 %
@@ -141,36 +145,37 @@ In this model, parallel efficiency is generally improved by spending more time w
 %
 The Monte Carlo particle transport history-based approach lends itself to the distributed model very well.
 %
-Since each particle history is independent of any other particle histories and can be easily split up over processors~\cite{yanghybrid}.
+Each particle history is independent of any other particle histories and can be easily split up over processors~\cite{yanghybrid}.
 %
-The only complications we normally see when we move to distributed memory systems are ways to handle large and complex geometries such as the use of domain decomposition which increases the complexity and use of the message passing interface.
+Moving to distributed memory systems creates complications in handling large and complex geome- tries.
+Domain decomposition is typically used in this case, although it increases the complexity in using the message passing interface.
 %
-We will discuss the domain decomposition challenges in the load balance sub-section to follow.
+Domain decomposition challenges are discussed further in Section 3.B.
 %
 
 %
-Given the embarrassingly parallel nature of the Monte Carlo transport problem, the performance of this model produces results as suspected.
+Given the embarrassingly parallel nature of the Monte Carlo transport problem, the performance of this model produces results as expected.
 %
-As we increase MPI processes we continue to get a nearly liner speedup.
+As we increase MPI processes, we continue to get a nearly linear speedup.
 %
 Majumdar shows that with 16 nodes and 8 MPI tasks per node, his biggest run, he was still able to achieve a 88\% efficiency~\cite{majumdar2000parallel} in his code that was parallel over zones and energies.
 %
 In an all particle code, Mercury at LLNL, we can see parallel efficiencies of 80-90\% when using MPI parallelism~\cite{procassini2005load}.
 
-\subsection*{ \textbf{Distributed + Shared Memory Performance}}
+\subsection*{ \textbf{Distributed- + Shared-Memory Performance}}
 
 %
-Given the heterogenous nature of today's computing environment, and even in the fairly homogenous environment we are leaving, it is a common next step to consider combining distributed and shared memory parallel schemes.
+Given the heterogenous nature of today's computing environment, and even in the fairly homogenous environment we are leaving, it is a common next step to consider combining distributed and shared-memory parallel schemes.
 %
 It seems an obvious extension to either of these models to add the other.
 %
-Shared memory parallelism exists on a node or on one of the new accelerator devices.
+Shared-memory parallelism exists on a node or on one of the new accelerator devices.
 %
-Distributed memory parallelism provides the opportunity for scaling to large supercomputers or clusters, giving users many nodes to work with.
+Distributed-memory parallelism provides the opportunity for scaling to large supercomputers or clusters, giving users many nodes to work with.
 %
 Given the nature of these two models it is surprising how often the additional extension of combining them is not done. 
 %
-Shared memory models are overlooked in favor of distributed models, and since the distributed model works "well enough" even within a node, so that it is often not worth the effort to try to combine these two methods.
+Shared-memory models are overlooked in favor of distributed models, and since the distributed model works ``well enough" even within a node, so that it is often not worth the effort to try to combine these two methods.
 %
 This is no longer going to be true when we start adding accelerators and many people have found benefits of combining these models anyways.
 %
@@ -178,7 +183,7 @@ This is no longer going to be true when we start adding accelerators and many pe
 %
 The combined distributed-shared model is often referred to as MPI+X~\cite{michaelwolfe2014}.
 %
-The X in this description being replaced with whichever shared memory system is preferred.
+The X in this description being replaced with whichever shared-memory system is preferred.
 %
 The most common implementation of MPI+X to date is the MPI + OpenMP model.
 %

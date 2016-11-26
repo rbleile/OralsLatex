@@ -6,7 +6,7 @@ Both microscopic and macroscopic cross section information is needed in order to
 %
 Depending on the problem and the choices made to solve it, time spent looking up nuclear data can often be between 10\% and 85\% of the overall runtime.
 %
-The problems that spend more time looking up cross section data are often using what is known as the continuous energy model where energy value are stored as a large sequence of points and exact values are found through interpolation.
+The problems that spend more time looking up cross section data are often using what is known as the continuous energy model where energy values are stored as a large sequence of points and exact values are found through interpolation.
 %
 The second method that is used which makes cross section lookups faster but less accurate is multi-group cross sections, where cross section data is stored in some number of bins and all energies that land in the bin are given the same value.
 %
@@ -20,7 +20,7 @@ This search problem is the main bottleneck in the cross section lookup algorithm
 %
 Linear searches, binary searches, and Hash based searches are often employed for this.
 %
-In addition combining isotopes into a unionized grid is a common method for reducing the total number of searches required, though it greatly increases the memory needed to store the cross section data.
+In addition, combining isotopes into a unionized grid is a common method for reducing the total number of searches required, though it greatly increases the memory needed to store the cross section data.
 %
 
 Each of the common competing continuous algorithms is well defined and compared by Wang et. al. and are described as follows ~\cite{wang2016competing}:
@@ -32,4 +32,4 @@ Each of the common competing continuous algorithms is well defined and compared 
 \subsubsection*{ \textbf{Fractional cascading} } This is a technique to speedup search operations for the same value in a series of related data sets ~\cite{a.l.lunda.r.siegel2015}. The basic idea is to build a unified grid for the first and second isotopes, then for second and third isotopes, etc. When using the mapping technique, once we find the energy index in the first energy grid all the following indexes can be read directly from the extra index tables without further computations. Compared to the global unionized methods, the fractional cascading technique greatly reduces memory usage.
 
 %
-We will discuss recent work done in the area of nuclear data lookups on device accelerators when we discuss many-core based Monte Carlo research as much of the results are targeted at NVIDA GPGPUs or the Intel XEON Phi many-core coprocessor. 
+We will discuss recent work done in the area of nuclear data lookups on device accelerators when we discuss many-core based Monte Carlo research, as much of the results are targeted at NVIDA GPGPUs or the Intel XEON Phi many-core coprocessor. 

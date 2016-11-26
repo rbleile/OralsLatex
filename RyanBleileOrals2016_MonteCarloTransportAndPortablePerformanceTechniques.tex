@@ -195,25 +195,25 @@ Since near the beginning of electronic computing, Monte Carlo neutron transport 
 %
 Over the past few decades Monte Carlo transport applications have seen a significant increase in their capabilities and a reduction in time to solution.
 %
-Research efforts have been focused on areas such as MPI scalability, load balance with domain decomposition, and variance reduction techniques.
+Research efforts have been focused on areas such as scalability with distributed memory parallelism, load balance with domain decomposition, and variance reduction techniques.
 %
 In the last few years, however, the landscape has been changing.
 %
 Due to the inherently parallel nature of these applications, Monte Carlo transport applications are often used in the super-computing environment.
 %
-Supercomputers are changing, becoming increasingly more parallel on node, with GPGPUs and/or Xeon Phi co-processors powering the bulk of the compute capabilities.
+Supercomputers are changing, in that they are becoming increasingly more parallel on a node, with GPGPUs and/or Xeon Phi co-processors powering the bulk of the compute capabilities.
 %
-In order to fully utilize the new machines' capabilities, it is becoming ever more important to migrate to a many-core perspective of any computing algorithms.
+In order to fully utilize the new machines' capabilities, it is becoming ever more important to migrate to a many-core perspective of any computing algorithm.
 %
 Monte Carlo transport applications, like many others, have the potentially difficult task of figuring out how to effectively utilize this new hardware.
 %
 Many groups have taken the initial steps to look into this problem or have focused their efforts on a sub-problem, such as continuous energy lookups.
 %
-In other fields a promising approach is displayed in the use of portable performance abstractions in order to specify what is parallel.
+In other fields a promising approach is displayed in the use of portable performance abstractions in order to specify the tasks to parallelize.
 %
 These abstractions provide the foundations for applications to write code once and run on any supported platform.
 %
-This paper describes the state of the art in Monte Carlo neutron transport, with a special emphasis on the affects of upcoming architectures.
+This paper describes the state of the art in Monte Carlo neutron transport, with a special emphasis on the effects of upcoming architectures.
 %
 \end{abstract}
 

@@ -129,15 +129,15 @@ Once each neutron knows which path it will go down -- i.e. scattering, fission, 
 %
 Unlike the basic vectorized approach or the stack based approach however, all of the events are launched at once using concurrent kernels due to CUDA streaming properties.
 %
-In this way the main divergent part of the code is broken into relatively non-divergent kernels which are then launched simultaneously so as to continue to utilize the full hardware.
+In this way, the main divergent part of the code is broken into relatively non-divergent kernels which are then launched simultaneously so as to continue to utilize the full hardware.
 
-Not all attempts at vectorization, or implementing an event based algorithm for Monte Carlo transport codes has been successful however.
+Not all attempts at vectorization, or implementing an event based algorithm for Monte Carlo transport codes has been successful.
 %
-Liu~\cite{liu2014comparative} describes an event based approach that after being implemented produced a roughly ten times slower version then the history based code.
+Liu~\cite{liu2014comparative} describes an event-based approach that after being implemented produced a roughly ten times slower version then the history-based code.
 %
 This example shows how complicated the task of implementing an event-based algorithm can be, and that it is possible as well that not all Monte Carlo transport problems can be solved efficiently in an event-based fashion.
 %
-Liu attributed their slow down to the memory access latency due to the high amount of global memory transactions and showed that the cost of this in an event based method did not outweigh the benefit of reducing thread divergence and increasing warp execution efficiency.
+Liu attributed their slow down to the memory access latency due to the high amount of global memory transactions and showed that the cost of this in an event-based method did not outweigh the benefit of reducing thread divergence and increasing warp execution efficiency.
 
 
 

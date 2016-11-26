@@ -11,7 +11,7 @@ Replication involves storing the geometry information redundantly on each proces
 ~\cite{o2005dynamic}
 
 
-Load balance is often discussed in conjunction with domain decomposition since particles often migrate between different regions of a problem and so not all spatial domains will require the same amount of computational work.
+Load balance is often discussed in conjunction with domain decomposition since particles often migrate between different regions of a problem, meaning not all spatial domains will require the same amount of computational work.
 %
 In many applications there is at least one portion of the calculation that must be completed by all processors before all the processors can move forward with the calculation.
 %
@@ -25,11 +25,11 @@ This load-imbalance can cause significant issues with scalability as parallelism
 %
 One key consideration when wanting to perform a load balance calculation, is to understand the cost of performing that calculation.
 %
-If too much time is spent making sure the problem is always perfectly load balanced then computational resources are being wasted on a non-essential calculation, resulting is overall slower performance.
+If too much time is spent making sure the problem is always perfectly load balanced, then computational resources are being wasted on a non-essential calculation, resulting is overall slower performance.
 %
 However, if too little resources are devoted to load-balancing than the problem will suffer from load-imbalance and the negative effects that entails.
 %
-One solution is to perform load balance at the start of each cycle or iteration of a Monte Carlo transport calculation but only when that load balance will result in a faster overall calculation~\cite{o2005dynamic}.
+One solution is to perform load balance at the start of each cycle or iteration of a Monte Carlo transport calculation, but only when that load balance will result in a faster overall calculation~\cite{o2005dynamic}.
 %
 
 An algorithm to determine when to load balance was explained in references~\cite{procassini2005load}~\cite{o2005dynamic}, where the following criterion could be checked inexpensively each cycle to determine if a load-balance operation should take place.
@@ -52,7 +52,7 @@ if\ (\tau^{'} < 0.9 \cdot \tau \ )\ DynamicLoadBalance();
 
 As an extension to the domain decomposition of meshes, O'Brien and Joy demonstrated an algorithm to domain decompose Constructive Solid Geometry (CSG) in a Monte Carlo transport code.
 %
-One key difference between mesh and CSG geometries is that mesh geometries contain a description of cell connectivity whereas cells defined through CSG do not.
+One key difference between mesh and CSG geometries is that mesh geometries contain a description of cell connectivity, whereas cells defined through CSG do not.
 %
 In order to domain decompose these CSG cells, each cell was given a bounding box; since each domain is also a box, a test for if a cell belonging inside a domain, becomes an axis-aligned box-box intersection test.~\cite{o2009domain}
 %
@@ -76,7 +76,7 @@ Their algorithm shows remarkable ability to load balance and is demonstrated up 
 %
 The pair-wise load balancing scheme maintained a high efficiency; with the load-balanced runs maintaining efficiencies of 95\% at 2 million processors while the not load-balanced runs continuously drop to around 68\% efficiency at 2 million processors.
 %
-In addition the load-balanced version is able to maintain near perfect scaling up to 2 million processors.
+In addition, the load-balanced version is able to maintain near perfect scaling up to 2 million processors.
 %
 By dispersing the workload over processors effectively it also decreases the overall tracking time.
 ~\cite{o2013scalable}

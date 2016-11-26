@@ -49,10 +49,10 @@ The following equation is known as the Linearized Boltzmann transport equation f
 %
 $$
 \frac{1}{\nu} \frac{ \partial \Psi ( \vec{r}, E, \Omega, t ) }{\partial t}\ +\ 
-(\nabla \cdot \Omega ) \Psi ( \vec{r}, E, \Omega, t )\ +\ 
-\Sigma_a (\vec{r}, E ) \Psi ( \vec{r}, E, \Omega, t )
+(\nabla \cdot \Omega ) \Psi ( \vec{r}, E, \Omega, t )\ +\
 $$
-$$=$$
+$$ 
+\Sigma_a (\vec{r}, E ) \Psi ( \vec{r}, E, \Omega, t ) =$$
 $$
 \int _{E '} \int _{\Omega '} \Sigma_{s} ( \vec{r}, E', \Omega ' \rightarrow E, \Omega ) \Psi (\vec{r}, E, \Omega, t) d \Omega ' dE'\ +\ 
 $$
@@ -81,21 +81,21 @@ There are many ways to solve this problem.
 %
 The most common method is to track individual particle histories until a predetermined amount of particles has been simulated.
 %
-This method is known as the history based approach.
+This method is known as the history-based approach.
 %
 In order to simulate a particle, the distance the particle must travel before it has any interactions must be computed and compared with all possible interactions.
 %
 The interaction with the shortest distance is chosen, followed by updating the particle and tallies based on the distance traveled and interaction occurring.
 % 
-Algorithm~\ref{alg:historybased} shows the history based approach for a simple research code~\cite{alpsmc1} that has simple properties we can use to describe the method.
+Algorithm~\ref{alg:historybased} shows the history-based approach for a simple research code~\cite{alpsmc1} that has simple properties we can use to describe the method.
 %
 Algorithm~\ref{alg:mcmethod} shows the outer most scope of a Monte Carlo Problem for referencing where different optimizations or stages occur.
 %
-For example, Algorithm~\ref{alg:historybased} takes place inside the Cycle loop of Algorithm~\ref{alg:mcmethod} and shows only the steps for Cycle Tracking.
+For example, Algorithm~\ref{alg:historybased} takes place inside the Cycle loop of Algorithm~\ref{alg:mcmethod} and shows only the steps for Cycle: Tracking.
 
 \begin{algorithm}
 \DontPrintSemicolon
-\caption{History based Monte Carlo algorithm}
+\caption{History-based Monte Carlo algorithm}
 \label{alg:historybased}
 \ForEach{particle history}
 { 
@@ -126,9 +126,9 @@ For example, Algorithm~\ref{alg:historybased} takes place inside the Cycle loop 
 Parse Inputs\;
 \ForEach{Cycle}
 {
-	Cycle Initialize\;
-	Cycle Tracking\;
-	Cycle Finalize\;
+	Initialize\;
+	Tracking: Algorithm~\ref{alg:historybased}\;
+	Finalize\;
 }
 Gather Tallies\;
 \end{algorithm}

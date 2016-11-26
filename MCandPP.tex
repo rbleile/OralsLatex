@@ -2,19 +2,21 @@
 
 In this section Monte Carlo transport applications will be evaluated as a platform for portable performance studies.
 %
-Monte Carlo transport offers a unique set of challenges and interesting lessons to the world of portable performance possibilities.
+Monte Carlo transport offers a unique set of challenges and interesting lessons when evaluating portable performance possibilities.
 %
-Efforts in Ray Tracing using the EAVL/VTK-m framework showed significant success and provide similar workloads to those used in Monte Carlo transport problems.
+Efforts in Ray Tracing using the EAVL/VTK-m framework showed significant success and provide workloads that are similar to those used in Monte Carlo transport problems.
 %
-In addition, the idea of portable performance is a popular one with many different groups putting forward possible designs and library options.
+In addition, the idea of portable performance is popular with many different groups, who are putting forward possible designs and library options.
 %
-Each of these abstraction layers-- EAVL, DAX, PISTON, VTK-m, Thrust, OpenMP, OpenACC, RAJA, Chapel, and Kokkos --has its own plusses and minuses, as well as different levels of effort required to make it function in already existing codes.
+Each of these designs or abstraction layers-- EAVL, DAX, PISTON, VTK-m, Thrust, OpenMP, OpenACC, RAJA, Chapel, and Kokkos --has its own pluses and minuses, as well as requiring different amounts of effort in order to make it function within already existing codes.
 %
 
 %
 There is a large number of potential directions and possible areas to focus on in this study.
 %
-Looking now at Bleile's work with a Monte Carlo mini app, ALPSMC~\cite{alpsmc1}~\cite{alpsmc2}, the Monte Carlo algorithmic question of event based versus history based algorithms in a simplified Monte Carlo code was evaluated, while also studying the effects different parallel paradigms have on performance and ease of code conversion.
+Looking now at Bleile's work with a Monte Carlo mini app, ALPSMC~\cite{alpsmc1}~\cite{alpsmc2}, the Monte Carlo algorithmic question of event based versus history based algorithms in a simplified Monte Carlo code was evaluated.
+%
+In addition, the effects that different parallel paradigms have on performance as well as the ease of code conversion were studied.
 %
 
 \subsection{\textbf{ALPSMC}}
@@ -23,13 +25,13 @@ ALPSMC~\cite{brantley2011benchmark} is a Monte Carlo test code that models neutr
 %
 It is originally a serial C++ application that follows an all particle history based approach.
 %
-This history based algorithm is shown in Algorithm~\ref{alg:historybased}
+This history based algorithm is shown in Algorithm~\ref{alg:history-based}
 %
 
 \begin{algorithm}
 \DontPrintSemicolon
 \caption{History-based Monte Carlo algorithm}
-\label{alg:historybased}
+\label{alg:history-based}
 \ForEach{particle history}
 { 
     generate particle from boundary condition or source\;
@@ -139,7 +141,7 @@ Through this experience we have demonstrated a few important points.
 %
 First we demonstrated excellent performance in both algorithms, achieving \textasciitilde50x performance for both history and event based algorithms.
 %
-Additionally, this examples showed that using data parallel design and an abstraction layer -- in this case Thrust -- can preform just as well as when programmed in native CUDA under some circumstances. 
+Additionally, these examples showed that using data parallel design and an abstraction layer -- in this case Thrust -- can preform just as well as when programmed in native CUDA under some circumstances. 
 %
 Lastly, while the GPU performance is high the CPU performance is still lacking.
 %
@@ -162,7 +164,7 @@ Since ALPSMC does simplify many of the complex parts of the Monte Carlo transpor
 
 This survey has outlined the long history of Monte Carlo transport applications and research.
 %
-In this survey we have seen that there has been a major revival of computational study with every new generation of supercomputing platform.
+In this survey we have seen that there has been a major revival of computational studies with every new generation of supercomputing platform.
 %
 Monte Carlo transport applications have only one significant gap in knowledge were groups have just recently started adding supporting research.
 %

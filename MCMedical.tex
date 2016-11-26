@@ -1,14 +1,14 @@
 \subsection{\textbf{Monte Carlo and Medicine}}
 
-A perspective of Monte Carlo transport that often gets overlooked by others in the field, is the area of Monte Carlo transport for medicine.
+A perspective of Monte Carlo transport that often gets overlooked by others in the field is the area of Monte Carlo transport for medicine.
 %
 Radiation transport calculations are used for dose estimations in patients and require close to real time, highly accurate solutions on desktop style machines.
 %
-Following are descriptions from three applications of medical Monte Carlo transport followed by an evaluation of the affect GPUs have had on the field.
+The following are descriptions from three applications of medical Monte Carlo transport followed by an evaluation of the effect GPUs have had on the field.
 
 \subsection*{ Electromagnetic Monte Carlo transport in GMC}
 
-Janhnke et. al. ~\cite{jahnke2012gmc} in 2012 described his groups efforts to develop the code named GPU Monte Carlo (GMC).
+Janhnke et al. ~\cite{jahnke2012gmc} in 2012 described his groups efforts to develop the code named GPU Monte Carlo (GMC).
 %
 GMC is a GPU implementation of the low energy electromagnetic portion of the Geant4 code using the CUDA interface.
 %
@@ -30,7 +30,7 @@ Accurately computing radiation doses is a critical part of proton radiotherapy, 
 %
 Given the long time required for traditional applications to use this technique, clinical application have been severely limited.
 %
-Jia et. al.~\cite{jia2012gpu} describes a fast dose calculation code, gPMC, and how it might enable clinical usage of Monte Carlo proton dose calculations.
+Jia et al.~\cite{jia2012gpu} describes a fast dose calculation code, gPMC, and how it might enable clinical usage of Monte Carlo proton dose calculations.
 
 %
 The code gPMC was developed in CUDA for use on a GPU.
@@ -43,7 +43,7 @@ The authors except that they have successfully developed a dose calculation code
 
 \subsection*{Electron-Photon Transport in DPM }
 
-Jia et. al~\cite{jia2010development} describes the development of a CUDA based Monte Carlo coupled electron-photon application for dose planning, called DPM (dose planning method).
+Jia et al.~\cite{jia2010development} describes the development of a CUDA based Monte Carlo coupled electron-photon application for dose planning, called DPM (dose planning method).
 %
  Their scheme involves launching a kernel on the GPU that simulates all of the particle histories necissary to reach some target number of source particles.
  %
@@ -53,7 +53,7 @@ Jia et. al~\cite{jia2010development} describes the development of a CUDA based M
  %
  DPM was only able to achieve speedups of around 5-6.6x on the GPU over the CPU, but did get excellent agreement on relative uncertainties in their results.~\cite{jia2010development}
  
- Jia et. al.~\cite{jia2011gpu} revisits their DPM code and is able to change speedups of 5-6.6x into speedups of approximately 69 - 87x.
+ Jia et al.~\cite{jia2011gpu} revisits their DPM code and is able to change speedups of 5-6.6x into speedups of approximately 69 - 87x.
 %
 DPMs main algorithm changed in a few significant ways.
 %
