@@ -1,12 +1,12 @@
 \subsection{\textbf{Monte Carlo and Medicine}}
 
-A perspective of Monte Carlo transport that often gets overlooked by others in the field is the area of Monte Carlo transport for medicine.
+Monte Carlo transport in the area of medicine often gets overlooked by Monte Carlo practitioners.
 %
 Radiation transport calculations are used for dose estimations in patients and require close to real time, highly accurate solutions on desktop style machines.
 %
 The following are descriptions from three applications of medical Monte Carlo transport followed by an evaluation of the effect GPUs have had on the field.
 
-\subsection*{ Electromagnetic Monte Carlo transport in GMC}
+\subsection*{ \textbf{Electromagnetic Monte Carlo transport in GMC}:}
 
 Janhnke et al. ~\cite{jahnke2012gmc} in 2012 described his groups efforts to develop the code named GPU Monte Carlo (GMC).
 %
@@ -16,15 +16,15 @@ GMC runs in a thread per particle style operating on 32768 particles at a time (
 %
 GMC runs through a series of kernel launches in a loop each handling one important aspect of the physics.
 
-The raw performance differences between the CPU version and the GPU implementation for the problems tested is amazing for this problem.
+The raw performance differences between the CPU version and the GPU implementation for the problems tested is significant for this problem.
 %
 The average for their study showed the GMC histories being computed at a rate of 657.60 histories every milli-second compared to the Geant4 CPU with histories computed at 0.137 histories per milli-second.
 %
-Comparing these two numbers produces a speedup factor of 4860 while maintaining reasonable accuracy in all cases between CPU and GPU with accuracies greater than 95\% in all regions.
+Comparing these two numbers produces a speedup factor for the particle tracking portion of 4860 while maintaining reasonable accuracy in all cases between CPU and GPU with accuracies greater than 95\% in all regions.
 %
 Total runtimes were also brought down to the hundreds of seconds showing the possibility for clinical usage of applications like this.~\cite{jahnke2012gmc}
 
-\subsection*{ Proton Therapy in gPMC}
+\subsection*{\textbf{Proton Therapy in gPMC}:}
 
 Accurately computing radiation doses is a critical part of proton radiotherapy, and Monte Carlo simulations are considered to be the most accurate method to compute those dose calculations.
 %
@@ -35,17 +35,16 @@ Jia et al.~\cite{jia2012gpu} describes a fast dose calculation code, gPMC, and h
 %
 The code gPMC was developed in CUDA for use on a GPU.
 %
-Using a batching system to launch groups of particles from a particle stack.
-%
+Using a batching system to launch groups of particles from a particle stack,
 gPMC runs for between 6 and 22 seconds to generate passing rates between 95\% and 99\%.
 %
-The authors except that they have successfully developed a dose calculation code under a certain set of restrictions and are hopeful that their future work will be able to meet with continuing success as they expand the context for their application.~\cite{jia2012gpu}
+The authors state that they have successfully developed a dose calculation code under a certain set of restrictions and are hopeful that their future work will be able to meet with continuing success as they expand the context for their application.~\cite{jia2012gpu}
 
-\subsection*{Electron-Photon Transport in DPM }
+\subsection*{\textbf{Electron-Photon Transport in DPM}:}
 
 Jia et al.~\cite{jia2010development} describes the development of a CUDA based Monte Carlo coupled electron-photon application for dose planning, called DPM (dose planning method).
 %
- Their scheme involves launching a kernel on the GPU that simulates all of the particle histories necissary to reach some target number of source particles.
+ Their scheme involves launching a kernel on the GPU that simulates all of the particle histories necessary to reach some target number of source particles.
  %
  Each thread of their kernel simulates the history of one source particle and all secondary particles that it generated.
  %
@@ -63,19 +62,19 @@ Secondly the photon and electron physics was separated into different kernels so
 %
 Other factors such as a better random number generator and use of the hardware linear interpolation features were also done.
 %
-With the additions of new features and improvements, DPM re-evaluated their accuracy to be not statistically significant in over 96\% of regions for all problems they tested.
+With the additions of new features and improvements, DPM re-evaluated their accuracy and found that their errors were not statistically significant in over 96\% of regions for all problems they tested.
 %
 Given the now excellent speedups of 69-87x and acceptable accuracy ranges, real time speeds for realistic problems was achieved.
 ~\cite{jia2011gpu}
 
 
-\subsection*{Evaluation}
+\subsection*{\textbf{Evaluation}:}
 
 These three projects show a variety of problems in the medical Monte Carlo field.
 %
 They are each accomplishing their tasks on a single GPU as opposed to a cluster of CPUs.
 %
-There are numerous stated benefits to this, cost of purchasing and operating a cluster against purchasing a single GPU being a large factor.
+There are numerous stated benefits to this, with cost of purchasing and operating a cluster against purchasing a single GPU being a large factor.
 %
-In each case speedups were achieved that were adequate to bring the time if their simulations down to those that would be useful in a clinical environment.
+In each case speedups were achieved that were adequate to bring the time of their simulations down to those that would be useful in a clinical environment.
 %

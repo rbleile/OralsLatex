@@ -1,29 +1,30 @@
 \section{\textbf{What is Portable Performance}}
+\label{sec:whatispp}
 
 The term portable performance generally means the ability to achieve a high level of performance on a variety of architectures.
 %
 In this case, high performance is relative to each target system~\cite{michaelwolfe2016}.
 %
-One important consideration then is what variety of systems are used that applications need to be portable for. 
+One important consideration, then, is the target architectures.
 %
 
 %
-The top ranked machines in the world currently utilize technologies like general purpose graphics processing units (GPUs, e.g., NVIDIA Tesla in Titan ), many-core co-processors (e.g., Intel Xeon Phi in Tianhe-2), and large multi-core CPUs (e.g., IBM Power, Intel Xeon in Tianhe-2 and others)~\cite{michaelwolfe2016},~\cite{top500thelist2016},~\cite{hankchilds2015}. 
+The top ranked machines in the world currently utilize technologies like general purpose graphics processing units (GPUs, e.g., NVIDIA Tesla in Titan), many-core co-processors (e.g., Intel Xeon Phi in Tianhe-2), and large multi-core CPUs (e.g., IBM Power, Intel Xeon in Tianhe-2 and others)~\cite{michaelwolfe2016},~\cite{top500thelist2016}. 
 %
-Further, future supercomputing designs may include low-power architectures (e.g., ARM), hybrid designs (e.g., AMD APU), or experimental designs (e.g., FPGA systems)~\cite{hankchilds2015}. 
+Further, future supercomputing designs may include low-power architectures (e.g., ARM), hybrid designs (e.g., AMD APU), or experimental designs (e.g., FPGA systems). 
 %
-Given this wide array of possible architectures, the value of portable performance has never before been so high.
+Given this wide array of possible architectures, the value of portable performance has never before been higher.
 %
 
 \subsection{ \textbf{Abstraction Layers}}
 
-Abstraction layers are the method many use to achieve portable performance.
+Abstraction layers are a frequent used method for achieving portable performance.
 %
 The key idea behind an abstraction layer is to hide the complexity of parallelism behind an abstraction.
 %
-Then the abstraction can handle how to parallelize a given section onto separate hardware architecture platforms.
+Then the abstraction can handle how to parallelize a given section of code onto separate hardware architectures.
 %
-Following are a list of the most known abstraction layers with a summary of their benefits and goals.
+The remainder of this section surveys known abstraction layers with a summary of their benefits and goals.
 
 \subsection*{\textbf{OpenMP}}
 
@@ -31,35 +32,32 @@ Parallelism through OpenMP is achieved through the use of compiler directives, l
 %
 These are used to specify the high level parallelism for programs using the Fortran and C/C++ languages.
 %
-These directives, routines and variables have been expanded to include methods to describe regions of code or data should be moved to another computing device, like an accelerator.~\cite{openmp}
+These directives, routines and variables have been expanded to include methods to describe how regions of code or data should be moved to another computing device, like an accelerator~\cite{openmp}.
 
 Lee et. al.~\cite{lee2009openmp} describe several advantages for using OpenMP as a programming paradigm for use on a GPGPU:
 \begin{itemize}
 \item ``OpenMP is efficient at expressing loop-level parallelism in applications, which is an ideal target for utilizing GPU's highly parallel computing units to accelerate data-parallel computations."
 \item ``The concept of a master thread and a pool of worker threads in OpenMP's fork-join model represents well the relationship between the master thread running on the host CPU and a pool of threads in a GPU device."
-\item ``Incremental parallelization of applications, which is one of OpenMP's features, can add the same benefit to GPGPU programming."~\cite{lee2009openmp}
+\item ``Incremental parallelization of applications, which is one of OpenMP's features, can add the same benefit to GPGPU programming."
 \end{itemize}
 
-By including target device directives as well as other supporting features, OpenMP is able to utilize its experiences in parallel computing and offer a familiar solution to programmers who need to make new or existing algorithms and codes work for parallel CPUs, GPUs and more.
-\cite{ayguade2010extending}
+By including target device directives as well as other supporting features, OpenMP is able to utilize its experiences in parallel computing and offer a familiar solution to programmers who need to make new or existing algorithms and codes work for parallel CPUs, GPUs and more~\cite{ayguade2010extending}.
 
 \subsection*{\textbf{OpenACC}}
 
 OpenACC enables the offloading of loops and regions of code onto accelerator devices.
 %
-The OpenACC API uses a host-directed model of execution where the main program runs on the host, or CPU, and the computational work is offloaded to a device accelerator, or GPU.
+The OpenACC API uses a host-directed model of execution where the main program runs on the host, or CPU, and the computational work is offloaded to a device accelerator, like a GPU.
 %
 The OpenACC memory model outlines two memory spaces which do not automatically synchronize, requiring explicit synchronization calls between memory spaces.
 %
-OpenACC operates in a similar fashion to OpenMP by using compiler directives to define regions of code for their operations to effect.
-\cite{wienke2012openacc}
+OpenACC operates in a similar fashion to OpenMP by using compiler directives to define regions of code for their operations to affect~\cite{wienke2012openacc}.
 
 OpenACC is designed to be portable.
 %
-Its directive based programming allow programmers to create high-level host+accelerator applications without needing to explicitly handle many of the extra aspects to working on an accelerator.
-\cite{openacc}
+Its directive based programming allows programmers to create high-level host+accelerator applications without needing to explicitly handle many of the extra aspects to working on an accelerator~\cite{openacc}.
 
-OpenACC has shown to be able to achieve reasonable performance on multiple platforms.
+OpenACC has demonstrated the ability to achieve reasonable performance on multiple platforms.
 %
 Wang et. al.~\cite{wang2013performance} performed a performance study showing that for some benchmarks the OpenACC versions were able to achieve more than 82\% performance when compared with peak performance for both the Intel Knights Corner and NVIDIA Kepler architectures.
 
@@ -67,26 +65,24 @@ Wang et. al.~\cite{wang2013performance} performed a performance study showing th
 
 Thrust is a library of algorithms and data structures that can be used to provide an interface to parallel programming in order to increase a programmer's productivity.
 %
-Thrust is designed similar to the standard template library, allowing programmers familiar with the C++ STL to feel instantly comfortable working in the thrust environment.
+Thrust is designed similar to the standard template library, allowing programmers familiar with the C++ STL to feel instantly comfortable working in the Thrust environment.
 %
-Through this design pattern, Thrust has lowered the barrier to entry allowing access to GPU hardware and memory without the needed to interact with the CUDA API.
-%
-\cite{hoberock2010thrust}
+Through this design, Thrust lowers the barrier to entry for allowing access to GPU hardware and memory without the needed to interact with the CUDA API~\cite{hoberock2010thrust}.
 
-In addition to adding parallel algorithms, Thrust provides multiple compilable backend technologies that allow the programmer to write their algorithms using thrust and then compile them in CUDA, TBB, and OpenMP.
+In addition to adding parallel algorithms, Thrust provides multiple compilable backend technologies that allow the programmer to write their algorithms using Thrust and then compile them in CUDA, TBB, and OpenMP.
 %
-This offers up a wide array of portable solutions that programmers can take advantage of in order to much more easily write portable and performant applications.
-\cite{thrust}
+This enables a wide array of portable solutions that programmers can take advantage of in order to much more easily write portable and performant applications~\cite{thrust}.
 
-Thrust offers a variety of algorithms with significant performance advantages leading to real world performance gains.
+Thrust offers a variety of algorithms with significant performance advantages to direct naive implementations, leading to real world performance gains.
 %
-Some examples of those performance gains can be seen in the implementations of the fill and radix sort algorithms; with 32x performance gains over naive algorithm implementations of the fill algorithm on some hardware, and 2.7x performance gains with radix sort by utilizing only significant bits when possible.
+Some examples of those performance gains can be seen in the implementations of the fill and radix sort algorithms.
+Thrust provides a fill algorithm that produces a 32x performance gains over a naive algorithm implementations as well as a radix sort algorithm that provides a 2.7x performance gains by utilizing only significant bits when possible.
 %
-These performance gains come for free when using a thrust algorithm to accomplish a data parallel task.
-%
-~\cite{bell2011thrust}
+These performance gains come for free when using a Thrust algorithm to accomplish a data parallel task~\cite{bell2011thrust}.
 
-In addition, thrust provides all of the main data parallel operations defined in Guy Blelloch's work~\cite{blelloch1990vector}.
+In addition, Thrust provides all of the main data parallel operations defined in Guy Blelloch's work~\cite{blelloch1990vector}.
+%
+Blelloch's work is significant in that it provides a foundation for data parallel processing and algorithm development through a series of well defined vectorized operations.
 %
 One method of achieving performance is to then rewrite an algorithm using data parallel primitives or algorithms and then use the existing Thrust methods to perform the operations.
 
@@ -94,26 +90,25 @@ One method of achieving performance is to then rewrite an algorithm using data p
 
 The RAJA portability layer is designed to be a lightweight method of providing loop-level parallelism in existing codes.
 %
-The idea behind the design was that, especially at labs like LLNL, there are a large number of scientific codes that will need to make some sort of transition in order to utilize upcoming architectures.
+The idea behind the design was that, especially at institutions like LLNL, there are a large number of legacy scientific codes that will need to make some sort of transition in order to utilize upcoming architectures.
 %
-RAJA was designed to be able to replace currently loops with a wrapper loop to at first make no change or impact; but then
-once the RAJA abstraction layer is in place, the loop can be changed to run on different architectures  and with different parallel modes.
+RAJA was designed to be able to replace current loops with a wrapper loop to at first make no change or impact. 
 %
-\cite{hornung2014raja}
-\cite{hornung2016raja}
+Then once the RAJA abstraction layer is in place, the loop can be changed to run on different architectures  and with different parallel modes~\cite{hornung2014raja}~\cite{hornung2016raja}.
 
-RAJA achieved their flexibility through macro replacements in the library.
+RAJA achieved their flexibility through macro replacements in their library.
 %
 By changing a compile time option the user can define if they want the OpenMP parallel launcher, a CUDA kernel launcher, or a serial launcher.
 %
-In this manner RAJA is a useful tool for generically replacing large numbers of parallel loops with a consistent theme that creates inlined parallel code for the compilers to optimize, instead of the large and sometimes convoluted template models.
-%
-\cite{hornung2014raja}
-\cite{hornung2016raja}
+In this manner RAJA is a useful tool for generically replacing large numbers of parallel loops with a consistent theme that creates inlined parallel code for the compilers to optimize, instead of large and sometimes convoluted template models~\cite{hornung2014raja}~\cite{hornung2016raja}.
 
-In addition to providing a library, the RAJA group provided an idea for a second possible approach to portability.
+In addition to providing a library, the RAJA project provides a second approach to portability.
 %
-A RAJA like approach involves custom macro definition to replace the variable portions of the code inline and offer the compiler the path it expects, while minimizing code redundancy when programming for multiple platforms.
+A RAJA like approach involves simple custom macro definitions, such as making a parallel loop by replacing a for loop with a macro function.
+%
+Then different parallel launchers can be defined for each target architecture without changing the body of the loop, minimizing code redundancy between versions.
+%
+Finally, at compile time one of the architectures or versions of the parallel loop is chosen and all of the loops defined with the macro will be launched for whichever version was chosen.
 
 \subsection*{\textbf{Kokkos}}
 
@@ -125,21 +120,18 @@ Kokkos uses the idea of execution and memory spaces to provide an abstraction to
 %
 In their model threads are said to execute in an execution space, while data resides within a memory space.
 %
-Then relationships are defined between the different execution and memory spaces.
-\cite{edwards2014kokkos}
+Then relationships are defined between the different execution and memory spaces~\cite{edwards2014kokkos}.
 
-Parallelism in Kokkos comes from parallel execution patterns, data parallel and task parallel patterns are used.
+Parallelism in Kokkos comes from parallel execution patterns; data parallel and task parallel patterns are used.
 %
 The primary data parallel patterns are: parallel\_for, parallel\_reduce, and parallel\_scan.
 %
-The data parallel computational kernels are implemented as standard c++ functors.
+The data parallel computational kernels are implemented as standard C++ functors.
 %
 
 The Kokkos abstraction layer has demonstrated performance of approximately 90\% of the performance of the optimized architecture specific versions for kernel tests and mini-applications.
 %
-Kokkos has demonstrated performance on Xeon, Xeon Phi, and Kepler architectures, showing the portability of this solution.
-\cite{edwards2014kokkos}
-\cite{edwards2012manycore}
+Kokkos has demonstrated performance on Xeon, Xeon Phi, and Kepler architectures, showing the portability of this solution~\cite{edwards2014kokkos}~\cite{edwards2012manycore}.
 
 \subsection*{\textbf{Chapel}}
 
@@ -147,14 +139,11 @@ Chapel is an object-oriented parallel programming language which was designed fr
 %
 Chapel was developed in order to improve the programmability and productivity of development on parallel machines.
 %
-DARPA's High Performance Computing Systems defines productivity as ``a combination of performance, programmability, portability, and robustness".
-~\cite{chamberlain2007parallel}
+DARPA's High Performance Computing Systems defines productivity as ``a combination of performance, programmability, portability, and robustness"~\cite{chamberlain2007parallel}.
 %
 Chapel used this idea to make a global-view parallel language that uses a block-imperative programming style.
 %
-Chapel purposely avoided building on the C or Fortran languages in order to help programmers avoid falling back into sequential programming patterns.
-%
-\cite{chamberlain2007parallel}
+Chapel purposely avoided building on the C or Fortran languages in order to help programmers avoid falling back into sequential programming patterns~\cite{chamberlain2007parallel}.
 
 Chapel uses a code generation design to generate parallel C or CUDA code.
 %
@@ -166,14 +155,12 @@ Chapel's design goal is to support any parallel algorithm that a programmer coul
 %
 Chapel supports concepts for describing parallelism separate from those used to describe locality.
 %
-It supports programming at higher and lower levels, as required by the programmer as well as advanced higher-level features such as data distributions or parallel loop schedules.
-%
-~\cite{bradchamberlain2013}
+It supports programming at higher and lower levels, as well as providing advanced higher-level features such as data distributions or parallel loop schedules~\cite{bradchamberlain2013}.
 
 
 \subsection*{\textbf{VTK-m}}
 
-VTK-m is the result of a joined collaboration between three separate groups and three separate national labs coming together and joining forces with Kitware, the owners of the current VTK (Visualization ToolKit) software.
+VTK-m is the result of a collaboration between three separate groups and three separate national labs coming together and joining forces with Kitware, the primary maintainers of the current VTK (Visualization ToolKit) software.
 %
 Visualization applications use VTK in order to express visualization algorithms and data structures in their codes.
 %
@@ -182,24 +169,25 @@ VTK-m came about from the three projects, EAVL, DAX, and PISTON, with the design
 
 The VTK-m framework takes the concepts of data parallel primitives and patterns generated from those primitives to provide a framework for accomplishing visualization algorithms.
 %
-These data parallel primitives can be compiled for different platforms, helping VTK-m achieve portable performance.
-% 
-\cite{moreland2015vtk}
-\cite{moreland2014vtk}
+These data parallel primitives can be compiled for different platforms, helping VTK-m achieve portable performance~\cite{Moreland:CGA2016}~\cite{JSFI77}.
 
 The contributions of the three projects to VTK-m are as follows:
-EAVL -- Provided a robust data model. DAX -- Provided a model for parallel work dispatching. Piston -- Provided many data parallel algorithms and implementations.
+\begin{itemize}
+\item EAVL -- Provided a robust data model. 
+\item DAX -- Provided a model for parallel work dispatching. 
+\item Piston -- Provided many data parallel algorithms and implementations.
+\end{itemize}
+
 
 \subsubsection*{\textbf{EAVL}}
 
-EAVL, or the Extrame-scale Analysis and Visualization Library, was developed with three goals in mind: 
+EAVL, or the Extreme-scale Analysis and Visualization Library~\cite{jeremyEAVL}, was developed with three goals in mind:
+\begin{itemize}
+\item A flexible data model -- ``Expanding on traditional models to support current and forthcoming scientific data sets."
+\item High parallel efficiency -- ``Improve memory and algorithmic efficiency through the enhanced data model, and support stricter memory controls and accelerator device memory models."
+\item Scalability -- ``Support distributed and data parallelism, and transparently target heterogeneous systems."
+\end{itemize}
 %
-1) A flexible data model -- ``Expanding on traditional models to support current and forthcoming scientific data sets". 
-%
-2) High parallel efficiency -- ``Improve memory and algorithmic efficiency through the enhanced data model, and support stricter memory controls and accelerator device memory models".
-%
-3) Scalability -- ``Support distributed and data parallelism, and transparently target heterogeneous systems."
-~\cite{jeremyEAVL}
 
 \subsubsection*{\textbf{Dax}}
 
@@ -207,9 +195,7 @@ Dax, or Data Analysis at Extreme, is a library developed to support fine grained
 %
 This library provides a dispatcher that schedules worklets onto data items.
 %
-The Dax toolkit simplifies the development of parallel visualization algorithms and provides a data parallel framework for scheduling and launching parallel jobs.
-~\cite{morelanddax}
-~\cite{moreland2011dax}
+The Dax toolkit simplifies the development of parallel visualization algorithms and provides a data parallel framework for scheduling and launching parallel jobs~\cite{morelanddax}~\cite{moreland2011dax}.
 
 \subsubsection*{\textbf{PISTON}} 
 
@@ -219,5 +205,4 @@ These operations are performed using data parallel primitives and the NVIDIA Thr
 %
 PISTON uses Thrust to perform the data parallel operations and for its cross-platform compatibility.
 %
-PISTON adds useful algorithms for data visualization and analysis as well as an interface into the Thrust calls.
-~\cite{PISTON}
+PISTON adds useful algorithms for data visualization and analysis as well as an interface into the Thrust calls~\cite{PISTON}.

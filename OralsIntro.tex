@@ -11,7 +11,7 @@ Modern machines are pushing up against a hard power limit, meaning that in order
 %
 As a result, architectures are transitioning from fast and complex multi-core CPUs to the more energy efficient design of larger numbers of slower and simpler processors.
 %
-The amount of parallelism available on any given node in a supercomputer is growing by factors of hundreds or thousands because of this change.
+Relative to one decade ago, the amount of parallelism available on any given node in a supercomputer is growing by factors of hundreds or thousands because of this change.
 %
 This transition to many-core computing brings new and interesting challenges.
 %
@@ -19,7 +19,7 @@ This transition to many-core computing brings new and interesting challenges.
 %
 While it is clear that there will be an increase in node-level parallelism, it is unclear which specific many-core architectures will be used on future supercomputing platforms.
 %
-There are many different architectures to choose from when designing a supercomputer, and there is no obvious choice.
+There are many different architectures to choose from when designing a supercomputer, and there is currently no single consensus for a choice.
 %
 NVIDIA provides General Purpose Graphics Processing Units (GPGPUs) which are highly parallel throughput-optimized devices.
 %
@@ -32,11 +32,11 @@ Across the Department of Energy (DOE) National Labs, both the NVIDIA and Intel t
 
 Application developers now face a complex and unclear path forward.
 %
-There are additional levels of complexity and potentially large changes to simulation codes in order to effectively utilize this increase in parallelism.
+There are additional levels of complexity and potentially large changes to designing simulation codes in order to effectively utilize this increase in parallelism.
 %
 In addition, the factors behind supporting a new architecture are often more complex in the context of legacy codes that aim to run effectively on many architectures.
 %
-Instead, the simulation code developer must address both the issue of portability and the issue of performance of their algorithms, or risk their simulation code becoming outdated to unusable very quickly
+Instead, the simulation code developer must address both the issue of portability and the issue of performance of their algorithms, or risk their simulation code becoming outdated to unusable very quickly.
 %
 This problem is especially challenging when optimizations are specific to one architecture.
 %
@@ -46,7 +46,7 @@ Currently, there are a large number of physics and multi-physics applications th
 %
 Simply porting to new architectures does not guarantee performance, and will still require applications to be ported individually to multiple architectures.
 %
-This paper will describe the current state of the art research for the Monte Carlo particle transport problem, evaluate portable performance solutions that have been made up to this point, and provide a proposal for future research to fill in the important gaps in knowledge.
+This paper will describe the current state of the art research for the Monte Carlo particle transport problem, discuss GPU usage in Monte Carlo particle transport, evaluate portable performance solutions that have been made up to this point, and provide a proposal for future research to fill in the important gaps in knowledge.
 %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

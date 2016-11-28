@@ -1,39 +1,39 @@
-\subsection{\textbf{Event Based Techniques}}
+\subsection{\textbf{Event-Based Techniques}}
 \label{sec:EventBased}
 
-Much discussion has been aimed at the negative affect divergence in Monte Carlo codes has on  performance.
+Much discussion has been aimed at the negative effect divergence in Monte Carlo codes has on  performance.
 %
-Given the inherently parallel nature of the algorithm, each particle being tracked independently, performance of Monte Carlo transport codes on the GPU should be incredible.
+Given the embarrassingly parallel nature of the Monte Carlo transport algorithm, performance of Monte Carlo transport codes on the GPU should be incredible.
 %
-We often see the opposite and have seen throughout this section the different approaches and often marginal speedups that were attained.
+This survey has shown however, that the opposite is often seen in practice.
 %
-One main concern with many of these studies was the affect divergence had on their algorithm.
+Many applications achieve only marginal speedups, siting that the cause of their lack in performance was due to divergence in the code.
 %
 
 %
-In order to combat divergence, a old scheme was re-evaluated for use on GPU architectures.
+In order to combat divergence, an old scheme was re-evaluated for use on GPU architectures.
 %
 Given some of the similarities between the classic vector machines of the 1980's/90's with modern GPU hardware, it is reasonable to consider some of those algorithms for use now.
 %
-One main approach that worked well on SIMD vector hardware, is the event-based approach.
+In particular, the event-based approach worked well on SIMD vector hardware.
 %
-In the event-based approach particles are processed in groups that are performing the same event.
+In the event-based approach particles are processed in groups which perform the same event.
 %
-There are multiple variations to this idea and a few of those are presented here.
+There are multiple variations to this idea, a few of which are presented here.
 %
 
 \subsection*{\textbf{Vectorized Algorithm}}
 
 %
-Early event based algorithms were designed for vector machines and were called vectorized algorithms.
+Early event-based algorithms were designed for vector machines and were called vectorized algorithms.
 %
 Martin describes a successful vectorized algorithm as well some variations in his paper~\cite{martin1989successful}.
 %
 The conventional Monte Carlo algorithm cannot be vectorized since treating many histories simultaneously would immediately fail after the first step of the simulation as each particle can undergo a different event.
 %
-In order to achieve vectorization the histories need to be split into events, which are similar and can be processed in a vectorized manner, i.e. the same set of instructions.
+In order to achieve vectorization the histories need to be split into events, which are similar and can be processed in a vectorized manner, i.e., the same set of instructions.
 %
-The basic event based iteration algorithm is descirbed in Algorithm~\ref{alg:basicEvent}.
+The basic event-based iteration algorithm is described in Algorithm~\ref{alg:basicEvent}.
 %
 
 %
@@ -43,42 +43,42 @@ The basic event based iteration algorithm is descirbed in Algorithm~\ref{alg:bas
 \label{alg:basicEvent}
 \For{ event n = 0, 1, 2, ... }
 {
-	$\cdot$ Fetch $\Gamma^{n}$ \\
-	$\cdot$ Preform free flight analysis:\\
-	\Indp	$\cdot$ gather the cross section data and geometry data tabulated by particle,\\
-		$\cdot$ $\Sigma \leftarrow$ S,\\
-		$\cdot$ $\rho \leftarrow$ R;\\
-		$\cdot$ using $\Sigma$, sample a vector of distances to collision, $d_{c}$\\
-		$\cdot$ using $\rho$, determine vector of minimum distances to boundary, $d_{b}$\\
-		$\cdot$ determine the minimum distances to the end of event,\\
+	 Fetch $\Gamma^{n}$ \\
+	 Preform free flight analysis:\\
+	\Indp	 gather the cross section data and geometry data tabulated by particle,\\
+		 $\Sigma \leftarrow$ S,\\
+		 $\rho \leftarrow$ R;\\
+		 using $\Sigma$, sample a vector of distances to collision, $d_{c}$\\
+		 using $\rho$, determine vector of minimum distances to boundary, $d_{b}$\\
+		 determine the minimum distances to the end of event,\\
 		\Indp $d_{min}$ = min[$d_{c}, d_{b}$];\\
-		\Indm $\cdot$ update the particle coordinates,\\
+		\Indm  update the particle coordinates,\\
 		\Indp $r^{n+1}$ = $r^{n} + \Omega^{n} \cdot r_{min}$\\
-	\Indm $\cdot$ Perform collision analysis:\\
-	\Indp $\cdot$ gather particle attributes,\\
+	\Indm  Perform collision analysis:\\
+	\Indp  gather particle attributes,\\
 	\Indp $\Omega \leftarrow \Gamma^{n}, E \leftarrow \Gamma^{n}$;\\
-	\Indm $\cdot$ evaluate collision physics for new direction cosines and energies,\\
+	\Indm  evaluate collision physics for new direction cosines and energies,\\
 	\Indp $\Omega ' \leftarrow \Omega$, $E' \leftarrow  E$\\
-	\Indm $\cdot$ scatter new particle attributes back into bank,\\
+	\Indm  scatter new particle attributes back into bank,\\
 	\Indp $\Omega ' \leftarrow \Gamma^{n}$, $E' \leftarrow  \Gamma^{n}$\\
-	\Indm \Indm $\cdot$ Perform the boundary analysis:\\
-	\Indp $\cdot$ gather particle zone indices $Z$,\\
+	\Indm \Indm  Perform the boundary analysis:\\
+	\Indp  gather particle zone indices $Z$,\\
 	\Indp $Z \leftarrow \Gamma^{n}$\\
-	\Indm $\cdot$ determine new zone indices,\\
+	\Indm  determine new zone indices,\\
 	\Indp $Z' \leftarrow Z:$\\
-	\Indm $\cdot$ scatter new zone indices back into bank.\\
+	\Indm  scatter new zone indices back into bank.\\
 	\Indp $Z' \rightarrow \Gamma^{n}$\\
-	\Indm \Indm $\cdot$ Update the particle bank,\\
+	\Indm \Indm  Update the particle bank,\\
 	\Indp $\Gamma^{n} \Rightarrow \Gamma^{n+1}\ (with\ L_{n+1}\ particles )$ \\
 	(e.g. compress out terminated particles).\\
-	\Indm $\cdot$ If $L_{n+1} \neq 0, continue$\\
+	\Indm  If $L_{n+1} \neq 0, continue$\\
 %	\State using \Sigma, sample a vector of distances to collision, $d_{c}$
 %	\EndIndent
 }
 \end{algorithm}
 %
 
-In addition to the basic event based approach there are a few variations discussed in Martins paper that expand on this model.
+In addition to the basic event-based approach there are a few variations discussed in Martins paper that expand on this model.
 %
 One variation is the stack-driven approach.
 %
@@ -86,7 +86,7 @@ In this approach the events are further divided into smaller computational tasks
 %
 Instead of cycling through the tasks in a fixed order, the computation can move forward by selecting the event with the largest number of particles.
 %
-This involves a tradeoff of simplified control flow for maximizing the vector lengths of the computational components.
+This involves a tradeoff of simplified control flow versus maximizing the vector lengths of the computational components.
 %
 
 %
@@ -94,17 +94,17 @@ Vectorized versions of the Monte Carlo transport algorithms are all based on thi
 %
 There are many variations but the principal differences all depend on the methods used for organizing and treating the vectors of particles.
 %
-There are variations using stack, tags, and tasks.
+There are variations using stacks, tags, and tasks.
 %
-The major downside to the event based approach is that is requires a large change to pre-existing source code.
+When wishing to change an existing history-based legacy code, the major downside to the event-based approach is that it requires a large change to pre-existing source code.
 %
 
-\subsection*{\textbf{Event Based for GPU}}
+\subsection*{\textbf{Event-Based for GPU}}
 
 %
-Event based methods used for the GPU follow similar design patterns as those that were developed for vector machines.
+Event-based methods used for the GPU follow similar design patterns as those that were developed for vector machines.
 %
-One prime example is the event based version developed by Bergmann for the code WARP~\cite{2014development}.
+One prime example is the event-based version developed by Bergmann for the code WARP~\cite{2014development}.
 %
 Figure~\ref{fig:innerLoopWARP} outlines the inner transport loop broken into its separate stages.
 %
@@ -113,17 +113,17 @@ Figure~\ref{fig:outerLoopWARP} outlines the outer transport loop between neutron
 
 \begin{figure}
 \includegraphics[width=0.49\textwidth]{InnerLoopWARP}
-\caption{WAP inner tranport loop that is executed until all neutrons in a batch are completed~\cite{2014development}}
+\caption{WARP inner tranport loop that is executed until all neutrons in a batch are completed~\cite{2014development}}
 \label{fig:innerLoopWARP}
 \end{figure}
 
 \begin{figure}
 \includegraphics[width=0.49\textwidth]{OuterLoopWARP}
-\caption{WAP inner tranport loop that is executed until all neutrons in a batch are completed~\cite{2014development}}
+\caption{WARP outer transport loop that is executed in between neutron batches for criticality source runs~\cite{2014development}}
 \label{fig:outerLoopWARP}
 \end{figure}
 
-Bergmann's event based Monte Carlo code WARP~\cite{2014development} utilizes a series of kernels that each solves one piece of the process.
+Bergmann utilizes a series of kernels that each solves one piece of the process.
 %
 Once each neutron knows which path it will go down -- i.e. scattering, fission, etc. -- each of those possible paths is launched in a separate kernel.
 %
@@ -131,7 +131,7 @@ Unlike the basic vectorized approach or the stack based approach however, all of
 %
 In this way, the main divergent part of the code is broken into relatively non-divergent kernels which are then launched simultaneously so as to continue to utilize the full hardware.
 
-Not all attempts at vectorization, or implementing an event based algorithm for Monte Carlo transport codes has been successful.
+Not all attempts at vectorization, or implementing an event-based algorithm for Monte Carlo transport codes, have been successful.
 %
 Liu~\cite{liu2014comparative} describes an event-based approach that after being implemented produced a roughly ten times slower version then the history-based code.
 %

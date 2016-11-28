@@ -1,20 +1,22 @@
 \section{\textbf{Monte Carlo and Portable Performance}}
 
-In this section Monte Carlo transport applications will be evaluated as a platform for portable performance studies.
+This section considers Monte Carlo transport applications in the context of portable performance.
 %
-Monte Carlo transport offers a unique set of challenges and interesting lessons when evaluating portable performance possibilities.
+Efforts in Ray Tracing using the EAVL/VTK-m framework showed significant success~\cite{larsen2015ray} and provide workloads that are similar to those used in Monte Carlo transport problems.
 %
-Efforts in Ray Tracing using the EAVL/VTK-m framework showed significant success and provide workloads that are similar to those used in Monte Carlo transport problems.
+However, Monte Carlo transport offers a unique set of challenges and interesting lessons when evaluating portable performance possibilities that are not covered through similar algorithms.
+%
+These challenges include: complex/random data access patterns in many nested steps, many nested levels of divergence, and complex output tally systems.
 %
 In addition, the idea of portable performance is popular with many different groups, who are putting forward possible designs and library options.
 %
-Each of these designs or abstraction layers-- EAVL, DAX, PISTON, VTK-m, Thrust, OpenMP, OpenACC, RAJA, Chapel, and Kokkos --has its own pluses and minuses, as well as requiring different amounts of effort in order to make it function within already existing codes.
+Each of these designs or abstraction layers --- listed in Section~\ref{sec:whatispp} --- has its own pluses and minuses, as well as requiring different amounts of effort in order to make it function within already existing codes.
 %
 
 %
 There is a large number of potential directions and possible areas to focus on in this study.
 %
-Looking now at Bleile's work with a Monte Carlo mini app, ALPSMC~\cite{alpsmc1}~\cite{alpsmc2}, the Monte Carlo algorithmic question of event based versus history based algorithms in a simplified Monte Carlo code was evaluated.
+In Bleile's work with a Monte Carlo research application, ALPSMC~\cite{alpsmc1}~\cite{alpsmc2}, the algorithmic question of event-based versus history-based algorithms choice was evaluated.
 %
 In addition, the effects that different parallel paradigms have on performance as well as the ease of code conversion were studied.
 %
@@ -25,7 +27,7 @@ ALPSMC~\cite{brantley2011benchmark} is a Monte Carlo test code that models neutr
 %
 It is originally a serial C++ application that follows an all particle history based approach.
 %
-This history based algorithm is shown in Algorithm~\ref{alg:history-based}
+This history based algorithm is shown in Algorithm~\ref{alg:history-based}.
 %
 
 \begin{algorithm}
@@ -59,7 +61,7 @@ This history based algorithm is shown in Algorithm~\ref{alg:history-based}
 %
 The original work was to convert this algorithm into an event based approach.
 %
-The event based algorithm performs data parallel operations across all of the particles that are in the same event, as well as a series of data parallel steps required to do proper book keeping to get the particles for each event.
+The event based algorithm performs data parallel operations across all of the particles that are in the same event, as well as a series of data parallel steps required to do proper bookkeeping to get the particles for each event.
 %
 The event based algorithm is defined in Algorithm~\ref{alg:eventbased}.
 %

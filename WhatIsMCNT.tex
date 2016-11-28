@@ -69,7 +69,7 @@ $\Sigma_{f} (\vec{r},E') $ is the macroscopic cross section for particle product
 $\chi (E)$ is a secondary particle spectrum from he fission process,
 $\nu (E)$ is the average number of particles emitted per fission,
 $S_ext(\vec{r}, E, \Omega, t )$ represents an external source,
-$\vec{r}$ is the spacial coordinates,
+$\vec{r}$ is the spatial coordinates,
 $E$ is the energy,
 $\Omega$ is angular direction,
 and $t$ is the term for time~\cite{gentileMCPTAPO}.
@@ -87,7 +87,7 @@ In order to simulate a particle, the distance the particle must travel before it
 %
 The interaction with the shortest distance is chosen, followed by updating the particle and tallies based on the distance traveled and interaction occurring.
 % 
-Algorithm~\ref{alg:historybased} shows the history-based approach for a simple research code~\cite{alpsmc1} that has simple properties we can use to describe the method.
+Algorithm~\ref{alg:historybased} shows the history-based approach for a simple research code~\cite{alpsmc1}.
 %
 Algorithm~\ref{alg:mcmethod} shows the outer most scope of a Monte Carlo Problem for referencing where different optimizations or stages occur.
 %
@@ -95,7 +95,7 @@ For example, Algorithm~\ref{alg:historybased} takes place inside the Cycle loop 
 
 \begin{algorithm}
 \DontPrintSemicolon
-\caption{History-based Monte Carlo algorithm}
+\caption{History-based Monte Carlo tracking algorithm}
 \label{alg:historybased}
 \ForEach{particle history}
 { 
@@ -121,13 +121,13 @@ For example, Algorithm~\ref{alg:historybased} takes place inside the Cycle loop 
 
 \begin{algorithm}
 \DontPrintSemicolon
-\caption{Monte Carlo Method}
+\caption{Monte Carlo method}
 \label{alg:mcmethod}
 Parse Inputs\;
 \ForEach{Cycle}
 {
 	Initialize\;
-	Tracking: Algorithm~\ref{alg:historybased}\;
+	Tracking (Algorithm~\ref{alg:historybased})\;
 	Finalize\;
 }
 Gather Tallies\;
