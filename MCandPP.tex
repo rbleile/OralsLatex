@@ -1,6 +1,6 @@
-\section{\textbf{Monte Carlo and Portable Performance}}
+\section{\textbf{Dissertation Proposal: Monte Carlo and Portable Performance}}
 
-This section considers Monte Carlo transport applications in the context of portable performance.
+This section considers Monte Carlo transport applications in the context of portable performance as a proposed dissertation research plan.
 %
 Efforts in Ray Tracing using the EAVL/VTK-m framework showed significant success~\cite{larsen2015ray} and provide workloads that are similar to those used in Monte Carlo transport problems.
 %
@@ -14,20 +14,21 @@ Each of these designs or abstraction layers --- listed in Section~\ref{sec:whati
 %
 
 %
-There is a large number of potential directions and possible areas to focus on in this study.
+The following sections discuss in detail the research plan for completing a dissertation.
 %
-In Bleile's work with a Monte Carlo research application, ALPSMC~\cite{alpsmc1}~\cite{alpsmc2}, the algorithmic question of event-based versus history-based algorithms choice was evaluated.
+First is a discussion of recently completed work with a Monte Carlo research application, ALPSMC~\cite{alpsmc1}~\cite{alpsmc2}, were the algorithmic question of event-based versus history-based algorithms choice was evaluated.
 %
-In addition, the effects that different parallel paradigms have on performance as well as the ease of code conversion were studied.
+In addition, the effects that different parallel paradigms have on performance as well as the ease of code conversion were studied in this work.
 %
+Following, is a discussion of future work directions and a path to completing a dissertation.
 
-\subsection{\textbf{ALPSMC}}
+\subsection{\textbf{Work to date: ALPSMC}}
 
 ALPSMC~\cite{brantley2011benchmark} is a Monte Carlo test code that models neutron transport in a one dimensional planar geometry, through a binary stochastic medium.
 %
-It is originally a serial C++ application that follows an all particle history based approach.
+It is originally a serial C++ application that follows an all particle history-based approach.
 %
-This history based algorithm is shown in Algorithm~\ref{alg:history-based}.
+This history-based algorithm is shown in Algorithm~\ref{alg:history-based}.
 %
 
 \begin{algorithm}
@@ -59,11 +60,11 @@ This history based algorithm is shown in Algorithm~\ref{alg:history-based}.
 %
 
 %
-The original work was to convert this algorithm into an event based approach.
+The original work was to convert this algorithm into an event-based approach.
 %
-The event based algorithm performs data parallel operations across all of the particles that are in the same event, as well as a series of data parallel steps required to do proper bookkeeping to get the particles for each event.
+The event-based algorithm performs data parallel operations across all of the particles that are in the same event, as well as a series of data parallel steps required to do proper bookkeeping to get the particles for each event.
 %
-The event based algorithm is defined in Algorithm~\ref{alg:eventbased}.
+The event-based algorithm is defined in Algorithm~\ref{alg:eventbased}.
 %
 The operations required to launch the event kernels are defined as follows and correspond to lines 6 and 7 of Algorithm~\ref{alg:eventbased}.
 %
@@ -141,7 +142,9 @@ Thrust Event OpenMP SOA & 5.54\\
 
 Through this experience we have demonstrated a few important points.
 %
-First we demonstrated excellent performance in both algorithms, achieving \textasciitilde50x performance for both history and event based algorithms.
+First we demonstrated excellent performance in both algorithms, achieving \textasciitilde50x performance for both history and event-based algorithms.
+%
+Scudiero~\cite{tonyScudiero} showed similar success with a history-based approach and explained that the primary concern of Monte Carlo transport on GPUs is actually memory latency and divergence does not significantly impact results in a memory latency bound problem.
 %
 Additionally, these examples showed that using data parallel design and an abstraction layer -- in this case Thrust -- can preform just as well as when programmed in native CUDA under some circumstances. 
 %
@@ -151,7 +154,7 @@ Figure~\ref{fig:OMPScale} shows that the OpenMP version scales well but it has a
 
 \begin{figure}
 \includegraphics[width=0.49\textwidth]{thrustOMPSpeedup.pdf}
-\caption{Speedups versus number of particles for the event based Thrust CPU method with 1, 2, 4, 8, 16 OpenMP threads compared to the Thrust CPU method serially.~\cite{alpsmc2}}
+\caption{Speedups versus number of particles for the event-based Thrust CPU method with 1, 2, 4, 8, 16 OpenMP threads compared to the Thrust CPU method serially.~\cite{alpsmc2}}
 \label{fig:OMPScale}
 \end{figure}
 
@@ -162,7 +165,7 @@ ALPSMC is a small test code that functions like a mini app to a larger applicati
 Since ALPSMC does simplify many of the complex parts of the Monte Carlo transport problem the actual speedups may not accurately reflect the final performance possibilities of a more fully featured Monte Carlo transport code.
 %
 
-\subsection{\textbf{Proposal}}
+\subsection{\textbf{Future Work}}
 
 This survey has outlined the long history of Monte Carlo transport applications and research.
 %
@@ -196,7 +199,7 @@ This application will provide a begining point for redesign of the Mercury Monte
 
 I propose to work under the Mercury group on the Quicksilver mini application, in order to develop a scalable GPU version of the code in a way that can translate to direct modifications of the production application.
 %
-I will further explore the event versus history based dilemma under the Quicksilver application in order to understand the potential performance when compared to the much larger necissary redesign.
+I will further explore the event versus history-based dilemma under the Quicksilver application in order to understand the potential performance when compared to the much larger necissary redesign.
 %
 I also plan on exploring the potential for a hybrid event/history algorithm that might utilize the advantages of both when possible.
 %

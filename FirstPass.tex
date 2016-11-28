@@ -109,7 +109,23 @@ Badal and Badano~\cite{badal2009accelerating} present work on photon transport i
 Their work emphasizes simply using GPUs instead of CPUs as GPUs increase performance faster than CPUs.
 %
 
+%
+Ren et al.~\cite{ren2010gpu} present work on photon propagation through tissue, showing around a 10X performance increase when using the GPU.
+%
+Their discussion expressed clearly that the performance was related strongly to the size of the data set and the number of simulated photons.
+%
+In addition, their results were negatively affected by high level divergence when processing different types of tissues.
+%
+
+%
+Alerstam et al.~\cite{alerstam2008parallel} present work on a GPU based photon migration simulation in CUDA with speedups around 1000X over a single core CPU.
+%
+This specific problem does not suffer from the same divergence issues that other Monte Carlo codes have as the algorithm for completing a photon migration has very little divergence and can be easily optimized for memory layouts.
+%
+
+
 \subsubsection*{\textbf{Neutron Transport}}
+
 %
 Nelson's work presented in his thesis~\cite{nelson2009monte} shows a variety of models and considerations for his performance results.
 %
@@ -119,8 +135,23 @@ The model that produced his best results shows 19X from a 49,152 neutrons per ba
 %
 The same model shows 23X when using single-precision and fast math.
 %
-For double-precision performance the fastest speedups he observed were 12X..
+For double-precision performance the fastest speedups he observed were 12X.
 %
+
+Work done by Gong et al.~\cite{gong2011accelerating} in a MCNP-based application has similar performance benefits to Nelson's work.
+%
+Speedup factors of 16X to 23X were found depending on problem parameters.
+%
+This work was an introductory attempt at implementing MCNP in CUDA, since MCNP is so large it covers only a subset of possible features and problem types.
+%
+
+Heimlich et al.~\cite{heimlich2009gpu} reported a speedup of around 15X for his neutron transport application when comparing a GPU to an 8-core CPU.
+%
+This work focused on optimizing a history-based approach in CUDA for the GPU and using MPI+openMP for the CPU.
+%
+This particular algorithm contained only small amounts of divergence in the code path that computes the random walk of neutrons, providing a possibility for greater use of available parallelism.
+%
+
 
 \subsubsection*{\textbf{Gamma Ray Transport}}
 %

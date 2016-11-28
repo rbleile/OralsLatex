@@ -16,7 +16,75 @@ Further, future supercomputing designs may include low-power architectures (e.g.
 Given this wide array of possible architectures, the value of portable performance has never before been higher.
 %
 
+\subsection{\textbf{Portable Performance Applications}}
+
+The need for portable performance in scientific applications spans disciplines.
+%
+In this section we will look at the meaning of portability and the uses of portable performance abstractions in different contexts.
+%
+Moreland et al.~\cite{moreland2015visualization} establish the need for some form of portable performance solution in their paper, ``Visualization for Exascale: Portable Performance is Critical".
+%
+While the context of visualization is used, their arguments span more than just visualization applications.
+%
+Currently in use scientific legacy applications today will not be adequate as they are now to run on exa-scale machines, or even the up coming peta-scale machines.
+%
+Applications such as these that need to be ready to run on new machines as they arrive will need to look strongly at portable performance solutions in order to maintain relevance in the upcoming computing environments.
+
+Portability does not mean the same thing to everyone.
+%
+In some cases, portability might be as simple as requiring minimal code changes to run on a new architecture.
+%
+Bosilca et al. ~\cite{bosilca2011performance} describe portability for their application as requiring no code changes to the main body of code in order to enable GPUs.
+%
+In this work, the only allowable changes were those in CUDA to launch kernels while the body of the work had to remain unchanged.
+%
+In this work they added a scheduler that could launch code regions onto different platforms based on availability and which one isthe most beneficial for performance.
+
+Du et al.~\cite{du2012cuda} describe their work as portable since they transitioned from CUDA to OpenCL.
+%
+The goal of their work was to understand the performance tradeoff between a more portable OpenCL implementation of an algorithm and the vendor specific GPU language CUDA.
+%
+In this work Du et al. showed that the performance of OpenCL was similar to CUDA for the compute intensive kernels but also had a higher overhead.
+%
+Also, it is important in OpenCL to account for architecture specific features or designs for optimum performance.
+%
+
+Portable performance as was laid out in Moreland et al.'s paper can be seen in recent work done in the field of ray tracing and volume rendering.
+%
+Larsen et al.~\cite{larsen2015ray} presented his work for a method of ray tracing consisting entirely of data parallel primitives.
+%
+In this work, all parallel operations are expressed using a data parallel primitive which is defined in a library.
+%
+The definitions of these primitives are then compiled to be CUDA, OpenMP, or serial executions.
+%
+The performance of this method is shown to be competitive with both of the top ray tracing libraries, Optix from NVIDIA and Embree from Intel. 
+%
+In addition to ray tracing Larsen et al.~\cite{larsen2015volume} followed up this work with a volume rendering capability that uses the same principles for portable performance.
+%
+This work shows volume rendering performance similar to current industry standards while also maintaining portability.
+
+Portable performance also exists outside of the visualization realm with scientific codes also utilizing the new methods being developed.
+%
+Rahaman et al.~\cite{rahaman2015portability} presents work on portable performance for nuclear reactor models by using the OCCA programming model.
+%
+OCCA, or the Open Concurrent Computing Abstraction, provides an interface into parallelism that can be compiled for different architectures.
+%
+Like many of the abstraction layers that will be discussed in Section~\ref{sec:abstractionLayers}, OCCA provides the ability to write code once and compile it into different known formats such as OpenMP, CUDA, or serially.
+%
+Rahaman et al. compared the performance of this abstraction against native implementations in order to weight the usefulness of the portability it provided.
+%
+Their results showed that for some cases optimal performance could be achieved simply on both a CPU and a GPU, but in other cases it took complex specialization in order to make the same kernel work well on both architectures.
+
+Portability has become a pressing point for developing applications in todays computing environment.
+%
+Applications like Rahaman studied which preformed less than optimal on some architectures are quite common as architecture specific optimizations become increasingly difficult to balance.
+%
+An added complication to this issue is the inclusion of legacy codes into the mix.
+%
+Since legacy codes are already developed and might require massive rewrites to take on a new architecture like a GPU, finding a portable performance solution will be critical to their future development.
+
 \subsection{ \textbf{Abstraction Layers}}
+\label{sec:abstractionLayers}
 
 Abstraction layers are a frequent used method for achieving portable performance.
 %
@@ -24,7 +92,7 @@ The key idea behind an abstraction layer is to hide the complexity of parallelis
 %
 Then the abstraction can handle how to parallelize a given section of code onto separate hardware architectures.
 %
-The remainder of this section surveys known abstraction layers with a summary of their benefits and goals.
+The remainder of this section surveys some of the known abstraction layers with a summary of their benefits and goals.
 
 \subsection*{\textbf{OpenMP}}
 
@@ -41,7 +109,7 @@ Lee et. al.~\cite{lee2009openmp} describe several advantages for using OpenMP as
 \item ``Incremental parallelization of applications, which is one of OpenMP's features, can add the same benefit to GPGPU programming."
 \end{itemize}
 
-By including target device directives as well as other supporting features, OpenMP is able to utilize its experiences in parallel computing and offer a familiar solution to programmers who need to make new or existing algorithms and codes work for parallel CPUs, GPUs and more~\cite{ayguade2010extending}.
+By including target device directives as well as other supporting features, OpenMP is able to utilize its experiences in parallel computing and offer a familiar solution to programmers who need to make new or existing algorithms and codes work for parallel CPUs, GPUs and more~\cite{ayguade2010extending}~\cite{lee2010openmpc}.
 
 \subsection*{\textbf{OpenACC}}
 
@@ -112,7 +180,7 @@ Finally, at compile time one of the architectures or versions of the parallel lo
 
 \subsection*{\textbf{Kokkos}}
 
-The Kokkos C++ library provides a programming model that enables performance portability across devices.
+The Kokkos~\cite{edwards2012kokkos} C++ library provides a programming model that enables performance portability across devices.
 %
 The objective of the Kokkos library is to allow as much of the user's code as possible to be compiled for different devices, while obtaining the same performance as a variant of the code that was written specifically for that device.
 %
@@ -199,7 +267,7 @@ The Dax toolkit simplifies the development of parallel visualization algorithms 
 
 \subsubsection*{\textbf{PISTON}} 
 
-The Portable Data-Parallel Visualization and Analysis Library, referred to as PISTON, is a cross-platform library that provides operations for scientific visualization and analysis.
+The Portable Data-Parallel Visualization and Analysis Library~\cite{lo2012piston}, referred to as PISTON, is a cross-platform library that provides operations for scientific visualization and analysis.
 %
 These operations are performed using data parallel primitives and the NVIDIA Thrust library.
 %

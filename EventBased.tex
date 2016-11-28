@@ -89,8 +89,16 @@ Instead of cycling through the tasks in a fixed order, the computation can move 
 This involves a tradeoff of simplified control flow versus maximizing the vector lengths of the computational components.
 %
 
+In recent work by Ozog et al.~\cite{ozog2015performance}, multiple approaches to vectorization were tried.
 %
-Vectorized versions of the Monte Carlo transport algorithms are all based on this original basic algorithm.
+The banks of particles method described in Ozog et al.'s paper follows the same form as the original basic stack based algorithm, with sub-stacks to manage vectorizable groupings of particles.
+%
+A second idea, that offered performance benefits of 1.6x for an Intel many integrated core (MIC) processor over an Intel Xeon processor, was to vectorize nuclear data lookup portions of the code.
+%
+In this way particles are processed in the same history based manner (little to no code changes required), and vector units are utilized to preform the expensive nuclear data lookup and interpolation calculations.
+
+%
+Vectorized versions of the Monte Carlo transport algorithms are generally based on this original basic algorithm.
 %
 There are many variations but the principal differences all depend on the methods used for organizing and treating the vectors of particles.
 %

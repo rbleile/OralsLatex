@@ -62,11 +62,13 @@ The main drawback to the event based approach is the added time for data movemen
 %
 
 %
-Brown reported the potential for speedups of 20x-85x in his theoretical analysis of the use of event-based methods, and deemed this approach well worth the efforts required to change codes around in order to use this approach on vector machines ~\cite{brown1984monte}.
+Brown reported the potential for speedups of 20X-85X in his theoretical analysis of the use of event-based methods, and deemed this approach well worth the efforts required to change codes around in order to use this approach on vector machines ~\cite{brown1984monte}.
 %
-Martin's single big stack, sub-stack approach saw speedups randing from 5x to 12x depending on the problem and the machine he was running on~\cite{martin1986monte}.
+Martin's single big stack, sub-stack approach saw speedups randing from 5X to 12X depending on the problem choice and the machine he was running on~\cite{martin1986monte}.
 %
-Bobrowicz's explicit stack approach reached speedups of around 8x - 10x compared with the original history-based approach~\cite{bobrowicz1984vectorized}.
+Vujic and Martin vectorized and parallelized a reactor assembly code using explicit stacks and vectorizable data structures, reducing wall-clock time by 22X~\cite{vujic1991vectorization}.
+%
+Bobrowicz's explicit stack approach reached speedups of around 8X - 10X compared with the original history-based approach~\cite{bobrowicz1984vectorized}.
 %
 Finally, Burns used GAMTEB, the LANL Benchmark code, to show he could achieve similar performance to Bobrowicz by following a similar approach as Brown~\cite{burns1989vectorization}.
 %
