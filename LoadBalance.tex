@@ -41,7 +41,7 @@ In these works, the first step is to compute a speedup factor by comparing curre
 %
 The second step is to predict the run time by using the time to execute the previous cycle ($ \tau_{Phys} $), the speedup factor ($S$), and finally, the time to compute the load balance itself ($ \tau_{LB} $).
 %
-The final step is to compare the predicted run with and without load balancing to determine if the operation is worthwhile.
+The final step is to compare the predicted runtime with and without load balancing to determine if the operation is worthwhile.
 %
 The equations describing this algorithm then are:
 
@@ -58,12 +58,12 @@ As an extension to the domain decomposition of meshes, O'Brien and Joy demonstra
 %
 One key difference between mesh and CSG geometries is that mesh geometries contain a description of cell connectivity, whereas cells defined through CSG do not.
 %
-In order to domain decompose these CSG cells, each cell was given a bounding box; since each domain is also a box, a test for if a cell belonging inside a domain becomes an axis-aligned box-box intersection test.
+In order to domain decompose these CSG cells, each cell was given a bounding box; using this bounding box, a test for if a cell belonging inside a domain becomes an axis-aligned box-box intersection test.
 %
 
 In addition to pure mesh and pure CSG problems other combinations are sometimes beneficial, such as the combination of mesh and CSG problems where there are large-scale heterogeneous and homogeneous regions.
 %
-In this method, a mesh region is embedded inside a CSG region allowing for the use of each in whichever region one or the other is more optimal
+In this method, a mesh region is embedded inside a CSG region allowing for the use of either, based on whichever region is more optimal
 ~\cite{greenman2009enhancements}.
 
 \subsection*{Load Balance at Scale}
@@ -72,32 +72,32 @@ In this method, a mesh region is embedded inside a CSG region allowing for the u
 When load balancing massively parallel computers, 
 examining the workload of every processor can affect scalability.
 %
-O'Brien, Brantley and Joy presented a scalable load balancing algorithm that runs in $\Theta ( log ( N ) )$ by using iterative processor-pair-wise balancing steps that will ultimately lead to a balanced workload.
+O'Brien, Brantley, and Joy presented a scalable load balancing algorithm that runs in $\Theta ( log ( N ) )$ by using iterative processor-pair-wise balancing steps that will ultimately lead to a balanced workload.
 %
-Their algorithm was demonstrated scalability on up to two million processors on the Sequoia supercomputer at Lawrence Livermore National Laboratory~\cite{o2013scalable}.
+Their algorithm demonstrated scalability on up to two million processors on the Sequoia supercomputer at Lawrence Livermore National Laboratory~\cite{o2013scalable}.
 %
 
 %
-The pair-wise load balancing scheme maintained efficiency of 95\% at 2 million processors while the not load balanced runs dropped in efficiency to around 68\% at 2 million processors.
+The pair-wise load balancing scheme maintained efficiency of 95\% at 2 million processors, while the not load balanced runs dropped in efficiency to around 68\% at 2 million processors.
 %
 In addition, the load-balanced version is able to maintain near perfect scaling up to 2 million processors.
 %
-By dispersing the workload over processors effectively it also decreases the overall tracking time~\cite{o2013scalable}.
+By dispersing the workload effectively over processors it also decreases the overall tracking time~\cite{o2013scalable}.
 %
 
-Algorithms that interact with particles and geometries are affected when domain decomposition is added.
+Algorithms that interact with particles and geometries are effected when domain decomposition is added.
 %
-Three algorithms are described in~\cite{o2015particle} which are modified once domain decomposition is added.
+Three algorithms are described in~\cite{o2015particle} are modified when domain decomposition is added.
 %
-Specifically a global particle find algorithm, a test for done, and domain neighbor replication.
+Specifically a Global Particle Find algorithm, a Test For Done algorithm, and Domain Neighbor Replication.
 %
-The global particle find is the algorithm used to find where a particle is currently located in the geometry.
+The Global Particle Find algorithm is used to find where a particle is currently located in the geometry.
 %
 After domain decomposition a tree search was added to quickly decide which domain a particle is in before then searching in specific geometry elements.
 %
-The test for done algorithm, which reports if there are any particles left to process, can be easily achieved by using MPI\_I allreduce() in place of a complex hand coded algorithm.
+The Test For Done algorithm, which reports if there are any particles left to process, can be easily achieved by using MPI\_I allreduce() in place of a complex hand coded algorithm.
 %
-Lastly, the domain neighbor replication was found to be an important algorithm to combine with domain decomposition as it increased achieved load balance and reduced the total memory usage.
+Lastly, the Domain Neighbor Replication was found to be effective when combined with domain decomposition, as it increased achieved load balance and reduced the total memory usage.
 %
 
 

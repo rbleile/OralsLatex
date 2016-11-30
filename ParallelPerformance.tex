@@ -80,13 +80,13 @@ One such machine was the Tera Multi-Threaded Architecture (MTA).
 %
 This approach focused on the use of parallel processors, hardware threading, and a shared-memory no cache design.
 %
-The idea was by focusing on threading they could mask away memory latency~\cite{majumdar2000parallel, snavely1998multi}.
+The idea was to mask away memory latency by focusing on threading~\cite{majumdar2000parallel, snavely1998multi}.
 %
 
 %
 Majumdar tried two methods of parallelizing the photon transport application TPHOT on the Tera MTA~\cite{majumdar2000parallel}. 
 %
-In TPHOT, looping occurred over spatial zones and energies of a region, with photons being computed when their containing region was processed. 
+In TPHOT, looping occurred over spatial zones and all possible energy levels, with photons being computed when their containing zone/energy level was processed.
 %
 So for this application Majumdar chose to parallelize both over zones and over a combination of zones and energies through loop unrolling.
 %
@@ -127,7 +127,7 @@ More modern systems utilize shared-memory ideas as well, with a majority of the 
 %
 Often this model is overlooked in preference of distributed computing via MPI but that is not always the case.
 %
-Given an all particle method, OpenMP codes tend to scale with good efficiency with the only drawbacks having to do with possible atomic operations occuring the collection of output tallies.
+Given an all particle method, OpenMP codes tend to scale with good efficiency with the only drawbacks having to do with possible atomic operations occurring during the collection of output tallies.
 %
 In the case of no atomic operations and plenty of work, shared-memory implementations have nearly perfect efficiency on a node~\cite{siegel2014multi}.
 
@@ -161,7 +161,7 @@ As MPI processes increase, Monte Carlo transport continues to get a nearly linea
 %
 Majumdar shows that with 16 nodes and 8 MPI tasks per node, his biggest run, he was still able to achieve a 88\% efficiency~\cite{majumdar2000parallel} in his code that was parallel over zones and energies.
 %
-In an all particle code, Mercury at LLNL, parallel efficiencies of 80-90\% are seen when using MPI parallelism~\cite{procassini2005load}.
+In an all particle code, Mercury at LLNL, parallel efficiencies of \textasciitilde95\% are seen when using MPI parallelism up to 2 million processors~\cite{o2013scalable}.
 
 \subsection*{ \textbf{Distributed- + Shared-Memory Performance}}
 
@@ -172,7 +172,7 @@ Shared-memory parallelism exists on a node or on one of the new accelerator devi
 %
 Distributed-memory parallelism provides the opportunity for scaling to large supercomputers or clusters, giving users many nodes to work with.
 %
-Given the nature of these two models it is surprising how rarely they are combined.
+Given the natural fit between these two models it is surprising how rarely they are combined in practice.
 %
 Developers may have avoided using both types of parallelism to date since 
 distributed-memory approaches work ``well enough" within a node, meaning
