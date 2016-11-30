@@ -1,23 +1,28 @@
 \subsection{\textbf{Nuclear Data}}
 
-Looking up nuclear data information is a 
-large part of many Monte Carlo transport calculations.
+Nuclear data is stored in large tables of information that are generally accessed though libraries designed to interact with the data.
 %
-Nuclear data consists of microscopic cross section data for atomic isotope and different reactions.
+These libraries, like the GIDI library at LLNL~\cite{mckinley2015implementation}, provide all of nuclear data requests to simulation codes like Monte Carlo particle transport.
 %
-Macroscopic cross sections can be calculated from the microscopic cross sections data.
+Nuclear data provides the physics to the computational algorithms and is needed at multiple stages in the computation.
+
+Looking up nuclear data information is a large part of Monte Carlo transport calculations.
+%
+Nuclear data consists of microscopic cross section data for nuclear and atomic collisions for all possible reactions.
+%
+Additionally, macroscopic cross section information can be calculated from the microscopic cross sections data.
 %
 Both microscopic and macroscopic cross section information is needed in order to understand what reactions a particle undergoing a collision will do.
 %
-Depending on the problem and the choices made to solve it, time spent looking up nuclear data can often be between 10\% and 85\% of the overall runtime.
+Depending on the specific problem being solved, time spent looking up nuclear data can often be between 10\% and 85\% of the overall runtime~\cite{tramm2014xsbench}, as is the case in the production Monte Carlo application OpenMC~\cite{romano2013openmc}~\cite{romano2015openmc}.
+
+There are two primary methods for storing and looking up nuclear cross section data: continuous energy and multi-group.
 %
-The problems that spend more time looking up cross section data are often using what is known as the continuous energy model where energy values are stored as a large sequence of points and exact values are found through interpolation.
+The continuous energy model spends more time looking up cross section data since energy values are stored as a large sequence of points and exact values are found through interpolation.
 %
-Multi-group cross sections is another method for cross section lookups.
+Multi-group cross section data is stored in some number of bins and all energies that land in the bin are given the same value. 
 %
-With this method, cross section data is stored in some number of bins and all energies that land in the bin are given the same value. 
-%
-The method is often much faster, sometimes reducing searches by orders of magnitude, but less accurate.
+This method is often much faster, sometimes reducing searches by orders of magnitude, but less accurate.
 %
 
 %
