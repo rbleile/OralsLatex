@@ -4,28 +4,28 @@ Variance reduction is a key concept in Monte Carlo transport problems.
 %
 The solutions to Monte Carlo problems are given in the form of statistics and so reducing the variance in those statistics leads to more accurate or easier to compute solutions.
 %
-Often without some use of variance reduction, certain problems would take an incredible amount of time and computing power to begin finding a solution.
+Often without some use of variance reduction, certain problems would take an incredible amount of time and computing power to find a solution.
 %
 The idea behind variance reduction is to increase the efficiency of Monte Carlo calculations and permit the reduction of the sample size in order to achieve a fixed level of accuracy or increase accuracy at a fixed sample size~\cite{kahn1953methods}.
 %
 Some commonly used variance reduction techniques are common random numbers, antithetic variates, control variates, importance sampling and stratified sampling, although most used in Monte Carlo transport is some form of importance sampling.
 %
 
-\subsubsection*{\textbf{Common Random Numbers}} This method of variance reduction involves comparing two or more alternative configurations instead of only a single configuration. Variance reduction is achieved by introducing an element of a positive correlation between the sets~\cite{wikipediaVarReduction}.
+\subsubsection*{\textbf{Common Random Numbers}} This method of variance reduction involves comparing two or more alternative configurations instead of only a single configuration. Variance reduction is achieved by introducing an element of a positive correlation between the sets. This can be accomplishd through insuring that all configurations of a problem use the same random numbers to find solutions. ``For example, in queueing theory, if we are comparing two different configurations of tellers in a bank, we would want the (random) time of arrival of the Nth customer to be generated using the same draw from a random number stream for both configurations"~\cite{wikipediaVarReduction}.
 
 \subsubsection*{\textbf{Antithetic Variates}} This method of variance reduction involves taking the antithetic path for each path sampled --- so for a given path $ \{ \varepsilon_1, ..., \varepsilon_M \}$ one would also take the path $ \{ -\varepsilon_1, ... , -\varepsilon_M  \} $. This method reduces the number of samples needed and reduces the variance of the sampled paths~\cite{wikipediaAntitheticVaraites}.
 
 \subsubsection*{\textbf{Control Variates}} This method of variance reduction involves creating a correlation coefficient by using information about a known quantity to reduce the error in an unknown quantity. This method is equivalent to solving a least squares system and so is often called regression sampling~\cite{wikipediaControlVaraites}.
 
-\subsubsection*{\textbf{Importance Sampling}} This method of variance reduction involves estimating properties of a particular distribution, while only having samples generated from a different distribution than the distribution of interest. This method emphasizes important values by sampling them more frequently and sampling unimportant values less frequently~\cite{wikipediaImportanceSampling}. This is often achieved through methods known as splitting or Russian roulette. In splitting and Russian roulette particles are each given a weight and if particles enter an area of higher importance they are split into more particles with less weight giving a larger sample size. If particles travel in a region that is not important they undergo Russian roulette where some particles are killed off and others are given a heavier weight to account for those removed~\cite{melnik2000rare}.
+\subsubsection*{\textbf{Importance Sampling}} This method of variance reduction involves estimating properties of a particular distribution, while only having samples generated from a different distribution than the distribution of interest. This method emphasizes important values by sampling them more frequently and sampling unimportant values less frequently~\cite{wikipediaImportanceSampling}. This is often achieved through methods known as splitting or Russian roulette. In splitting and Russian roulette particles are each given a weight and if particles enter an area of higher importance they are split into more particles with less weight giving a larger sample size. If particles travel in a region that is not important they undergo Russian roulette where some particles are killed off and others are given more weight to account for those removed~\cite{melnik2000rare}.
 
 \subsubsection*{\textbf{Stratified Sampling}} This method of variance reduction is accomplished by separating members of a population into homogeneous groups before sampling. Sampling each stratum reduces sampling error and can produce weighted means that have less variability than the arithmetic mean of a simple sampling of the population~\cite{wikipediaStratifiedSampling}.
 
-Modern research in the area of variance reduction techniques often includes a specific problem that requires a more focused study to utilize one of these previously described patterns.
+Recent research in the area of variance reduction techniques often includes a specific problem that requires a more focused study to utilize one of these previously described patterns.
 %
-For example in the problem of atmospheric radiative transfer modeling Iwabuchi recently published work describing their proposal of some variance reduction techniques that they can use to help solve the problem of solar radiance calculations.
+For example, in the problem of atmospheric radiative transfer modeling, Iwabuchi recently published work describing a proposal for some variance reduction techniques that they can use to help solve the problem of solar radiance calculations.
 %
-They describe four methods that are developed directly from their problem.
+Described are four methods that are developed directly from their problem.
 %
 The first is to use a type of Russian roulette on values that will contribute small or meaningless amounts to the overall calculation within some threshold.
 %

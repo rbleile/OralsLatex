@@ -5,15 +5,13 @@ Much discussion has been aimed at the negative effect divergence in Monte Carlo 
 %
 Given the embarrassingly parallel nature of the Monte Carlo transport algorithm, performance of Monte Carlo transport codes on the GPU should be incredible.
 %
-This survey has shown however, that the opposite is often seen in practice.
+This survey has shown however that the opposite is often seen in practice.
 %
-Many applications achieve only marginal speedups, siting that the cause of their lack in performance was due to divergence in the code.
+Many applications achieve only marginal speedups, citing that the cause of their lack in performance was due to divergence in the code.
 %
 
 %
-In order to combat divergence, an old scheme was re-evaluated for use on GPU architectures.
-%
-Given some of the similarities between the classic vector machines of the 1980's/90's with modern GPU hardware, it is reasonable to consider some of those algorithms for use now.
+In order to combat divergence and given the similarities between the classic vector machines of the 1980's/90's with modern GPU hardware, algorithms developed for vector machines were re-evaluated for use on GPU architectures.
 %
 In particular, the event-based approach worked well on SIMD vector hardware.
 %
@@ -44,7 +42,7 @@ The basic event-based iteration algorithm is described in Algorithm~\ref{alg:bas
 \For{ event n = 0, 1, 2, ... }
 {
 	 Fetch $\Gamma^{n}$ \\
-	 Preform free flight analysis:\\
+	 Perform free flight analysis:\\
 	\Indp	 gather the cross section data and geometry data tabulated by particle,\\
 		 $\Sigma \leftarrow$ S,\\
 		 $\rho \leftarrow$ R;\\
@@ -78,7 +76,7 @@ The basic event-based iteration algorithm is described in Algorithm~\ref{alg:bas
 \end{algorithm}
 %
 
-In addition to the basic event-based approach there are a few variations discussed in Martins paper that expand on this model.
+In addition to the basic event-based approach there are a few variations discussed in Martin's paper that expand on this model.
 %
 One variation is the stack-driven approach.
 %
@@ -95,7 +93,7 @@ The banks of particles method described in Ozog et al.'s paper follows the same 
 %
 A second idea, that offered performance benefits of 1.6x for an Intel many integrated core (MIC) processor over an Intel Xeon processor, was to vectorize nuclear data lookup portions of the code.
 %
-In this way particles are processed in the same history based manner (little to no code changes required), and vector units are utilized to preform the expensive nuclear data lookup and interpolation calculations.
+In this way particles are processed in the same history based manner (little to no code changes required), and vector units are utilized to perform the expensive nuclear data lookup and interpolation calculations.
 
 %
 Vectorized versions of the Monte Carlo transport algorithms are generally based on this original basic algorithm.
@@ -104,7 +102,7 @@ There are many variations but the principal differences all depend on the method
 %
 There are variations using stacks, tags, and tasks.
 %
-When wishing to change an existing history-based legacy code, the major downside to the event-based approach is that it requires a large change to pre-existing source code.
+When considering changing an existing history-based legacy code, the major downside to the event-based approach is that it requires large modifications to pre-existing source code.
 %
 
 \subsection*{\textbf{Event-Based for GPU}}
@@ -131,7 +129,7 @@ Figure~\ref{fig:outerLoopWARP} outlines the outer transport loop between neutron
 \label{fig:outerLoopWARP}
 \end{figure}
 
-Bergmann utilizes a series of kernels that each solves one piece of the process.
+Bergmann utilizes a series of kernels that each solve one piece of the process.
 %
 Once each neutron knows which path it will go down -- i.e. scattering, fission, etc. -- each of those possible paths is launched in a separate kernel.
 %
@@ -141,7 +139,7 @@ In this way, the main divergent part of the code is broken into relatively non-d
 
 Not all attempts at vectorization, or implementing an event-based algorithm for Monte Carlo transport codes, have been successful.
 %
-Liu~\cite{liu2014comparative} describes an event-based approach that after being implemented produced a roughly ten times slower version then the history-based code.
+Liu~\cite{liu2014comparative} describes an event-based approach that produced a roughly ten times slower version then the history-based code.
 %
 This example shows how complicated the task of implementing an event-based algorithm can be, and that it is possible as well that not all Monte Carlo transport problems can be solved efficiently in an event-based fashion.
 %
