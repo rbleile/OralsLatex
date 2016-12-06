@@ -18,17 +18,17 @@ Given this wide array of possible architectures, the value of portable performan
 
 \subsection{\textbf{Portable Performance Applications}}
 
-The need for portable performance in scientific applications spans disciplines.
-%
 In this section we will look at the meaning of portability and the uses of portable performance abstractions in different contexts.
 %
-Moreland et al.~\cite{moreland2015visualization} establish the need for some form of portable performance solution in their paper, ``Visualization for Exascale: Portable Performance is Critical".
+Moreland et al.~\cite{moreland2015visualization} discussed the need for portable performance solutions for visualization software in their paper, ``Visualization for Exascale: Portable Performance is Critical".
 %
-While the context of visualization is used, their arguments span more than just visualization applications.
+While their context is visualization, their arguments span more than just visualization applications.
 %
 Currently in use scientific legacy applications today will not be adequate as they are now to run on exa-scale machines, or even the up coming peta-scale machines.
 %
-Applications such as these that need to be ready to run on new machines as they arrive will need to look strongly at portable performance solutions in order to maintain relevance in the upcoming computing environments.
+Applications such as these that need to be ready to run on new machines as they arrive.
+%
+These applications will need to look strongly at portable performance solutions in order to maintain relevance in the upcoming computing environments.
 
 Portability does not mean the same thing to everyone.
 %
@@ -36,9 +36,9 @@ In some cases, portability might be as simple as requiring minimal code changes 
 %
 Bosilca et al. ~\cite{bosilca2011performance} describe portability for their application as requiring no code changes to the main body of code in order to enable GPUs.
 %
-In this work, the only allowable changes were those in CUDA to launch kernels while the body of the work had to remain unchanged.
+In this work, the only allowable changes were those in CUDA to launch kernels while the code that made up the kernels had to remain unchanged.
 %
-In this work they added a scheduler that could launch code regions onto different platforms based on availability and which one isthe most beneficial for performance.
+In this work they added a scheduler that could launch code regions onto different platforms based on availability and which one is the most beneficial for performance.
 
 Du et al.~\cite{du2012cuda} describe their work as portable since they transitioned from CUDA to OpenCL.
 %
@@ -53,11 +53,11 @@ Portable performance as was laid out in Moreland et al.'s paper can be seen in r
 %
 Larsen et al.~\cite{larsen2015ray} presented his work for a method of ray tracing consisting entirely of data parallel primitives.
 %
-In this work, all parallel operations are expressed using a data parallel primitive which is defined in a library.
+In this work, all parallel operations are expressed using data parallel primitives, which are defined in a library.
 %
 The definitions of these primitives are then compiled to be CUDA, OpenMP, or serial executions.
 %
-The performance of this method is shown to be competitive with both of the top ray tracing libraries, Optix from NVIDIA and Embree from Intel. 
+The performance of this method is shown to be competitive with both of the top ray tracing libraries, OptiX from NVIDIA and Embree from Intel. 
 %
 In addition to ray tracing Larsen et al.~\cite{larsen2015volume} followed up this work with a volume rendering capability that uses the same principles for portable performance.
 %
@@ -75,9 +75,9 @@ Rahaman et al. compared the performance of this abstraction against native imple
 %
 Their results showed that for some cases optimal performance could be achieved simply on both a CPU and a GPU, but in other cases it took complex specialization in order to make the same kernel work well on both architectures.
 
-Portability has become a pressing point for developing applications in todays computing environment.
+Portability has become a pressing point for developing applications in today's computing environment.
 %
-Applications like Rahaman studied which preformed less than optimal on some architectures are quite common as architecture specific optimizations become increasingly difficult to balance.
+Applications like those Rahaman studied, which preformed less than optimal on some architectures, are quite common as architecture specific optimizations become increasingly difficult to balance.
 %
 An added complication to this issue is the inclusion of legacy codes into the mix.
 %

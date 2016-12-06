@@ -1,20 +1,22 @@
 \subsection{\textbf{Nuclear Data}}
 
-Nuclear data is stored in large tables of information that are generally accessed though libraries designed to interact with the data.
+Nuclear data provides simulations with information for how materials respond to interactions with particles under a variety of conditions.
 %
-These libraries, like the GIDI library at LLNL~\cite{mckinley2015implementation}, provide all of nuclear data requests to simulation codes like Monte Carlo particle transport.
-%
-Nuclear data provides the physics to the computational algorithms and is needed at multiple stages in the computation.
-
-Looking up nuclear data information is a large part of Monte Carlo transport calculations.
-%
-Nuclear data consists of microscopic cross section data for nuclear and atomic collisions for all possible reactions.
+It consists of microscopic cross section data for nuclear and atomic collisions for all possible reactions.
 %
 Additionally, macroscopic cross section information can be calculated from the microscopic cross sections data.
 %
 Both microscopic and macroscopic cross section information is needed in order to understand what reactions a particle undergoing a collision will do.
 %
-Depending on the specific problem being solved, time spent looking up nuclear data can often be between 10\% and 85\% of the overall runtime~\cite{tramm2014xsbench}, as is the case in the production Monte Carlo application OpenMC~\cite{romano2013openmc}~\cite{romano2015openmc}.
+
+%
+Looking up nuclear data information is a large part of Monte Carlo transport calculations, both in terms of execution time and heavy usage through many stages of the code.
+%
+Nuclear data is stored in large tables of information that are generally interpreted and processed in specialized libraries.
+%
+These libraries, like the GIDI library at LLNL~\cite{mckinley2015implementation}, respond to all of the nuclear data requests from simulation codes.
+%
+Depending on the specific problem being solved, the time spent looking up nuclear data can vary greatly, ranging from 10\% to 85\% of the overall runtime~\cite{tramm2014xsbench}, as exemplified in the production Monte Carlo application OpenMC~\cite{romano2013openmc}~\cite{romano2015openmc}.
 
 There are two primary methods for storing and looking up nuclear cross section data: continuous energy and multi-group.
 %
@@ -30,18 +32,18 @@ Research that deals with nuclear data lookups is often concerned with speeding u
 %
 This search problem is the main bottleneck in cross section lookup algorithms.
 %
-Linear searches, binary searches, and hash-based searches are often employed for this.
+Linear searches, binary searches, and hash-based searches are often employed.
 %
 In addition, combining isotopes into a unionized grid is a common method for reducing the total number of searches required, though it greatly increases the memory needed to store the cross section data.
 %
-
-Each of the common competing continuous algorithms is well defined and compared by Wang et. al. and are described as follows~\cite{wang2016competing}:
+Wang et al. defined and compared the following algorithms for continuous energy model access~\cite{wang2016competing}:
 %
 \subsubsection*{\textbf{Hashing}} Each material's whole energy range is divided up into N equal intervals, and for every individual isotope inside the material an extra table is established to store isotopic bounding indexes of each interval~\cite{brown2014new}. The new search intervals are thus largely narrowed with respect to the original range and can be reached by a single float division. The hashing can be performed on a linear or logarithmic scale; the search inside each interval can be performed by a binary search or linear search. In the original paper~\cite{brown2014new}, a logarithmic hashing was chosen with $ N \simeq 8000 $ as the best compromise between performance and memory usage. Another variant is to perform the hashing at the isotope level.
 %
-\subsubsection*{\textbf{Unionized grid}} A global unionized table gathers all possible energy points in the simulation and a second table provides their corresponding indexes in each isotope energy grid~\cite{leppanen2009two}. Every time an energy lookup is performed, only one search is required in the unionized grids and the isotope index is directly provided by the secondary index table. Timing results show that this method has a significant speedup over the conventional binary search but can require up to a 36$\times$ more memory space~\cite{a.l.lunda.r.siegel2015}.
+\subsubsection*{\textbf{Unionized grid}} A global unionized table gathers all possible energy points in the simulation and a second table provides their corresponding indices in each isotope energy grid~\cite{leppanen2009two}. Every time an energy lookup is performed, only one search is required in the unionized grid and the isotope index is directly provided by the secondary index table. Timing results show that this method has a significant speedup over the conventional binary search but can require up to a 36$\times$ more memory space~\cite{a.l.lunda.r.siegel2015}.
 %
-\subsubsection*{\textbf{Fractional cascading}} This is a technique to speedup search operations for the same value in a series of related data sets ~\cite{a.l.lunda.r.siegel2015}. The basic idea is to build a unified grid for the first and second isotopes, then for second and third isotopes, etc. When using the mapping technique, once we find the energy index in the first energy grid all the following indices can be read directly from the extra index tables without further computations. Compared to the global unionized methods, the fractional cascading technique greatly reduces memory usage.
+\subsubsection*{\textbf{Fractional cascading}} This is a technique to speedup search operations for the same value in a series of related data sets ~\cite{a.l.lunda.r.siegel2015}. The basic idea is to build a unified grid for the first and second isotopes, then for second and third isotopes, etc. When using the mapping technique, once the energy index in the first energy grid is found all the following indices can be read directly from the extra index tables without further computations. Compared to the global unionized methods, the fractional cascading technique greatly reduces memory usage.
+%
 
 %
 We will discuss recent work done in the area of nuclear data lookups on device accelerators when we discuss many-core based Monte Carlo research, as many of the results are targeted at NVIDA GPGPUs or the Intel XEON Phi many-core coprocessor. 

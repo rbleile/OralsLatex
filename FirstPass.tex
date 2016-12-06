@@ -1,6 +1,6 @@
 \subsection{ \textbf{Monte Carlo Transport on a GPU}}
 
-This section will analyze the different approaches that people have taken to get their Monte Carlo transport codes working for GPU architectures.
+This section will analyze the different approaches Monte Carlo transport codes utilizing GPU architectures.
 %
 It will begin by comparing and contrasting different approaches by evaluating a few key areas of the studies that have been done: accuracy, performance and algorithmic choices.
 %
@@ -16,15 +16,15 @@ Since the change from CPU to GPU computing brings a completely different hardwar
 %
 This concern was especially important in the early days of GPU computing when double-precision was not supported and often even single-precision answers would provide slightly different results.
 %
-There are three key areas of accuracy that we will look at with these studies, being: Floating point precision, differences between CPU and GPU results, and IEE-754 compliance.
+There are three key areas of accuracy to consider: Floating point precision, differences between CPU and GPU results, and IEE-754 compliance.
 %
 
 %
-It was common that in the early stages of GPU computing, people would assume that GPU computing was not accurate enough for their needs.
+It was commonly assumed in the early stages of GPU computing that accuracy was lacking.
 %
 Many early attempts at GPU computing include discussions of accuracy in order to validate the correctness of their results.
 %
-While modern GPGPUs support double-precision much better than before making much of the worry irrelevant, it is still important to consider the accuracy of a method that runs on a new hardware and may use a new algorithm.
+While modern GPGPUs support double-precision much better than before, making much of the worry irrelevant, it is still important to consider the accuracy of a method that runs on a new hardware and may use a new algorithm.
 %
 
 \subsubsection*{\textbf{Floating Point Accuracy}}
@@ -35,19 +35,18 @@ Nelson~\cite{nelson2009monte} describes one of his primary accuracy consideratio
 %
 In older GPU hardware there was no support for double-precision in the hardware and so in order to achieve double-precision significantly more calculations were needed.
 %
-In modern GPU hardware 64 bit double-precision is becoming increasingly better supported and in the GPGPU cards there are dedicated double-precision units and all of the necessary hardware changes required to include them.
+In modern GPU hardware 64 bit double-precision is becoming increasingly better supported and in the GPGPU cards there are dedicated double-precision units.
 %
 
 \subsubsection*{\textbf{Differences Between CPU and GPU results}}
 
-Differences in results that arise when using the same precision but on different architectures are of even
-larger concern than the differences between single and double-precision.
+An even larger concern than the differences between single and double-precision is differences in results that arise when using the same precision but on different architectures.
 %
-This concern can be explained by understanding how floating-point math is accomplished on a computer~\cite{goldberg1991every}.
+This concern can be understood by considering how floating-point math is accomplished on a computer~\cite{goldberg1991every}.
 %
 There are two main reasons that differences arise.
 %
-The first is that floating point mathematical operations that are done in a different order might produce a different result and due to the nature of parallel computing often you cannot know or guarantee the order a set of calculations will be performed in.
+The first is that floating point mathematical operations performed in different orders might produce different results and, due to the nature of parallel computing, the ordering of these calculations is not guaranteed.
 %
 The second reason is that modern day CPUs using x86 processors perform math internally on 80 bit registers while a GPU does it on 32 bit (single-precision) or 64 bit (double-precision) registers.
 %
@@ -61,23 +60,23 @@ They considered this adequate accuracy to consider using GPUs for doing these co
 %
 Yepes et al.~\cite{yepes2010gpu} also considered accuracy in their assessment of their GPU implementation.
 %
-They concluded that, in terms of accuracy, there was a good agreement between the dose distributions calculated with each version they ran, the largest discrepancies being only $\sim$3\%, and so they could run the GPU version as accurately as any general-purpose Monte Carlo program.
+They concluded that, in terms of accuracy, there was a good agreement between the dose distributions calculated with each version they ran, with the largest discrepancies being only $\sim$3\%, and so they could run the GPU version as accurately as any general-purpose Monte Carlo program.
 %
 As these two groups have shown, this amount of error is often very small, and over the entire course of the simulation only brings 1-3\% errors.
 
 \subsubsection*{\textbf{IEE-754 Compliance}}
-Nelson discussed accuracy in his thesis work~\cite{nelson2009monte}, stating that during the time of his work the floating-point arithmetic accuracy was not fully IEEE-754 compliant which opens the question of accuracy without a more fully featured test. 
+Nelson discussed accuracy in his thesis work~\cite{nelson2009monte} as floating-point arithmetic accuracy was not fully IEEE-754 compliant during the time of his work.
 %
 Additionally, since NVIDIA has complete control over the implementation of floating point calculations on their GPUs there may be differences between generations that mitigate the usefulness of an accuracy study on one generation of hardware.
 %
-Current generations of the NVIDIA GPU hardware are IEE-754 compliant however. 
+Current generations of the NVIDIA GPU hardware are IEEE-754 compliant however. 
 %
-In order to address issues of floating point accuracy they have even included a detailed description of the standard and the way CUDA follows the standard showing that at least while floating point accuracy is still a concern it is no more a concern than it was on a CPU implementation.~\cite{cudaToolkitv7.5}
-%
+In order to address issues of floating point accuracy they have even included a detailed description of the standard and the way CUDA follows the standard~\cite{cudaToolkitv7.5}.
+So,  while floating point accuracy is still a concern, it is now no more a concern than it was on a CPU implementation.
 
 \subsection*{\textbf{Performance:}}
 
-A second factor that is important to people using GPU computing for Monte Carlo transport is performance.
+Performance is a second important factor for Monte Carlo transport on GPUs.
 %
 Most early GPU studies emphasize their speedups over CPUs as the primary advantage for moving over to the GPU hardware.
 %
@@ -122,7 +121,8 @@ Alerstam et al.~\cite{alerstam2008parallel} present work on a GPU based photon m
 %
 This specific problem does not suffer from the same divergence issues that other Monte Carlo codes have as the algorithm for completing a photon migration has very little divergence and can be easily optimized for memory layouts.
 %
-
+However, the 1000X speedup discussed here does not cover the entire application and ignores many factors that limit total speedup due to Amdahl's Law effects.
+%
 
 \subsubsection*{\textbf{Neutron Transport}}
 
@@ -142,12 +142,12 @@ Work done by Gong et al.~\cite{gong2011accelerating} in a MCNP-based application
 %
 Speedup factors of 16X to 23X were found depending on problem parameters.
 %
-This work was an introductory attempt at implementing MCNP in CUDA, since MCNP is so large it covers only a subset of possible features and problem types.
+This work was only an introductory attempt at implementing MCNP in CUDA, as MCNP is so large that it is time intensive to consider more than a subset of possible features and problem types.
 %
 
 Heimlich et al.~\cite{heimlich2009gpu} reported a speedup of around 15X for his neutron transport application when comparing a GPU to an 8-core CPU.
 %
-This work focused on optimizing a history-based approach in CUDA for the GPU and using MPI+openMP for the CPU.
+This work focused on optimizing a history-based approach in CUDA for the GPU and using MPI+OpenMP for the CPU.
 %
 This particular algorithm contained only small amounts of divergence in the code path that computes the random walk of neutrons, providing a possibility for greater use of available parallelism.
 %
@@ -163,6 +163,7 @@ In this work, he produced speedups of up to 35X over a single core CPU, a signif
 %
 
 \subsubsection*{\textbf{Coupled Electron Photon Transport}}
+\label{sec:firstPassCoupledElectronPhoton}
 %
 Jia et al.'s  work~\cite{jia2010development} in a dose calculation code for coupled electron photon transport follows a relatively straight-forward algorithm.
 %
@@ -180,7 +181,7 @@ By converting a track-repeating algorithm instead of a full physics Monte Carlo 
 It is thought that the simpler logic of this algorithm generated threads which followed less branching paths than the algorithm presented in Jia et al.'s work.
 
 \subsubsection*{\textbf{Performance Evaluation}}
-Throughout all of these examples one common theme can be seen.
+All of these examples contain a common theme.
 %
 While performance can be gained doing Monte Carlo on the GPU, it can be more difficult to get than expected due to the highly divergent nature of the Monte Carlo algorithm.
 %
@@ -189,7 +190,7 @@ Methods to deal with this divergence show promising results.
 These outcomes are expected since Monte Carlo applications are embarrassingly parallel (good for GPUs) but also incredibly divergent (bad for GPUs).
 %
 
-In this section, we have seen a wide range in performances, from as low as 5X to as high as 75X.
+In this section, we have seen a wide range in performances, from as low as 5X to as high as 75X, or even 1000X.
 %
 While simplifications played a large role in the 75X algorithm we do see a full Monte Carlo application achieving speeds of 35X in the case of the work by Tickner~\cite{tickner2010monte}.
 %
@@ -208,7 +209,7 @@ In this section, we are going to look at a few of the important algorithms.
 %
 Monte Carlo transport applications tend to follow a simple model where each tracked particle is given its own thread and computation progresses in an embarrassingly parallel fashion. 
 %
-On a GPU, this also makes sense as a starting point since particles are independent and this progression leads to a natural parallel approach.
+On a GPU, this also makes sense as a starting point since particles are independent and this progression leads to a naturally parallel approach.
 %
 It is often pointed out, however, that due to the divergent nature of Monte Carlo this approach might not be the best way organize Monte Carlo codes on GPU hardware.
 %
@@ -222,7 +223,7 @@ Then calculations are performed for one particle on each block of threads.
 %
 For example the particle intersection tests with the background geometry can be performed in parallel on those threads for each piece of geometry that particle might be able to collide with.
 %
-Areas where these parallel instructions can be utilized within a particles calculation are then used by the threads in a block computing for that particle.
+Areas where these parallel instructions can be utilized within a particle's calculation are then used by the threads in a block computing for that particle.
 %
 
 This particle-per-block technique is effective in mitigating the divergence issue.
@@ -237,18 +238,18 @@ Additionally, this method introduces a new area of parallelism that is not other
 %
 
 %
-This method, however, does not take full advantage of the parallelism in the hardware like those methods that are not sensitive to divergence.
+This method, however, does not take full advantage of the parallelism in the hardware like the methods that are not sensitive to divergence.
 %
-Many threads can execute simultaneously within a block with potential slowdowns coming from groupings of 32 threads are held in a warp and forced into the lockstep pattern.
+Many threads can execute simultaneously within a block with potential slowdowns coming from when groupings of 32 threads are held in a warp and forced into the lockstep pattern.
 %
 Running only one particle per block can sacrifice some parallelism, as not all tasks to calculate a particle's path are parallel operations.
 %
-Additionally, since warps are scheduled out of thread blocks, any particle operations that are not done in parallel among the threads of a block are serializing themselves in a similar manner as to those algorithms that run one thread per particle waiting while divergent particles have a turn.
+Additionally, since warps are scheduled out of thread blocks, any particle operations that are not done in parallel among the threads of a block are serializing themselves in a similar manner as to those algorithms that run one thread per particle and contain high levels of divergence.
 %
 
-In summary, this method has some merit if it can find enough parallel work in the thread block to execute additional parallel tasks that would otherwise be stalled if following a simpler method.
+In summary, this method has some merit if it can find enough parallel work in the thread block to execute additional parallel tasks that would otherwise be stalled when following a simpler method.
 %
-Also, this method might end up showing the same characteristics of the simpler particle-per-thread model if the extra parallelism is not found, and instead loose out on the parallelism provided by particles that are not highly divergent from one another. 
+Also, this method might end up showing the same characteristics of the simpler particle-per-thread model if the extra parallelism is not found, and instead lose out on the parallelism provided by particles that are not highly divergent from one another. 
 
 \subsubsection*{\textbf{Event-Based Approaches}}
 
@@ -262,14 +263,13 @@ And as Du et al. discovered in their attempt at an event based Monte Carlo versi
 
 \subsubsection*{\textbf{Voxelization Approaches}}
 
-This method was used for comparison on the GPUs.
+This method was used for comparing workloads on GPUs and is often done to voxelize geometries to enable Monte Carlo codes to run.
 %
-Voxelization of a geometry is done for each voxel.
-This process involved ray-stabbing numbers counted on the GPU, and then a parity-counting method was run on the CPU to detect if the voxel was inside the mesh surface~\cite{na2010deformable}.
+Voxelization of a geometry is done on a voxel-by-voxel basis.
+%
+This process involved ray-stabbing numbers counted on the GPU, and then using a parity-counting method on the CPU to detect if the voxel was inside the mesh surface~\cite{na2010deformable}.
 %
 This method contains no divergence since all threads follow the exact same code paths.
-%
-This process is often done to voxelize geometries to enable Monte Carlo codes to run.
 %
 Doing this algorithm with no divergence produces a 45.5x speedup on the GPU over the CPU.
 %
@@ -302,14 +302,14 @@ Voxelization & $ 2380.4 $ & $ ~ 52.3 $ & $~ 45.5 $ \\
 \end{center}
 \end{table}
 
-A number of studies were conducted by groups identifying the potential benefits of GPU hardware but also the hardware and software issues when developing Monte Carlo applications.
+A number of studies were conducted by groups identifying the potential benefits of GPU hardware but also software development issues with Monte Carlo applications. 
 %
 Among these concerns are memory limitations, lack of ECC support, lack of software optimization, limitations of SIMD architecture, clock speeds, and complex memory allocation schemes.
 %
 In addition, the achieved performance often did not exceed that of unchanged codes on a cluster.
 %
-In some cases, though speedups were large and easy to achieve such as the 45X speedup of the voxelized approach. 
+In some cases, though, speedups were large and easy to achieve, such as the 45X speedup of the voxelized approach. 
 %
-The results from Ding et al.'s evaluations can be seen in Table~\ref{tab:GPUPerfEval}.
+The results from Ding et al.'s~\cite{ding2011evaluation} evaluations can be seen in Table~\ref{tab:GPUPerfEval}.
 %
-The only strong conclusion from these works are that a clear and defined path are not yet known on how to take full advantage of the available parallelism without suffering performance penalties in turn. ~\cite{ding2011evaluation}
+The only strong conclusion from these works are that a clear and defined path are not yet known on how to take full advantage of the available parallelism without suffering performance penalties in turn.

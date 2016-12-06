@@ -16,11 +16,11 @@ Each of these designs or abstraction layers --- listed in Section~\ref{sec:whati
 %
 The following sections discuss in detail the research plan for completing a dissertation.
 %
-First is a discussion of recently completed work with a Monte Carlo research application, ALPSMC~\cite{alpsmc1}~\cite{alpsmc2}, were the algorithmic question of event-based versus history-based algorithms choice was evaluated.
+First is a discussion of recently completed work with a Monte Carlo research application, ALPSMC~\cite{alpsmc1}~\cite{alpsmc2}, where the algorithmic question of event-based versus history-based algorithms choice was evaluated.
 %
 In addition, the effects that different parallel paradigms have on performance as well as the ease of code conversion were studied in this work.
 %
-Following, is a discussion of future work directions and a path to completing a dissertation.
+Following is a discussion of future work directions and a path to completing a dissertation.
 
 \subsection{\textbf{Work to date: ALPSMC}}
 
@@ -66,7 +66,7 @@ The event-based algorithm performs data parallel operations across all of the pa
 %
 The event-based algorithm is defined in Algorithm~\ref{alg:eventbased}.
 %
-The operations required to launch the event kernels are defined as follows and correspond to lines 6 and 7 of Algorithm~\ref{alg:eventbased}.
+The operations required to launch the event kernels are defined as follows and correspond to lines 6 and 7 of Algorithm~\ref{alg:eventbased}~\cite{alpsmc1}.
 %
 \begin{itemize}
 \item{[Step 1:]} thrust::transform --- Fill out a stencil map of 1's and 0's of all particles doing event E (where each particle whose next event is E will get a 1 in the stencil map at its index location)
@@ -77,7 +77,6 @@ The operations required to launch the event kernels are defined as follows and c
 \item{[Step 6:]} Scatter indexes from scan into new index map (reduces the exclusive\_scan generated indices into the map that holds only enough for particles performing event E)
 \item{[Step 7:]} Use new index map in permutation\_iterator loops over all particles (combining the index map with the permutation iterator allows loops over all particles to operate only on the particles selected in the index map)
 \end{itemize}
-~\cite{alpsmc1}
 %
 
 \begin{algorithm}
@@ -112,13 +111,16 @@ Thrust was chosen as the platform for implementing the data parallel operations,
 %
 The key design choice was that each operation can be done using data parallel primitives.
 %
-This study also use a direct CUDA implementation that launched kernels for the main events and used Thrust for data management for comparison.
+This study also used a direct CUDA implementation that launched kernels for the main events and used Thrust for data management for comparison.
 
-The performance results from the initial implementation~\cite{alpsmc1} were varied, with the best CUDA version reaching about 12x and the thrust OpenMP version reaching 2.2x with 16 threads.
+The performance results from the initial implementation~\cite{alpsmc1} were varied.
+The best CUDA version had speedups ranging from around 6X to 12X, while the Thrust CUDA version only achieved a range of around 2X to 2.5X.
 %
-The optimized implementation discovered a few areas for improvement and achieved fairly significant results.
+Additionally the Thrust OpenMP version reached at most 2.2X with 16 threads.
 %
-Table~\ref{tab:ALPSspeedup} shows the summary of ALPSMC speedup results~\cite{alpsmc2}.
+The optimized implementation discovered a few areas for improvement and achieved fairly significant improvements for all cases.
+%
+Table~\ref{tab:ALPSspeedup} shows the summary of ALPSMC speedup results after the optimization pass~\cite{alpsmc2}.
 %
 
 \begin{table}
@@ -144,9 +146,9 @@ Through this experience we have demonstrated a few important points.
 %
 First we demonstrated excellent performance in both algorithms, achieving \textasciitilde50x performance for both history and event-based algorithms.
 %
-Scudiero~\cite{tonyScudiero} showed similar success with a history-based approach and explained that the primary concern of Monte Carlo transport on GPUs is actually memory latency and divergence does not significantly impact results in a memory latency bound problem.
+Scudiero~\cite{tonyScudiero} showed similar success with a history-based approach and explained that the primary concern of Monte Carlo transport on GPUs is actually memory latency and that divergence does not significantly impact results in a memory latency bound problem.
 %
-Additionally, these examples showed that using data parallel design and an abstraction layer -- in this case Thrust -- can preform just as well as when programmed in native CUDA under some circumstances. 
+Additionally, these examples showed that using the data parallel design and an abstraction layer -- in this case Thrust -- can perform just as well as when programmed in native CUDA under some circumstances. 
 %
 Lastly, while the GPU performance is high the CPU performance is still lacking.
 %
@@ -167,13 +169,13 @@ Since ALPSMC does simplify many of the complex parts of the Monte Carlo transpor
 
 \subsection{\textbf{Future Work}}
 
-This survey has outlined the long history of Monte Carlo transport applications and research.
+This survey has addressed the history of Monte Carlo transport applications and research with respect to parallelism.
 %
 In this survey we have seen that there has been a major revival of computational studies with every new generation of supercomputing platform.
 %
-Monte Carlo transport applications have only one significant gap in knowledge were groups have just recently started adding supporting research.
+Monte Carlo transport applications have only one significant gap in knowledge where groups have just recently started adding supporting research.
 %
-That area is the case of a fully features Monte Carlo application on GPUs and scalable to high numbers of GPUs as we will see on the next generation of supercomputers.
+That area is the case of a fully featured Monte Carlo application on GPUs and scalable to high numbers of GPUs, which is an increasingly prevalent design for leading-edge supercomputers.
 
 Previous thesis work lays a starting foundation to build upon, but does not begin to provide a full solution for other groups to follow.
 %
@@ -192,9 +194,9 @@ One of the major focuses of this work has been in the area of continuous energy 
 
 As with many other groups the Mercury group at LLNL has also begun work on a mini application.
 %
-This application is different to RSBench and XSBench in multiple ways but most significantly it uses the multi group energy cross sections and emphasizes  many of the key areas of the Mercy production application.
+This application is different to RSBench and XSBench in multiple ways but most significantly it uses the multi group energy cross sections and emphasizes  many of the key areas of the Mercury production application.
 %
-This application will provide a begining point for redesign of the Mercury Monte Carlo code and allow for a rich research environment for the upcomming years.
+This application will provide a beginning point for the redesign of the Mercury Monte Carlo code and allow for a rich research environment for upcoming years.
 %
 
 I propose to work under the Mercury group on the Quicksilver mini application, in order to develop a scalable GPU version of the code in a way that can translate to direct modifications of the production application.

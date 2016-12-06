@@ -8,7 +8,7 @@ The following are descriptions from three applications of medical Monte Carlo tr
 
 \subsection*{ \textbf{Electromagnetic Monte Carlo transport in GMC}:}
 
-Janhnke et al. ~\cite{jahnke2012gmc} in 2012 described his groups efforts to develop the code named GPU Monte Carlo (GMC).
+Janhnke et al.~\cite{jahnke2012gmc} in 2012 described his groups efforts to develop the code named GPU Monte Carlo (GMC).
 %
 GMC is a GPU implementation of the low energy electromagnetic portion of the Geant4 code using the CUDA interface.
 %
@@ -42,7 +42,7 @@ The authors state that they have successfully developed a dose calculation code 
 
 \subsection*{\textbf{Electron-Photon Transport in DPM}:}
 
-Jia et al.~\cite{jia2010development} describes the development of a CUDA based Monte Carlo coupled electron-photon application for dose planning, called DPM (dose planning method).
+Jia et al.~\cite{jia2010development}, as noted in Section~\ref{sec:firstPassCoupledElectronPhoton}, describes the development of a CUDA based Monte Carlo coupled electron-photon application for dose planning, called DPM (dose planning method).
 %
  Their scheme involves launching a kernel on the GPU that simulates all of the particle histories necessary to reach some target number of source particles.
  %
@@ -50,11 +50,13 @@ Jia et al.~\cite{jia2010development} describes the development of a CUDA based M
  %
  The kernel ends with an atomic gathering of all the dosing data.
  %
- DPM was only able to achieve speedups of around 5-6.6x on the GPU over the CPU, but did get excellent agreement on relative uncertainties in their results.~\cite{jia2010development}
+ DPM was only able to achieve speedups of around 5-6.6x on the GPU over the CPU, but did get excellent agreement on relative uncertainties in their results.
+ %
  
+ %
  Jia et al.~\cite{jia2011gpu} revisits their DPM code and is able to change speedups of 5-6.6x into speedups of approximately 69 - 87x.
 %
-DPMs main algorithm changed in a few significant ways.
+DPM's main algorithm changed in a few significant ways.
 %
 First a single thread only computed the history of a single particle and any additional particles were placed on a stack for a future iteration.
 %
@@ -70,7 +72,7 @@ Given the now excellent speedups of 69-87x and acceptable accuracy ranges, real 
 
 \subsection*{\textbf{Evaluation}:}
 
-These three projects show a variety of problems in the medical Monte Carlo field.
+These three projects show a variety of challenges and accomplishments in the medical Monte Carlo field.
 %
 They are each accomplishing their tasks on a single GPU as opposed to a cluster of CPUs.
 %
